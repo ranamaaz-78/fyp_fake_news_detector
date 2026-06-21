@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dataset Management - FNI Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-link {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        /* Glassmorphism for Top Bar */
+        .glass-header {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        /* Custom scrollbar for clean UI */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c4c5d5;
+            border-radius: 10px;
+        }
+        /* Micro-interactions */
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ba1a1a",
+                      "inverse-on-surface": "#f0f1f2",
+                      "tertiary-fixed": "#ffdbce",
+                      "secondary-fixed": "#d9e3f4",
+                      "on-secondary-fixed-variant": "#3e4755",
+                      "inverse-surface": "#2e3132",
+                      "on-tertiary-fixed-variant": "#802a00",
+                      "primary-fixed-dim": "#b8c4ff",
+                      "surface-variant": "#e1e3e4",
+                      "on-primary-container": "#a8b8ff",
+                      "background": "#f8f9fa",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#edeeef",
+                      "tertiary": "#611e00",
+                      "on-primary-fixed": "#001453",
+                      "secondary-fixed-dim": "#bdc7d8",
+                      "outline": "#757684",
+                      "secondary": "#555f6d",
+                      "surface-dim": "#d9dadb",
+                      "on-tertiary-container": "#ffa583",
+                      "secondary-container": "#d6e0f1",
+                      "status-real": "#059669",
+                      "status-fake-light": "#FEF2F2",
+                      "surface-container-lowest": "#ffffff",
+                      "on-background": "#191c1d",
+                      "inverse-primary": "#b8c4ff",
+                      "on-primary-fixed-variant": "#173bab",
+                      "surface-container-highest": "#e1e3e4",
+                      "tertiary-container": "#872d00",
+                      "surface": "#f8f9fa",
+                      "status-fake": "#DC2626",
+                      "error-container": "#ffdad6",
+                      "trust-blue-dark": "#1E3A8A",
+                      "status-uncertain-light": "#FFFBEB",
+                      "status-uncertain": "#D97706",
+                      "trust-blue-light": "#EFF6FF",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed": "#121c28",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#ffb59a",
+                      "on-secondary-container": "#596372",
+                      "surface-bright": "#f8f9fa",
+                      "outline-variant": "#c4c5d5",
+                      "primary": "#00288e",
+                      "on-tertiary-fixed": "#380d00",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f3f4f5",
+                      "surface-container-high": "#e7e8e9",
+                      "status-real-light": "#ECFDF5",
+                      "on-error": "#ffffff",
+                      "on-surface": "#191c1d",
+                      "surface-tint": "#3755c3",
+                      "primary-fixed": "#dde1ff",
+                      "on-surface-variant": "#444653",
+                      "primary-container": "#1e40af"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-max": "960px",
+                      "stack-lg": "48px",
+                      "card-max": "720px",
+                      "stack-sm": "12px",
+                      "stack-md": "24px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "label-bold": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "result-label": ["Inter"],
+                      "headline-xl-mobile": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "label-bold": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                      "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "result-label": ["48px", {"lineHeight": "48px", "letterSpacing": "0.05em", "fontWeight": "800"}],
+                      "headline-xl-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant dark:border-outline flex flex-col py-6 px-4 z-50">
+<div class="mb-10 px-2">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed-dim">FNI Admin</h1>
+<p class="text-on-surface-variant font-body-sm text-body-sm opacity-70">System Control</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-on-surface-variant transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Overview</span>
+</a>
+<!-- Active Tab: Datasets -->
+<a class="flex items-center gap-3 px-4 py-3 text-primary dark:text-primary-fixed font-bold bg-secondary-container dark:bg-primary-container rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="database" style="font-variation-settings: 'FILL' 1;">database</span>
+<span class="font-body-md text-body-md">Datasets</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-on-surface-variant transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-body-md text-body-md">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-on-surface-variant transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-body-md text-body-md">Audit Log</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-4 flex items-center gap-3 px-2">
+<div class="w-10 h-10 rounded-full bg-primary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a senior system administrator in a high-tech corporate office. The person is wearing a sharp charcoal blazer and has a calm, authoritative expression. The background features blurred glass partitions and soft warm indoor lighting, consistent with a modern, institutional technology brand like FNI Admin." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDKYkKeDVHiXwXsPng0nkWWXsiiDFVBM-YssIcSAuc6LhL7aM4v_bbvc-6U-6wCqtQiid68Fc_2Qu--xTFObeNu10AZDrOC8IPDr9X3_VcXS7THnw_1tOAALJ-eMzO2QRulTA9QfXI04rlUCNmoQ-iYdEap5y8A04MUz2OYLaQj9-aitppWph05_E7BCzaDj2WquzQ-LnpogfXDW-p8GGeaVNMq2OAWV50xcNga3vWFwhbJAnTXrL9H4LyXyLvPoDIS3STedEBawzu"/>
+</div>
+<div>
+<p class="font-label-bold text-label-bold text-on-surface">Alex Rivera</p>
+<p class="text-xs text-on-surface-variant">Lead Data Auditor</p>
+</div>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-b border-outline-variant dark:border-outline shadow-sm flex justify-between items-center h-16 px-8 ml-64 glass-header">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-high rounded-full border-none focus:ring-2 focus:ring-primary text-body-sm font-body-sm" placeholder="Search datasets or records..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary transition-all active:translate-y-0.5 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all active:translate-y-0.5">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all active:translate-y-0.5">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-16 p-8 min-h-screen">
+<div class="max-w-6xl mx-auto space-y-8">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-primary">Dataset Management</h2>
+<p class="text-on-surface-variant font-body-md text-body-md">Configure and maintain the truth-baseline for FNI credibility scoring.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-outline text-on-surface-variant font-label-bold text-label-bold rounded-lg hover:bg-surface-container-high transition-colors">
+                        Export Full Base
+                    </button>
+<button class="px-4 py-2 bg-primary text-on-primary font-label-bold text-label-bold rounded-lg hover:bg-primary-container shadow-md transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="refresh">refresh</span>
+                        Retrain Model
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Section -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Summary Card -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-lowest border border-outline-variant p-6 rounded-xl shadow-sm card-hover">
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Current Dataset Summary</h3>
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold">STABLE</span>
+</div>
+<div class="space-y-6">
+<div class="flex justify-between items-center py-3 border-b border-outline-variant">
+<span class="text-on-surface-variant font-body-md">Active Version</span>
+<span class="font-label-bold text-label-bold text-primary">LIAR v2.0.4</span>
+</div>
+<div class="flex justify-between items-center py-3 border-b border-outline-variant">
+<span class="text-on-surface-variant font-body-md">Total Records</span>
+<span class="font-label-bold text-label-bold text-on-surface">28,504</span>
+</div>
+<!-- Class Balance -->
+<div class="space-y-3 pt-2">
+<div class="flex justify-between items-end">
+<span class="text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider">Class Balance</span>
+<div class="flex gap-4">
+<span class="text-status-real font-label-bold text-[12px] flex items-center gap-1">
+<span class="w-2 h-2 bg-status-real rounded-full"></span> 54% Real
+                                    </span>
+<span class="text-status-fake font-label-bold text-[12px] flex items-center gap-1">
+<span class="w-2 h-2 bg-status-fake rounded-full"></span> 46% Fake
+                                    </span>
+</div>
+</div>
+<div class="h-4 w-full bg-surface-container-high rounded-full overflow-hidden flex">
+<div class="h-full bg-status-real" style="width: 54%"></div>
+<div class="h-full bg-status-fake" style="width: 46%"></div>
+</div>
+<p class="text-xs text-on-surface-variant italic">Last balanced calibration performed on June 12, 2024.</p>
+</div>
+</div>
+</div>
+<!-- Upload Zone Card -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-lowest border border-outline-variant p-6 rounded-xl shadow-sm card-hover flex flex-col">
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-4">Upload New Data</h3>
+<div class="flex-1 border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center p-8 bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer group" id="drop-zone">
+<div class="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-[32px]" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<p class="font-label-bold text-label-bold text-on-surface">Click or drag CSV/JSON to upload</p>
+<p class="text-on-surface-variant text-body-sm mt-1">Schema must include: <code class="bg-surface-variant px-1 rounded">statement_text</code>, <code class="bg-surface-variant px-1 rounded">label</code>, <code class="bg-surface-variant px-1 rounded">context</code></p>
+</div>
+<div class="flex gap-4 mt-6">
+<button class="flex-1 py-3 border border-outline text-primary font-label-bold text-label-bold rounded-lg hover:bg-primary-fixed transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="fact_check">fact_check</span>
+                            Validate
+                        </button>
+<button class="flex-1 py-3 bg-primary text-on-primary font-label-bold text-label-bold rounded-lg hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="merge_type">merge_type</span>
+                            Upload & Merge
+                        </button>
+</div>
+</div>
+</div>
+<!-- Dataset History Table -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Dataset History</h3>
+<button class="text-primary font-label-bold text-label-bold hover:underline flex items-center gap-1">
+                        View Complete Audit Log <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-on-surface-variant">
+<tr>
+<th class="px-6 py-4 font-label-caps text-label-caps uppercase tracking-widest">Update Date</th>
+<th class="px-6 py-4 font-label-caps text-label-caps uppercase tracking-widest">Action</th>
+<th class="px-6 py-4 font-label-caps text-label-caps uppercase tracking-widest">Records Added</th>
+<th class="px-6 py-4 font-label-caps text-label-caps uppercase tracking-widest">Updated By</th>
+<th class="px-6 py-4 font-label-caps text-label-caps uppercase tracking-widest">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface">Oct 24, 2024 · 14:32</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 font-label-bold text-label-bold">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="add_box">add_box</span>
+                                        Manual Import
+                                    </span>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md">+1,240</td>
+<td class="px-6 py-4 flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-secondary text-[10px] flex items-center justify-center text-white font-bold">AR</div>
+<span class="font-body-md text-body-md">Alex Rivera</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-status-real-light text-status-real text-[12px] font-bold rounded border border-status-real/20">MERGED</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface">Oct 12, 2024 · 09:15</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 font-label-bold text-label-bold">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="api">api</span>
+                                        API Sync (Reuters)
+                                    </span>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md">+452</td>
+<td class="px-6 py-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="robot">robot</span>
+<span class="font-body-md text-body-md">System Automator</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-status-real-light text-status-real text-[12px] font-bold rounded border border-status-real/20">MERGED</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface">Sep 28, 2024 · 17:45</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 font-label-bold text-label-bold">
+<span class="material-symbols-outlined text-error text-[20px]" data-icon="delete_sweep">delete_sweep</span>
+                                        Deduplication
+                                    </span>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md">-12</td>
+<td class="px-6 py-4 flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-primary text-[10px] flex items-center justify-center text-white font-bold">MK</div>
+<span class="font-body-md text-body-md">Maria K.</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-status-real-light text-status-real text-[12px] font-bold rounded border border-status-real/20">CLEANED</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface">Sep 15, 2024 · 11:20</td>
+<td class="px-6 py-4">
+<span class="flex items-center gap-2 font-label-bold text-label-bold">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="upload_file">upload_file</span>
+                                        Batch Upload
+                                    </span>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md">+2,105</td>
+<td class="px-6 py-4 flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-secondary text-[10px] flex items-center justify-center text-white font-bold">AR</div>
+<span class="font-body-md text-body-md">Alex Rivera</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-status-uncertain-light text-status-uncertain text-[12px] font-bold rounded border border-status-uncertain/20">ROLLBACKED</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+<script>
+        // Simple drag & drop visual feedback
+        const dropZone = document.getElementById('drop-zone');
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-primary', 'bg-primary-fixed/30');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-primary', 'bg-primary-fixed/30');
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            alert('File recognized! Ready for validation.');
+        });
+    </script>
+</body></html>

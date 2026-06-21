@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FNI | Credibility Analysis Result</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#f3f4f5",
+                    "on-secondary-fixed": "#121c28",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#dde1ff",
+                    "surface-tint": "#3755c3",
+                    "on-surface-variant": "#444653",
+                    "on-surface": "#191c1d",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#1e40af",
+                    "surface-bright": "#f8f9fa",
+                    "surface-container": "#edeeef",
+                    "secondary-fixed": "#d9e3f4",
+                    "outline-variant": "#c4c5d5",
+                    "on-secondary-fixed-variant": "#3e4755",
+                    "primary": "#00288e",
+                    "on-background": "#191c1d",
+                    "status-real": "#059669",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#802a00",
+                    "inverse-on-surface": "#f0f1f2",
+                    "primary-fixed-dim": "#b8c4ff",
+                    "error": "#ba1a1a",
+                    "surface": "#f8f9fa",
+                    "inverse-primary": "#b8c4ff",
+                    "status-fake-light": "#FEF2F2",
+                    "on-primary-fixed": "#001453",
+                    "tertiary-container": "#872d00",
+                    "surface-container-high": "#e7e8e9",
+                    "on-secondary-container": "#596372",
+                    "on-tertiary-fixed": "#380d00",
+                    "trust-blue-light": "#EFF6FF",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb59a",
+                    "on-error": "#ffffff",
+                    "on-tertiary-container": "#ffa583",
+                    "trust-blue-dark": "#1E3A8A",
+                    "status-uncertain-light": "#FFFBEB",
+                    "outline": "#757684",
+                    "background": "#f8f9fa",
+                    "inverse-surface": "#2e3132",
+                    "secondary-container": "#d6e0f1",
+                    "error-container": "#ffdad6",
+                    "status-uncertain": "#D97706",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#a8b8ff",
+                    "on-primary-fixed-variant": "#173bab",
+                    "secondary-fixed-dim": "#bdc7d8",
+                    "surface-variant": "#e1e3e4",
+                    "tertiary": "#611e00",
+                    "on-primary": "#ffffff",
+                    "secondary": "#555f6d",
+                    "tertiary-fixed": "#ffdbce",
+                    "status-fake": "#DC2626",
+                    "status-real-light": "#ECFDF5",
+                    "surface-dim": "#d9dadb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "24px",
+                    "stack-sm": "12px",
+                    "stack-lg": "48px",
+                    "gutter": "24px",
+                    "container-max": "960px",
+                    "margin-mobile": "16px",
+                    "card-max": "720px"
+            },
+            "fontFamily": {
+                    "result-label": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-xl-mobile": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-bold": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-xl": ["Inter"]
+            },
+            "fontSize": {
+                    "result-label": ["48px", {"lineHeight": "48px", "letterSpacing": "0.05em", "fontWeight": "800"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-bold": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .result-reveal {
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant shadow-sm h-16">
+<div class="flex justify-between items-center h-full px-gutter max-w-container-max mx-auto">
+<div class="flex items-center gap-8">
+<span class="font-headline-lg text-headline-lg font-bold text-primary">FNI</span>
+<div class="hidden md:flex gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">How It Works</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md text-body-md" href="#">Dashboard</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block text-on-surface-variant hover:text-primary transition-colors font-label-bold text-label-bold">Login</button>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-lg font-label-bold text-label-bold active:scale-95 transition-transform">Sign-Up</button>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-stack-lg px-margin-mobile md:px-gutter max-w-container-max mx-auto">
+<!-- Hero Header -->
+<header class="text-center mb-stack-lg">
+<h1 class="font-headline-xl text-headline-xl mb-4">Credibility Analysis Complete</h1>
+<p class="text-on-surface-variant text-body-lg max-w-2xl mx-auto">Our multi-agent AI system has processed the content and cross-referenced with global datasets to provide a verdict.</p>
+</header>
+<!-- Result Card -->
+<div class="mx-auto max-w-card-max result-reveal">
+<div class="bg-surface-container-lowest rounded-xl shadow-lg overflow-hidden border border-outline-variant">
+<!-- Status Top Border -->
+<div class="h-1.5 bg-status-uncertain w-full"></div>
+<div class="p-stack-md md:p-8">
+<!-- Verdict Header -->
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-full bg-status-uncertain-light flex items-center justify-center text-status-uncertain">
+<span class="material-symbols-outlined !text-4xl" style="font-variation-settings: 'FILL' 1;">help</span>
+</div>
+<div>
+<span class="text-status-uncertain font-result-label text-result-label tracking-tighter">UNCERTAIN</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-status-uncertain-light text-status-uncertain uppercase">Low Confidence</span>
+</div>
+</div>
+</div>
+<div class="text-right hidden sm:block">
+<span class="text-on-surface-variant text-label-caps block mb-1">PROBABILITY</span>
+<span class="text-headline-lg font-bold">54%</span>
+</div>
+</div>
+<!-- Confidence Gauge -->
+<div class="mb-8">
+<div class="flex justify-between items-end mb-2">
+<span class="text-body-sm font-label-bold text-on-surface">Confidence Score</span>
+<span class="text-body-sm font-label-bold text-status-uncertain">54%</span>
+</div>
+<div class="w-full h-4 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-status-uncertain rounded-full transition-all duration-1000 ease-out" style="width: 54%"></div>
+</div>
+<p class="mt-4 text-on-surface-variant italic text-body-md">
+                            "The AI isn't confident enough to make a call on this one."
+                        </p>
+</div>
+<div class="h-px bg-outline-variant mb-6"></div>
+<!-- Analyzed Source Section (Expandable) -->
+<details class="group">
+<summary class="list-none cursor-pointer flex items-center justify-between text-on-surface-variant hover:text-primary transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-label-bold text-label-bold">Analyzed Source Domain</span>
+</div>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="mt-4 p-4 bg-surface-container rounded-lg border border-outline-variant">
+<div class="flex items-center justify-between">
+<span class="font-body-md text-on-surface">unreliable-news.xyz</span>
+<a class="text-primary text-body-sm underline font-label-bold" href="#">View History</a>
+</div>
+<p class="text-body-sm text-on-surface-variant mt-2">
+                                This domain has a history of publishing unverified claims and has a low trust rating among independent fact-checking organizations.
+                            </p>
+</div>
+</details>
+</div>
+<!-- Action Footer -->
+<div class="bg-surface-container-low px-stack-md py-4 flex flex-col sm:flex-row gap-3 justify-end items-center">
+<button class="w-full sm:w-auto px-6 py-2 border border-outline text-on-surface-variant hover:bg-surface-container transition-colors rounded-lg font-label-bold text-label-bold">Download PDF Report</button>
+<button class="w-full sm:w-auto px-6 py-2 bg-primary text-on-primary hover:opacity-90 transition-opacity rounded-lg font-label-bold text-label-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">refresh</span>
+                        Re-analyze with deeper scan
+                    </button>
+</div>
+</div>
+</div>
+<!-- How It Works Section Preview -->
+<section class="mt-stack-lg max-w-card-max mx-auto">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md text-center">Contextual Intelligence</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<div class="p-6 bg-white rounded-xl border border-outline-variant shadow-sm">
+<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 1;">schema</span>
+<h3 class="font-label-bold text-label-bold mb-2">Cross-Reference Engine</h3>
+<p class="text-body-sm text-on-surface-variant">We scanned 1,402 sources related to this topic. Conflict was found in 42% of reporting, leading to the uncertain verdict.</p>
+</div>
+<div class="p-6 bg-white rounded-xl border border-outline-variant shadow-sm">
+<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 1;">neurology</span>
+<h3 class="font-label-bold text-label-bold mb-2">Semantic Integrity</h3>
+<p class="text-body-sm text-on-surface-variant">Analysis of linguistic patterns suggests high usage of emotionally charged language without supporting data citations.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full bg-surface-container-low border-t border-outline-variant mt-stack-lg">
+<div class="flex flex-col md:flex-row justify-between items-center py-stack-md px-gutter max-w-container-max mx-auto gap-4">
+<div class="flex flex-col items-center md:items-start gap-1">
+<span class="font-label-bold text-label-bold text-primary">FNI</span>
+<p class="text-on-surface-variant font-body-sm text-body-sm text-center md:text-left">© 2024 FNI. AI analysis for informational purposes only. Accuracy may vary.</p>
+</div>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm text-body-sm" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm text-body-sm" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm text-body-sm" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for the confidence gauge
+        window.addEventListener('DOMContentLoaded', () => {
+            const gauge = document.querySelector('.bg-status-uncertain');
+            if (gauge) {
+                gauge.style.width = '0%';
+                setTimeout(() => {
+                    gauge.style.width = '54%';
+                }, 300);
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FNI - Fake News Identifier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#f3f4f5",
+                    "on-secondary-fixed": "#121c28",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#dde1ff",
+                    "surface-tint": "#3755c3",
+                    "on-surface-variant": "#444653",
+                    "on-surface": "#191c1d",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#1e40af",
+                    "surface-bright": "#f8f9fa",
+                    "surface-container": "#edeeef",
+                    "secondary-fixed": "#d9e3f4",
+                    "outline-variant": "#c4c5d5",
+                    "on-secondary-fixed-variant": "#3e4755",
+                    "primary": "#00288e",
+                    "on-background": "#191c1d",
+                    "status-real": "#059669",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-tertiary-fixed-variant": "#802a00",
+                    "inverse-on-surface": "#f0f1f2",
+                    "primary-fixed-dim": "#b8c4ff",
+                    "error": "#ba1a1a",
+                    "surface": "#f8f9fa",
+                    "inverse-primary": "#b8c4ff",
+                    "status-fake-light": "#FEF2F2",
+                    "on-primary-fixed": "#001453",
+                    "tertiary-container": "#872d00",
+                    "surface-container-high": "#e7e8e9",
+                    "on-secondary-container": "#596372",
+                    "on-tertiary-fixed": "#380d00",
+                    "trust-blue-light": "#EFF6FF",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb59a",
+                    "on-error": "#ffffff",
+                    "on-tertiary-container": "#ffa583",
+                    "trust-blue-dark": "#1E3A8A",
+                    "status-uncertain-light": "#FFFBEB",
+                    "outline": "#757684",
+                    "background": "#f8f9fa",
+                    "inverse-surface": "#2e3132",
+                    "secondary-container": "#d6e0f1",
+                    "error-container": "#ffdad6",
+                    "status-uncertain": "#D97706",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#a8b8ff",
+                    "on-primary-fixed-variant": "#173bab",
+                    "secondary-fixed-dim": "#bdc7d8",
+                    "surface-variant": "#e1e3e4",
+                    "tertiary": "#611e00",
+                    "on-primary": "#ffffff",
+                    "secondary": "#555f6d",
+                    "tertiary-fixed": "#ffdbce",
+                    "status-fake": "#DC2626",
+                    "status-real-light": "#ECFDF5",
+                    "surface-dim": "#d9dadb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "24px",
+                    "stack-sm": "12px",
+                    "stack-lg": "48px",
+                    "gutter": "24px",
+                    "container-max": "960px",
+                    "margin-mobile": "16px",
+                    "card-max": "720px"
+            },
+            "fontFamily": {
+                    "result-label": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-xl-mobile": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-bold": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-xl": ["Inter"]
+            },
+            "fontSize": {
+                    "result-label": ["48px", {"lineHeight": "48px", "letterSpacing": "0.05em", "fontWeight": "800"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-bold": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .active-tab-border {
+            border-bottom: 2px solid #00288e;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-b border-outline-variant dark:border-outline shadow-sm">
+<div class="flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto">
+<div class="flex items-center gap-8">
+<a class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed" href="#">FNI</a>
+<div class="hidden md:flex items-center gap-6">
+<a class="font-body-md text-body-md text-primary dark:text-primary-fixed font-bold border-b-2 border-primary dark:border-primary-fixed pb-1" href="#">Home</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#how-it-works">How It Works</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Dashboard</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="font-body-md text-body-md text-on-surface-variant hover:opacity-90 transition-opacity active:scale-95">Login</button>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-bold text-label-bold hover:opacity-90 transition-opacity active:scale-95 shadow-sm">Sign-Up</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-stack-lg overflow-x-hidden">
+<!-- Hero Section -->
+<section class="max-w-container-max mx-auto px-gutter text-center">
+<div class="flex flex-col items-center gap-stack-sm mb-stack-md">
+<div class="inline-flex items-center gap-2 bg-trust-blue-light text-trust-blue-dark px-3 py-1 rounded-full font-label-caps text-label-caps border border-primary-fixed">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                    AI-POWERED VERIFICATION ENGINE
+                </div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface max-w-2xl">
+                    Verify any news in seconds.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">
+                    Paste a headline, full article text, or a URL — our AI tells you if it's real, fake, or uncertain.
+                </p>
+</div>
+<!-- Trust Badges -->
+<div class="flex flex-wrap justify-center gap-6 mb-stack-lg">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-bold text-label-bold bg-surface-container-low px-4 py-2 rounded-lg">
+<span class="material-symbols-outlined text-status-real">check_circle</span>
+                    85%+ accuracy
+                </div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-bold text-label-bold bg-surface-container-low px-4 py-2 rounded-lg">
+<span class="material-symbols-outlined text-primary">bolt</span>
+                    &lt; 5 seconds
+                </div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-bold text-label-bold bg-surface-container-low px-4 py-2 rounded-lg">
+<span class="material-symbols-outlined text-secondary">code</span>
+                    Free &amp; open-source
+                </div>
+</div>
+<!-- Central Input Card -->
+<div class="max-w-[720px] mx-auto text-left">
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_6px_-1px_rgb(0,0,0,0.1),0_2px_4px_-2px_rgb(0,0,0,0.1)] border border-outline-variant overflow-hidden">
+<!-- Tabs -->
+<div class="flex border-b border-outline-variant">
+<button class="flex-1 py-4 font-label-bold text-label-bold text-primary active-tab-border transition-all flex items-center justify-center gap-2" id="tab-text">
+<span class="material-symbols-outlined">description</span>
+                            Paste Text
+                        </button>
+<button class="flex-1 py-4 font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-all flex items-center justify-center gap-2" id="tab-url">
+<span class="material-symbols-outlined">link</span>
+                            From URL
+                        </button>
+</div>
+<!-- Input Content -->
+<div class="p-6">
+<div id="text-input-container">
+<textarea class="w-full h-48 p-4 bg-surface-bright border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none font-body-md text-body-md resize-none transition-all placeholder:text-on-surface-variant/50" id="main-input" placeholder="Enter the article headline or full text here..."></textarea>
+</div>
+<div class="hidden" id="url-input-container">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">language</span>
+<input class="w-full p-4 pl-12 bg-surface-bright border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none font-body-md text-body-md transition-all" placeholder="https://news-site.com/article-slug" type="url"/>
+</div>
+</div>
+<div class="mt-6 flex flex-col items-center gap-4">
+<button class="w-full bg-primary text-on-primary py-4 rounded-lg font-headline-lg text-headline-lg flex items-center justify-center gap-3 hover:opacity-90 transition-all active:scale-[0.98] shadow-md group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">search_check</span>
+                                Check Credibility
+                            </button>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center opacity-70">
+                                Results are generated by AI analysis and should be used for informational purposes.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="max-w-container-max mx-auto px-gutter mt-stack-lg pt-stack-lg" id="how-it-works">
+<div class="text-center mb-stack-md">
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-2">How It Works</h2>
+<div class="h-1 w-20 bg-primary mx-auto rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Step 1 -->
+<div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant flex flex-col items-center text-center group hover:shadow-lg transition-shadow">
+<div class="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">input</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-4">1. Input News</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Provide a headline, a full story, or just the URL. Our system processes high volumes of text instantly.
+                    </p>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant flex flex-col items-center text-center group hover:shadow-lg transition-shadow">
+<div class="w-16 h-16 bg-secondary-fixed rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-4xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-4">2. AI Analysis</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Our model cross-references multiple databases and linguistic patterns to detect misinformation markers.
+                    </p>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant flex flex-col items-center text-center group hover:shadow-lg transition-shadow">
+<div class="w-16 h-16 bg-status-real-light rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-status-real text-4xl" style="font-variation-settings: 'FILL' 1;">fact_check</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-4">3. Instant Verdict</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Receive a clear rating of Real, Fake, or Uncertain along with a confidence percentage and reasoning.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Decorative Background Elements -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-20">
+<div class="absolute top-[20%] left-[10%] w-96 h-96 bg-primary-fixed blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[20%] right-[10%] w-[500px] h-[500px] bg-secondary-fixed blur-[150px] rounded-full"></div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full bg-surface-container-low dark:bg-surface-container-lowest border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-center py-stack-md px-gutter max-w-container-max mx-auto">
+<div class="flex items-center gap-2 mb-4 md:mb-0">
+<span class="font-label-bold text-label-bold text-primary dark:text-primary-fixed">FNI</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">© 2024 FNI. AI analysis for informational purposes only. Accuracy may vary.</span>
+</div>
+<div class="flex gap-6">
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed underline transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed underline transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed underline transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<script>
+        // Tab Switching Logic
+        const textTab = document.getElementById('tab-text');
+        const urlTab = document.getElementById('tab-url');
+        const textContainer = document.getElementById('text-input-container');
+        const urlContainer = document.getElementById('url-input-container');
+        const mainInput = document.getElementById('main-input');
+
+        textTab.addEventListener('click', () => {
+            textTab.classList.add('active-tab-border', 'text-primary');
+            textTab.classList.remove('text-on-surface-variant');
+            urlTab.classList.remove('active-tab-border', 'text-primary');
+            urlTab.classList.add('text-on-surface-variant');
+            textContainer.classList.remove('hidden');
+            urlContainer.classList.add('hidden');
+        });
+
+        urlTab.addEventListener('click', () => {
+            urlTab.classList.add('active-tab-border', 'text-primary');
+            urlTab.classList.remove('text-on-surface-variant');
+            textTab.classList.remove('active-tab-border', 'text-primary');
+            textTab.classList.add('text-on-surface-variant');
+            urlContainer.classList.remove('hidden');
+            textContainer.classList.add('hidden');
+        });
+
+        // Simple button interaction
+        const checkBtn = document.querySelector('button.group');
+        checkBtn.addEventListener('click', () => {
+            const originalText = checkBtn.innerHTML;
+            checkBtn.disabled = true;
+            checkBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Analyzing Content...';
+            
+            setTimeout(() => {
+                checkBtn.innerHTML = originalText;
+                checkBtn.disabled = false;
+                alert('Analysis starting... (Demo only)');
+            }, 1500);
+        });
+    </script>
+</body></html>

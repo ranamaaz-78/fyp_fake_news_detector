@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reset Password | FNI System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "trust-blue-dark": "#1E3A8A",
+                        "on-tertiary-fixed-variant": "#802a00",
+                        "surface-container-low": "#f3f4f5",
+                        "primary-fixed": "#dde1ff",
+                        "tertiary-fixed": "#ffdbce",
+                        "status-real-light": "#ECFDF5",
+                        "secondary-fixed": "#d9e3f4",
+                        "surface-container": "#edeeef",
+                        "primary-container": "#1e40af",
+                        "primary": "#00288e",
+                        "status-fake-light": "#FEF2F2",
+                        "error-container": "#ffdad6",
+                        "status-uncertain": "#D97706",
+                        "surface-bright": "#f8f9fa",
+                        "status-real": "#059669",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#173bab",
+                        "on-secondary-container": "#596372",
+                        "inverse-surface": "#2e3132",
+                        "secondary-container": "#d6e0f1",
+                        "trust-blue-light": "#EFF6FF",
+                        "inverse-primary": "#b8c4ff",
+                        "surface-container-lowest": "#ffffff",
+                        "status-fake": "#DC2626",
+                        "tertiary-container": "#872d00",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb59a",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-secondary-fixed": "#121c28",
+                        "on-tertiary-container": "#ffa583",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary": "#611e00",
+                        "on-secondary-fixed-variant": "#3e4755",
+                        "outline": "#757684",
+                        "status-uncertain-light": "#FFFBEB",
+                        "surface": "#f8f9fa",
+                        "secondary": "#555f6d",
+                        "surface-dim": "#d9dadb",
+                        "outline-variant": "#c4c5d5",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "background": "#f8f9fa",
+                        "on-primary-fixed": "#001453",
+                        "surface-variant": "#e1e3e4",
+                        "surface-tint": "#3755c3",
+                        "secondary-fixed-dim": "#bdc7d8",
+                        "on-surface-variant": "#444653",
+                        "on-tertiary-fixed": "#380d00",
+                        "on-background": "#191c1d",
+                        "on-surface": "#191c1d",
+                        "on-primary-container": "#a8b8ff",
+                        "surface-container-high": "#e7e8e9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "stack-md": "24px",
+                        "container-max": "960px",
+                        "stack-lg": "48px",
+                        "stack-sm": "12px",
+                        "card-max": "720px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "result-label": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-xl-mobile": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "result-label": ["48px", {"lineHeight": "48px", "letterSpacing": "0.05em", "fontWeight": "800"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-xl-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-bold": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* gray-50 fallback */
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .strength-bar {
+            height: 4px;
+            transition: all 0.3s ease-in-out;
+            width: 0%;
+        }
+        .glass-effect {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component Identity) -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md">
+<div class="flex justify-between items-center h-16 px-margin-mobile md:px-8 max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed cursor-pointer">FNI System</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="flex items-center gap-1 text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed-dim transition-colors font-label-bold text-label-bold" href="#">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                    ← Back to login
+                </a>
+<button class="text-secondary dark:text-secondary-fixed-dim hover:text-primary-container dark:hover:text-primary-fixed-dim transition-colors font-label-bold text-label-bold">Support</button>
+</div>
+<!-- Mobile Back Link -->
+<div class="md:hidden">
+<a class="text-primary font-label-bold text-label-bold" href="#">Back</a>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center pt-24 pb-12 px-margin-mobile">
+<div class="w-full max-w-[440px] bg-surface-container-lowest rounded-xl shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] p-8 md:p-10 border border-outline-variant/30">
+<!-- Header Section -->
+<header class="text-center mb-stack-lg">
+<div class="w-16 h-16 bg-trust-blue-light rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-primary text-[32px]">lock_reset</span>
+</div>
+<h1 class="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface mb-2">Set a new password</h1>
+<p class="font-body-md text-body-md text-secondary max-w-[320px] mx-auto">Choose a strong password you haven't used before.</p>
+</header>
+<!-- Reset Form -->
+<form class="space-y-stack-md" id="reset-form" onsubmit="return false;">
+<!-- Password Field -->
+<div class="space-y-2">
+<label class="block font-label-bold text-label-bold text-on-surface" for="new-password">New password</label>
+<div class="relative group">
+<input class="w-full px-4 py-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all duration-200 pr-12 font-body-md text-body-md" id="new-password" name="new-password" oninput="updateStrength(this.value)" placeholder="Enter your new password" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-outline hover:text-primary transition-colors" onclick="toggleVisibility('new-password', 'toggle-icon-1')" type="button">
+<span class="material-symbols-outlined" id="toggle-icon-1">visibility</span>
+</button>
+</div>
+<!-- Strength Meter -->
+<div class="mt-3">
+<div class="h-1 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="strength-bar bg-error rounded-full" id="strength-meter"></div>
+</div>
+<div class="mt-2 font-label-caps text-label-caps text-secondary" id="strength-text">
+                            Password strength: <span class="font-bold">None</span>
+</div>
+</div>
+</div>
+<!-- Confirm Password Field -->
+<div class="space-y-2 pt-2">
+<label class="block font-label-bold text-label-bold text-on-surface" for="confirm-password">Confirm new password</label>
+<div class="relative group">
+<input class="w-full px-4 py-3 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all duration-200 pr-12 font-body-md text-body-md" id="confirm-password" name="confirm-password" placeholder="Confirm your new password" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-outline hover:text-primary transition-colors" onclick="toggleVisibility('confirm-password', 'toggle-icon-2')" type="button">
+<span class="material-symbols-outlined" id="toggle-icon-2">visibility</span>
+</button>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-primary-container hover:bg-primary transition-all duration-200 text-on-primary font-label-bold text-label-bold py-4 rounded-lg shadow-sm hover:shadow-md flex items-center justify-center gap-2 mt-4 active:scale-[0.98]" id="submit-btn" type="submit">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+                    Update password
+                </button>
+</form>
+<!-- Secondary Action -->
+<p class="text-center mt-8 font-body-sm text-body-sm text-secondary">
+                Remembered your password? 
+                <a class="text-primary-container font-label-bold hover:underline" href="#">Back to login</a>
+</p>
+</div>
+</main>
+<!-- Footer (Shared Component Identity) -->
+<footer class="w-full py-stack-md bg-transparent">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 max-w-container-max mx-auto px-margin-mobile">
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-widest">FNI System</span>
+<span class="font-body-sm text-body-sm text-secondary dark:text-secondary-fixed-dim">© 2024 Fake News Identification System. All rights reserved.</span>
+<div class="flex gap-6">
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-opacity opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-opacity opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-opacity opacity-80 hover:opacity-100" href="#">Cookie Policy</a>
+</div>
+</div>
+</footer>
+<script>
+        function toggleVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+
+        function updateStrength(password) {
+            const meter = document.getElementById('strength-meter');
+            const text = document.getElementById('strength-text').querySelector('span');
+            
+            let strength = 0;
+            if (password.length > 0) strength += 20;
+            if (password.length > 8) strength += 20;
+            if (/[A-Z]/.test(password)) strength += 20;
+            if (/[0-9]/.test(password)) strength += 20;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+
+            meter.style.width = strength + '%';
+            
+            if (strength <= 20) {
+                meter.className = 'strength-bar bg-error rounded-full';
+                text.textContent = 'Weak';
+                text.className = 'font-bold text-error';
+            } else if (strength <= 60) {
+                meter.className = 'strength-bar bg-status-uncertain rounded-full';
+                text.textContent = 'Medium';
+                text.className = 'font-bold text-status-uncertain';
+            } else if (strength <= 80) {
+                meter.className = 'strength-bar bg-status-real rounded-full';
+                text.textContent = 'Strong';
+                text.className = 'font-bold text-status-real';
+            } else {
+                meter.className = 'strength-bar bg-trust-blue-dark rounded-full';
+                text.textContent = 'Very Strong';
+                text.className = 'font-bold text-trust-blue-dark';
+            }
+        }
+
+        // Add a simple loading state to the button on submit
+        document.getElementById('reset-form').addEventListener('submit', function() {
+            const btn = document.getElementById('submit-btn');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+            `;
+            btn.disabled = true;
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+
+            // Simulated redirect after 1.5s
+            setTimeout(() => {
+                // In a real app, logic would go here
+                btn.innerHTML = `<span class="material-symbols-outlined">check_circle</span> Success!`;
+                btn.classList.replace('bg-primary-container', 'bg-status-real');
+            }, 1500);
+        });
+    </script>
+</body></html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verify Your Email | FNI System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "trust-blue-dark": "#1E3A8A",
+                    "on-tertiary-fixed-variant": "#802a00",
+                    "surface-container-low": "#f3f4f5",
+                    "primary-fixed": "#dde1ff",
+                    "tertiary-fixed": "#ffdbce",
+                    "status-real-light": "#ECFDF5",
+                    "secondary-fixed": "#d9e3f4",
+                    "surface-container": "#edeeef",
+                    "primary-container": "#1e40af",
+                    "primary": "#00288e",
+                    "status-fake-light": "#FEF2F2",
+                    "error-container": "#ffdad6",
+                    "status-uncertain": "#D97706",
+                    "surface-bright": "#f8f9fa",
+                    "status-real": "#059669",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#173bab",
+                    "on-secondary-container": "#596372",
+                    "inverse-surface": "#2e3132",
+                    "secondary-container": "#d6e0f1",
+                    "trust-blue-light": "#EFF6FF",
+                    "inverse-primary": "#b8c4ff",
+                    "surface-container-lowest": "#ffffff",
+                    "status-fake": "#DC2626",
+                    "tertiary-container": "#872d00",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb59a",
+                    "primary-fixed-dim": "#b8c4ff",
+                    "on-secondary-fixed": "#121c28",
+                    "on-tertiary-container": "#ffa583",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e1e3e4",
+                    "tertiary": "#611e00",
+                    "on-secondary-fixed-variant": "#3e4755",
+                    "outline": "#757684",
+                    "status-uncertain-light": "#FFFBEB",
+                    "surface": "#f8f9fa",
+                    "secondary": "#555f6d",
+                    "surface-dim": "#d9dadb",
+                    "outline-variant": "#c4c5d5",
+                    "on-secondary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#f0f1f2",
+                    "background": "#f8f9fa",
+                    "on-primary-fixed": "#001453",
+                    "surface-variant": "#e1e3e4",
+                    "surface-tint": "#3755c3",
+                    "secondary-fixed-dim": "#bdc7d8",
+                    "on-surface-variant": "#444653",
+                    "on-tertiary-fixed": "#380d00",
+                    "on-background": "#191c1d",
+                    "on-surface": "#191c1d",
+                    "on-primary-container": "#a8b8ff",
+                    "surface-container-high": "#e7e8e9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "stack-md": "24px",
+                    "container-max": "960px",
+                    "stack-lg": "48px",
+                    "stack-sm": "12px",
+                    "card-max": "720px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "result-label": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-xl-mobile": ["Inter"],
+                    "label-bold": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "result-label": ["48px", {"lineHeight": "48px", "letterSpacing": "0.05em", "fontWeight": "800"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-bold": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* gray-50 equivalent from config */
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .verification-card {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- TopNavBar: Predicated from JSON style keys -->
+<nav class="fixed top-0 w-full z-50 glass-nav bg-surface/80">
+<div class="flex justify-between items-center h-16 px-margin-mobile md:px-8 max-w-container-max mx-auto">
+<div class="font-headline-lg text-headline-lg font-bold text-primary">FNI System</div>
+<div class="flex items-center gap-6">
+<a class="flex items-center gap-2 text-secondary hover:text-primary transition-colors font-label-bold text-label-bold" href="#">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                    ← Back to login
+                </a>
+<button class="hidden md:block font-label-bold text-label-bold text-secondary hover:text-primary transition-colors">Support</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center px-margin-mobile pt-24 pb-16">
+<div class="w-full max-w-[480px]">
+<!-- Verification Card -->
+<div class="verification-card bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 md:p-12 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
+<!-- Large Mail Icon -->
+<div class="inline-flex items-center justify-center w-20 h-20 bg-trust-blue-light rounded-full mb-8">
+<span class="material-symbols-outlined text-[40px] text-primary-container" style="font-variation-settings: 'opsz' 48;">mail</span>
+</div>
+<!-- Header -->
+<h1 class="font-headline-xl-mobile md:font-headline-xl text-headline-xl-mobile md:text-headline-xl text-on-surface mb-4">
+                    Verify your email
+                </h1>
+<!-- Subheading -->
+<p class="font-body-md text-body-md text-secondary mb-10 max-w-[340px] mx-auto">
+                    We sent a verification link to <span class="font-semibold text-on-surface">j.doe@example.com</span>. Click the link to activate your account.
+                </p>
+<!-- Action Buttons/Links -->
+<div class="space-y-4">
+<button class="w-full bg-primary-container text-on-primary font-label-bold text-label-bold py-3 px-6 rounded-lg hover:shadow-lg transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2" id="resendBtn">
+<span class="material-symbols-outlined text-[18px]">send</span>
+                        Resend the email
+                    </button>
+<div class="pt-4 border-t border-outline-variant/20 flex flex-col gap-3">
+<a class="font-label-bold text-label-bold text-primary hover:underline transition-all" href="#">
+                            Didn't get it? Resend the email
+                        </a>
+<a class="font-label-bold text-label-bold text-secondary hover:text-on-surface transition-colors" href="#">
+                            Use a different email
+                        </a>
+</div>
+</div>
+<!-- Security Trust Note -->
+<div class="mt-12 flex items-center justify-center gap-2 text-secondary/60">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider">Secure Verification</span>
+</div>
+</div>
+<!-- Supporting Info (Outside Card) -->
+<div class="mt-8 text-center px-4">
+<p class="font-body-sm text-body-sm text-secondary">
+                    Need help? Contact our <a class="text-primary font-medium hover:underline" href="#">Support Team</a> or visit the <a class="text-primary font-medium hover:underline" href="#">Help Center</a>.
+                </p>
+</div>
+</div>
+</main>
+<!-- Footer: Predicated from JSON style keys -->
+<footer class="w-full py-stack-md bg-transparent mt-auto border-t border-outline-variant/10">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 max-w-container-max mx-auto px-margin-mobile">
+<div class="font-label-caps text-label-caps text-primary uppercase font-bold tracking-widest">FNI System</div>
+<p class="font-body-sm text-body-sm text-secondary">© 2024 Fake News Identification System. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-colors" href="#">Cookie Policy</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for the resend button
+        const resendBtn = document.getElementById('resendBtn');
+        if (resendBtn) {
+            resendBtn.addEventListener('click', function() {
+                const originalContent = this.innerHTML;
+                this.disabled = true;
+                this.classList.add('opacity-70', 'cursor-not-allowed');
+                this.innerHTML = '<span class="material-symbols-outlined animate-spin">autorenew</span> Sending...';
+                
+                setTimeout(() => {
+                    this.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Email Sent';
+                    this.classList.remove('bg-primary-container');
+                    this.classList.add('bg-status-real');
+                    
+                    setTimeout(() => {
+                        this.disabled = false;
+                        this.classList.remove('opacity-70', 'cursor-not-allowed', 'bg-status-real');
+                        this.classList.add('bg-primary-container');
+                        this.innerHTML = originalContent;
+                    }, 3000);
+                }, 1500);
+            });
+        }
+
+        // Handle navigation active states logic
+        document.querySelectorAll('nav a').forEach(link => {
+            if(link.textContent.includes('Back to login')) {
+                // Apply inactive navigation styles as it's not a top-level tab in this context
+                link.classList.add('text-secondary');
+            }
+        });
+    </script>
+</body></html>

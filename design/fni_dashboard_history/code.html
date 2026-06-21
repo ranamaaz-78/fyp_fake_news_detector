@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VeritasAI | Prediction History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#edeeef",
+                    "tertiary-fixed": "#ffdbce",
+                    "on-tertiary-fixed": "#380d00",
+                    "status-real": "#059669",
+                    "status-fake": "#DC2626",
+                    "outline-variant": "#c4c5d5",
+                    "on-error-container": "#93000a",
+                    "status-uncertain-light": "#FFFBEB",
+                    "status-real-light": "#ECFDF5",
+                    "on-primary-fixed-variant": "#173bab",
+                    "inverse-on-surface": "#f0f1f2",
+                    "background": "#f8f9fa",
+                    "on-secondary-fixed": "#121c28",
+                    "surface-container-low": "#f3f4f5",
+                    "secondary-fixed-dim": "#bdc7d8",
+                    "primary-fixed-dim": "#b8c4ff",
+                    "surface-dim": "#d9dadb",
+                    "on-primary-fixed": "#001453",
+                    "secondary-container": "#d6e0f1",
+                    "surface-container-high": "#e7e8e9",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#3e4755",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e1e3e4",
+                    "surface": "#f8f9fa",
+                    "status-fake-light": "#FEF2F2",
+                    "secondary-fixed": "#d9e3f4",
+                    "on-secondary-container": "#596372",
+                    "on-surface": "#191c1d",
+                    "outline": "#757684",
+                    "trust-blue-light": "#EFF6FF",
+                    "status-uncertain": "#D97706",
+                    "on-error": "#ffffff",
+                    "on-surface-variant": "#444653",
+                    "trust-blue-dark": "#1E3A8A",
+                    "tertiary": "#611e00",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#dde1ff",
+                    "surface-container-highest": "#e1e3e4",
+                    "inverse-surface": "#2e3132",
+                    "secondary": "#555f6d",
+                    "on-background": "#191c1d",
+                    "on-primary-container": "#a8b8ff",
+                    "tertiary-container": "#872d00",
+                    "on-tertiary-fixed-variant": "#802a00",
+                    "surface-bright": "#f8f9fa",
+                    "primary": "#00288e",
+                    "tertiary-fixed-dim": "#ffb59a",
+                    "primary-container": "#1e40af",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#b8c4ff",
+                    "surface-tint": "#3755c3",
+                    "error": "#ba1a1a",
+                    "on-tertiary-container": "#ffa583",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "card-max": "720px",
+                    "stack-sm": "12px",
+                    "stack-md": "24px",
+                    "gutter": "24px",
+                    "container-max": "960px",
+                    "stack-lg": "48px"
+            },
+            "fontFamily": {
+                    "result-label": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-bold": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-xl-mobile": ["Inter"]
+            },
+            "fontSize": {
+                    "result-label": ["48px", {"lineHeight": "48px", "letterSpacing": "0.05em", "fontWeight": "800"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-bold": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .backdrop-blur-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .custom-shadow {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+        .active-tab-indicator::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #00288e;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-reveal {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md border-b border-outline-variant/30 dark:border-outline-variant/10 shadow-sm h-16">
+<div class="max-w-container-max mx-auto px-gutter flex items-center justify-between h-full">
+<div class="flex items-center gap-8">
+<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed">VeritasAI</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="font-body-md text-body-md text-primary dark:text-primary-fixed font-bold border-b-2 border-primary pb-1" href="#">Analysis</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Sources</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors" href="#">Methodology</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/50">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-32 md:w-48" placeholder="Search insights..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-all active:scale-95">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-all active:scale-95">settings</button>
+<div class="w-8 h-8 rounded-full bg-primary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a corporate executive with a friendly expression, soft lighting, and a neutral grey background. The style is clean, sharp, and perfectly suits a high-end tech platform aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOr1YptPSf8SSLVAKc_2S76y-wNlB5k1oOF5cgE3hyiVUC4s_qpGQ2O9u0xNdPolxqx2FLiWhwWITWz1qKS-4M2gSnXB5iJ9diPvOtlmTRMr7C86Jrv4zsXWPYfxlT7f8L05PTha7Qxkj6zVZqRXcfQgmcW1kmJfKaVQN1JnpISJQZz2q23_mHRgDVu5r7gObb_nUuejVXU9pJ8HKlJPT9XqF2QcOiOsfj_AluKl94Mae1I4C3kytddSTOvtMzNiIWsmf-uSwV2WPh"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-24 pb-stack-lg px-4 sm:px-gutter max-w-container-max mx-auto">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-stack-lg">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Your History</h1>
+<p class="text-on-surface-variant mt-1">Review and manage your past AI verification results.</p>
+</div>
+<button class="flex items-center justify-center gap-2 bg-primary-container text-on-primary font-label-bold text-label-bold px-6 py-3 rounded-lg custom-shadow hover:bg-primary transition-all active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add_circle</span>
+                Check new news
+            </button>
+</header>
+<!-- Stats Row -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-stack-lg">
+<div class="bg-surface-container-lowest p-stack-md rounded-xl custom-shadow border border-outline-variant/20">
+<p class="text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider">Total checks</p>
+<p class="text-headline-lg font-headline-lg text-on-surface mt-1">47</p>
+</div>
+<div class="bg-surface-container-lowest p-stack-md rounded-xl custom-shadow border border-outline-variant/20 border-t-4 border-t-status-real">
+<p class="text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider">Marked Real</p>
+<p class="text-headline-lg font-headline-lg text-status-real mt-1">28</p>
+</div>
+<div class="bg-surface-container-lowest p-stack-md rounded-xl custom-shadow border border-outline-variant/20 border-t-4 border-t-status-fake">
+<p class="text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider">Marked Fake</p>
+<p class="text-headline-lg font-headline-lg text-status-fake mt-1">15</p>
+</div>
+<div class="bg-surface-container-lowest p-stack-md rounded-xl custom-shadow border border-outline-variant/20 border-t-4 border-t-status-uncertain">
+<p class="text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider">Uncertain</p>
+<p class="text-headline-lg font-headline-lg text-status-uncertain mt-1">4</p>
+</div>
+</section>
+<!-- Filter Bar -->
+<section class="bg-surface-container-lowest p-4 rounded-xl custom-shadow border border-outline-variant/20 mb-stack-md flex flex-wrap items-center gap-4">
+<div class="flex-1 min-w-[240px] flex items-center bg-surface-container px-4 py-2.5 rounded-lg border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full" placeholder="Search by content or keywords..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<label class="text-body-sm font-label-bold text-on-surface-variant">Filter:</label>
+<select class="bg-surface-container border-none rounded-lg text-body-sm py-2 px-4 focus:ring-2 focus:ring-primary/20">
+<option>All Results</option>
+<option>✓ Real</option>
+<option>✕ Fake</option>
+<option>⚠ Uncertain</option>
+</select>
+</div>
+<div class="flex items-center gap-2">
+<label class="text-body-sm font-label-bold text-on-surface-variant">Sort:</label>
+<select class="bg-surface-container border-none rounded-lg text-body-sm py-2 px-4 focus:ring-2 focus:ring-primary/20">
+<option>Newest First</option>
+<option>Oldest First</option>
+</select>
+</div>
+</section>
+<!-- History List -->
+<div class="space-y-4" id="results-container">
+<!-- Expanded Card -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden custom-shadow border-l-8 border-status-real border border-outline-variant/20 animate-reveal">
+<div class="p-6">
+<div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+<div class="flex items-center gap-3">
+<span class="bg-status-real-light text-status-real font-label-bold text-label-bold px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                                Real
+                            </span>
+<span class="text-on-surface-variant text-body-sm">2 hours ago</span>
+</div>
+<div class="text-right">
+<p class="text-body-sm font-label-bold text-on-surface-variant uppercase tracking-wide">Confidence Score</p>
+<p class="text-headline-lg font-headline-lg text-status-real">91%</p>
+</div>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-3">Major climate initiative announced at UN summit shows record international commitment to carbon neutrality targets.</h3>
+<p class="text-body-md text-on-surface-variant leading-relaxed mb-6">
+                        An extensive analysis of the multilateral agreement signed this morning indicates that over 140 countries have committed to a legally binding framework for emission reductions. The documentation matches official UN records and verifiable government statements from participant nations...
+                    </p>
+<!-- Confidence Gauge -->
+<div class="bg-surface-container p-4 rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<span class="text-body-sm font-label-bold">Analysis Depth</span>
+<span class="text-body-sm text-status-real">Strong Evidence</span>
+</div>
+<div class="w-full h-3 bg-white rounded-full overflow-hidden">
+<div class="h-full bg-status-real w-[91%] rounded-full shadow-[0_0_8px_rgba(5,150,105,0.3)]"></div>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-outline-variant/20 flex justify-between items-center">
+<div class="flex gap-4">
+<button class="flex items-center gap-1.5 text-primary text-body-sm font-label-bold hover:underline">
+<span class="material-symbols-outlined text-[18px]">description</span>
+                                Full Report
+                            </button>
+<button class="flex items-center gap-1.5 text-on-surface-variant text-body-sm font-label-bold hover:underline">
+<span class="material-symbols-outlined text-[18px]">share</span>
+                                Share
+                            </button>
+</div>
+<button class="text-on-surface-variant hover:text-primary p-1" onclick="this.closest('article').classList.toggle('ring-2'); this.closest('article').classList.toggle('ring-primary')">
+<span class="material-symbols-outlined">expand_less</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Regular Card: Fake -->
+<article class="bg-surface-container-lowest p-5 rounded-xl custom-shadow border-l-8 border-status-fake border border-outline-variant/20 flex flex-col md:flex-row gap-6 transition-all hover:translate-x-1 animate-reveal" style="animation-delay: 0.1s;">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-status-fake-light text-status-fake font-label-bold text-label-bold px-3 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+                            Fake
+                        </span>
+<span class="text-on-surface-variant text-body-sm">5 hours ago</span>
+</div>
+<p class="text-body-md font-label-bold text-on-surface line-clamp-1 mb-1">New policy states that social media users will be fined for inactive accounts by end of month.</p>
+<p class="text-body-sm text-on-surface-variant line-clamp-2">This claim originated from a satirical website but was reposted as factual news on multiple platforms. Analysis show no official corroboration from tech companies...</p>
+</div>
+<div class="flex md:flex-col items-center md:items-end justify-between md:justify-center min-w-[80px]">
+<div class="text-right">
+<p class="text-label-caps text-on-surface-variant uppercase">Confidence</p>
+<p class="font-headline-lg text-status-fake">87%</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">chevron_right</button>
+</div>
+</article>
+<!-- Regular Card: Uncertain -->
+<article class="bg-surface-container-lowest p-5 rounded-xl custom-shadow border-l-8 border-status-uncertain border border-outline-variant/20 flex flex-col md:flex-row gap-6 transition-all hover:translate-x-1 animate-reveal" style="animation-delay: 0.2s;">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-status-uncertain-light text-status-uncertain font-label-bold text-label-bold px-3 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">help</span>
+                            Uncertain
+                        </span>
+<span class="text-on-surface-variant text-body-sm">Yesterday</span>
+</div>
+<p class="text-body-md font-label-bold text-on-surface line-clamp-1 mb-1">Leaked documents suggest a possible breakthrough in clean fusion energy by regional startup.</p>
+<p class="text-body-sm text-on-surface-variant line-clamp-2">Insufficient public data to verify technical claims. While the company exists, the leaked documents cannot be authenticated at this time...</p>
+</div>
+<div class="flex md:flex-col items-center md:items-end justify-between md:justify-center min-w-[80px]">
+<div class="text-right">
+<p class="text-label-caps text-on-surface-variant uppercase">Confidence</p>
+<p class="font-headline-lg text-status-uncertain">52%</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">chevron_right</button>
+</div>
+</article>
+<!-- Regular Card: Real -->
+<article class="bg-surface-container-lowest p-5 rounded-xl custom-shadow border-l-8 border-status-real border border-outline-variant/20 flex flex-col md:flex-row gap-6 transition-all hover:translate-x-1 animate-reveal" style="animation-delay: 0.3s;">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-status-real-light text-status-real font-label-bold text-label-bold px-3 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                            Real
+                        </span>
+<span class="text-on-surface-variant text-body-sm">2 days ago</span>
+</div>
+<p class="text-body-md font-label-bold text-on-surface line-clamp-1 mb-1">Central bank announces minor interest rate adjustment to curb inflation trends.</p>
+<p class="text-body-sm text-on-surface-variant line-clamp-2">Statement verified against official government gazette and live press conference transcripts. Sentiment matches historical policy patterns...</p>
+</div>
+<div class="flex md:flex-col items-center md:items-end justify-between md:justify-center min-w-[80px]">
+<div class="text-right">
+<p class="text-label-caps text-on-surface-variant uppercase">Confidence</p>
+<p class="font-headline-lg text-status-real">99%</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">chevron_right</button>
+</div>
+</article>
+</div>
+<!-- Empty State (Hidden by default) -->
+<div class="hidden flex-col items-center justify-center py-24 text-center" id="empty-state">
+<div class="w-24 h-24 bg-surface-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-outline text-[48px]">history</span>
+</div>
+<h3 class="text-headline-lg font-headline-lg text-on-surface">No history yet</h3>
+<p class="text-on-surface-variant mt-2 max-w-sm">Start your first check to see your prediction history here. Our AI is ready to help you find the truth.</p>
+<button class="mt-8 bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-bold">Verify something now</button>
+</div>
+<!-- Loading State (Hidden by default) -->
+<div class="hidden flex-col items-center justify-center py-24" id="loading-state">
+<div class="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4"></div>
+<p class="text-on-surface-variant font-body-md">Retrieving your truth history...</p>
+</div>
+<!-- Demo Controls -->
+<div class="mt-stack-lg border-t border-outline-variant/30 pt-8">
+<div class="flex flex-wrap items-center gap-4 justify-center">
+<span class="text-body-sm font-label-bold text-on-surface-variant uppercase tracking-widest mr-2">Demo Controls:</span>
+<button class="px-4 py-2 bg-surface-container-high rounded-full text-body-sm hover:bg-outline-variant transition-colors" onclick="toggleState('results-container')">Show Results</button>
+<button class="px-4 py-2 bg-surface-container-high rounded-full text-body-sm hover:bg-outline-variant transition-colors" onclick="toggleState('empty-state')">Empty State</button>
+<button class="px-4 py-2 bg-surface-container-high rounded-full text-body-sm hover:bg-outline-variant transition-colors" onclick="toggleState('loading-state')">Loading State</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-stack-lg bg-surface-container-lowest dark:bg-surface-dim border-t border-outline-variant/20">
+<div class="max-w-container-max mx-auto px-gutter py-stack-md flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex flex-col items-center md:items-start gap-1">
+<span class="font-label-bold text-label-bold text-on-surface">VeritasAI Truth Engine</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 VeritasAI. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-8 gap-y-2">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors underline cursor-pointer" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors underline cursor-pointer" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors underline cursor-pointer" href="#">AI Ethics</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors underline cursor-pointer" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+<script>
+        function toggleState(stateId) {
+            const states = ['results-container', 'empty-state', 'loading-state'];
+            states.forEach(id => {
+                const el = document.getElementById(id);
+                if (id === stateId) {
+                    el.classList.remove('hidden');
+                    if (id === 'results-container') el.classList.add('space-y-4');
+                } else {
+                    el.classList.add('hidden');
+                    if (id === 'results-container') el.classList.remove('space-y-4');
+                }
+            });
+        }
+    </script>
+</body></html>
