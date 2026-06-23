@@ -1,0 +1,10 @@
+{
+  "dataset": "kaggle_fake_real_news",
+  "uncertain_threshold": 0.60,
+  "min_input_chars": 20,
+  "max_input_chars": 10000,
+  "max_tfidf_features": 5000,
+  "test_size": 0.2,
+  "random_state": 42,
+  "models": ["logistic_regression", "naive_bayes", "svm"]
+}

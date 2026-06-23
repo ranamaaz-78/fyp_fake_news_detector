@@ -1,59 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# FNI — Fake News Identification
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+UCP BSCS FYP: web app that classifies news as **REAL**, **FAKE**, or **UNCERTAIN** with confidence scores.
 
-## About Laravel
+**Stack:** Laravel 12 · Flask ML API (Scikit-learn) · MySQL 8 (WAMP)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Quick start (Windows / WAMP)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2+, Composer, Node.js
+- WAMP with MySQL running (`pdo_mysql` enabled)
+- Python 3.10+ with pip
 
-## Learning Laravel
+### 1. Database
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Create `fni_db` in phpMyAdmin or MySQL CLI:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```sql
+CREATE DATABASE fni_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
 
-## Laravel Sponsors
+### 2. Laravel
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```powershell
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate:fresh --seed
+npm install && npm run build
+```
 
-### Premium Partners
+`.env.example` defaults to MySQL (`fni_db`, user `root`, empty password). Adjust for your WAMP setup.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 3. ML API
 
-## Contributing
+```powershell
+cd ml
+pip install -r requirements.txt
+python scripts/train.py
+python api/app.py
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Run
 
-## Code of Conduct
+```powershell
+# Terminal 1 — ML API (from ml/)
+python api/app.py
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Terminal 2 — Laravel (project root) — port 9000 with large CSV upload limits
+php artisan serve --port=8000
+# or: .\scripts\serve.ps1
+```
 
-## Security Vulnerabilities
+Open http://127.0.0.1:8000
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Demo accounts
 
-## License
+| Email | Password | Role |
+|-------|----------|------|
+| admin@fni.test | password | admin (includes Model Training at `/admin/training`) |
+| test@example.com | password | user |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Tests
+
+```powershell
+php artisan test          # Laravel — uses SQLite in-memory (no WAMP needed)
+pytest ml/tests/ -v       # Flask ML API
+```
+
+## Documentation
+
+- [DEPLOYMENT.md](DEPLOYMENT.md) — WAMP setup, Apache vhost, production LAMP
+- [ml/README.md](ml/README.md) — dataset, training, API
+- [ml/DATASET.md](ml/DATASET.md) — Kaggle Fake & Real News dataset
+
+## Project structure
+
+```
+app/              Laravel controllers, models, services
+ml/               Flask API, training scripts, model.pkl
+resources/views/  Blade UI (FNI design system)
+database/         Migrations and seeders
+tests/            PHPUnit feature tests
+```

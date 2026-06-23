@@ -22,3 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+/ml/data/raw/*.csv
+/srs_extract.txt
