@@ -38,6 +38,32 @@ def load_config() -> dict:
         return json.load(f)
 
 
+def _load_augmentation() -> pd.DataFrame | None:
+    """Optional extra data (e.g. satire / diverse long-form news) to broaden coverage.
+
+    Loads every ml/data/raw/augment*.csv file. Each must have text, label
+    (REAL/FAKE) columns. Included in full so the extra signal is never dropped
+    by the main per-class row cap.
+    """
+    frames = []
+
+    for augment_path in sorted(RAW_DIR.glob("augment*.csv")):
+        aug = pd.read_csv(augment_path)
+
+        if "text" not in aug.columns or "label" not in aug.columns:
+            continue
+
+        aug = aug[["text", "label"]].copy()
+        aug["label"] = aug["label"].astype(str).str.upper().str.strip()
+        aug = aug[aug["label"].isin(["REAL", "FAKE"])]
+        frames.append(aug.dropna(subset=["text"]))
+
+    if not frames:
+        return None
+
+    return pd.concat(frames, ignore_index=True)
+
+
 def load_dataset(max_per_class: int | None = 8000) -> pd.DataFrame:
     fake_path = RAW_DIR / "Fake.csv"
     true_path = RAW_DIR / "True.csv"
@@ -55,7 +81,12 @@ def load_dataset(max_per_class: int | None = 8000) -> pd.DataFrame:
             ],
             ignore_index=True,
         )
-        return df.dropna(subset=["text"])
+
+        augment = _load_augmentation()
+        if augment is not None and not augment.empty:
+            df = pd.concat([df, augment], ignore_index=True)
+
+        return df.dropna(subset=["text"]).drop_duplicates(subset=["text"])
 
     sample_path = ROOT / "data" / "sample_news.csv"
     if sample_path.exists():

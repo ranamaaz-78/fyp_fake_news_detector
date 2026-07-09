@@ -1,6 +1,6 @@
 {
   "dataset": "kaggle_fake_real_news",
-  "uncertain_threshold": 0.60,
+  "uncertain_threshold": 0.55,
   "min_input_chars": 20,
   "max_input_chars": 10000,
   "max_tfidf_features": 5000,
