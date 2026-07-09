@@ -73,10 +73,12 @@ class FakeNewsPredictor:
             if scores.ndim == 0:
                 scores = np.array([scores])
             if len(scores) == 1:
-                # binary LinearSVC
-                fake_score = float(scores[0])
-                fake_p = 1 / (1 + np.exp(-fake_score))
-                return {"FAKE": fake_p, "REAL": 1 - fake_p}
+                # Binary classifier: decision_function returns the score for the
+                # positive class, which is classes_[1]. A positive score favours
+                # classes_[1]; a negative score favours classes_[0].
+                classes = list(clf.classes_)
+                pos_p = 1 / (1 + np.exp(-float(scores[0])))
+                return {str(classes[1]): pos_p, str(classes[0]): 1 - pos_p}
             exp = np.exp(scores - np.max(scores))
             probs = exp / exp.sum()
             classes = list(clf.classes_)

@@ -36,6 +36,8 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin'])->name('admin.'
     Route::get('/audit', [AdminController::class, 'auditLogs'])->name('audit');
     Route::get('/datasets', [AdminController::class, 'datasets'])->name('datasets');
     Route::post('/datasets', [AdminController::class, 'storeDataset'])->name('datasets.store');
+    Route::post('/datasets/{dataset}/train', [AdminController::class, 'trainDataset'])->name('datasets.train');
+    Route::delete('/datasets/{dataset}', [AdminController::class, 'destroyDataset'])->name('datasets.destroy');
     Route::get('/training', [TrainingController::class, 'index'])->name('training');
     Route::post('/training/upload', [TrainingController::class, 'upload'])->name('training.upload');
     Route::post('/training/start', [TrainingController::class, 'start'])->name('training.start');

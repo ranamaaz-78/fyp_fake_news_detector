@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\TrainingJob;
-use App\Services\AuditLogger;
 use App\Services\MlTrainingService;
 use App\Support\CsvHelper;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +13,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use RuntimeException;
 
@@ -107,46 +107,15 @@ class TrainingController extends Controller
             return back()->withErrors(['training' => 'Uploaded files were not found. Please upload again.']);
         }
 
-        $rawDir = base_path('ml/data/raw');
-        File::ensureDirectoryExists($rawDir);
-
-        File::copy($fakeStorage, $rawDir.'/Fake.csv');
-        File::copy($trueStorage, $rawDir.'/True.csv');
-
-        $jobId = (string) Str::uuid();
-
-        $job = TrainingJob::create([
-            'started_by' => auth()->id(),
-            'ml_job_id' => $jobId,
-            'status' => 'queued',
-            'progress' => 0,
-            'stage' => 'Queued',
-            'fake_csv_path' => $paths['fake'],
-            'true_csv_path' => $paths['true'],
-            'started_at' => now(),
-        ]);
-
         try {
-            $this->training->startTraining($jobId);
-            $job->update([
-                'status' => 'running',
-                'stage' => 'Starting training...',
-            ]);
-
-            AuditLogger::log('training.started', auth()->id(), TrainingJob::class, $job->id, [
-                'ml_job_id' => $jobId,
-            ]);
+            $job = $this->training->launchJob(
+                auth()->id(),
+                $fakeStorage,
+                $trueStorage,
+                $paths['fake'],
+                $paths['true'],
+            );
         } catch (RuntimeException $e) {
-            $job->update([
-                'status' => 'failed',
-                'error_message' => $e->getMessage(),
-                'finished_at' => now(),
-            ]);
-
-            AuditLogger::log('training.failed', auth()->id(), TrainingJob::class, $job->id, [
-                'error' => $e->getMessage(),
-            ]);
-
             return $request->expectsJson()
                 ? response()->json(['message' => $e->getMessage()], 503)
                 : back()->withErrors(['training' => $e->getMessage()]);
@@ -157,7 +126,7 @@ class TrainingController extends Controller
         if ($request->expectsJson()) {
             return response()->json([
                 'job_id' => $job->id,
-                'ml_job_id' => $jobId,
+                'ml_job_id' => $job->ml_job_id,
                 'status' => 'running',
             ]);
         }
@@ -252,7 +221,7 @@ class TrainingController extends Controller
     private function assertKaggleFilename(UploadedFile $file, string $expected): void
     {
         if (strcasecmp($file->getClientOriginalName(), $expected) !== 0) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
+            throw ValidationException::withMessages([
                 str_contains(strtolower($expected), 'fake') ? 'fake_csv' : 'true_csv' => "File must be named {$expected}.",
             ]);
         }
@@ -261,7 +230,7 @@ class TrainingController extends Controller
     private function assertMinimumRows(UploadedFile $file, string $field, int $minimum): void
     {
         if (! CsvHelper::hasMinimumRows($file->getRealPath(), $minimum)) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
+            throw ValidationException::withMessages([
                 $field => "Each CSV must contain at least {$minimum} data rows.",
             ]);
         }

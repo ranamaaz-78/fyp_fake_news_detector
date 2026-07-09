@@ -66,6 +66,48 @@ def test_predictor_unit():
     assert 0 <= result["confidence"] <= 100
 
 
+def test_predictor_svm_label_direction(tmp_path):
+    """Regression guard: LinearSVC decision_function must map to the correct class.
+
+    A previous bug hard-coded the positive score to FAKE, flipping REAL/FAKE.
+    """
+    import joblib
+    from sklearn.pipeline import Pipeline
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.svm import LinearSVC
+
+    from src.predictor import FakeNewsPredictor
+
+    real_texts = [f"official government economy policy report number {i}" for i in range(20)]
+    fake_texts = [f"shocking alien hoax conspiracy secret lizard number {i}" for i in range(20)]
+    X = real_texts + fake_texts
+    y = ["REAL"] * len(real_texts) + ["FAKE"] * len(fake_texts)
+
+    pipeline = Pipeline(
+        [
+            ("tfidf", TfidfVectorizer()),
+            ("clf", LinearSVC()),
+        ]
+    )
+    pipeline.fit(X, y)
+
+    model_path = tmp_path / "model.pkl"
+    meta_path = tmp_path / "meta.json"
+    joblib.dump(pipeline, model_path)
+    meta_path.write_text(
+        json.dumps({"model_name": "svm", "uncertain_threshold": 0.5, "labels": ["REAL", "FAKE"]}),
+        encoding="utf-8",
+    )
+
+    predictor = FakeNewsPredictor(model_path=model_path, meta_path=meta_path)
+
+    real_result = predictor.predict("official government economy policy report annual")
+    fake_result = predictor.predict("shocking alien hoax conspiracy secret lizard leaked")
+
+    assert real_result["probabilities"]["REAL"] > real_result["probabilities"]["FAKE"]
+    assert fake_result["probabilities"]["FAKE"] > fake_result["probabilities"]["REAL"]
+
+
 def test_train_status_idle(client):
     r = client.get("/train/status")
     assert r.status_code == 200

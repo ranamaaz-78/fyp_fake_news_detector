@@ -6,14 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
 use App\Models\Dataset;
 use App\Models\Prediction;
+use App\Models\TrainingJob;
 use App\Models\User;
 use App\Services\AuditLogger;
+use App\Services\MlTrainingService;
 use App\Support\CsvHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use RuntimeException;
 
 class DashboardController extends Controller
 {
@@ -111,34 +115,114 @@ class DashboardController extends Controller
         $file = $validated['dataset'];
         $path = $file->store('datasets');
         $absolutePath = Storage::path($path);
-        $rowCount = CsvHelper::countDataRows($absolutePath);
+
+        $analysis = CsvHelper::analyzeDataset($absolutePath);
+        $rowCount = $analysis['total'] ?: CsvHelper::countDataRows($absolutePath);
+
+        $notes = $validated['notes'] ?? null;
+
+        if ($analysis['valid']) {
+            $status = 'processed';
+            $summary = "{$analysis['real']} REAL / {$analysis['fake']} FAKE rows ready for training.";
+        } else {
+            $status = 'failed';
+            $summary = $analysis['reason'] ?? 'Dataset could not be validated.';
+        }
+
+        $notes = trim(($notes ? $notes.' — ' : '').$summary);
 
         $dataset = Dataset::create([
             'uploaded_by' => auth()->id(),
             'filename' => $path,
             'original_name' => $file->getClientOriginalName(),
             'row_count' => $rowCount,
-            'status' => 'processed',
-            'notes' => $validated['notes'] ?? null,
+            'status' => $status,
+            'notes' => $notes,
         ]);
 
         AuditLogger::log('dataset.uploaded', auth()->id(), Dataset::class, $dataset->id, [
             'filename' => $dataset->original_name,
             'rows' => $rowCount,
+            'status' => $status,
         ]);
+
+        $message = $analysis['valid']
+            ? 'Dataset uploaded and validated. You can now use it for training.'
+            : 'Dataset uploaded but is not trainable: '.$summary;
 
         if ($request->expectsJson()) {
             return response()->json([
-                'message' => 'Dataset uploaded successfully.',
+                'message' => $message,
                 'dataset' => [
                     'id' => $dataset->id,
                     'name' => $dataset->original_name,
                     'row_count' => $rowCount,
                     'status' => $dataset->status,
+                    'notes' => $dataset->notes,
                 ],
-            ]);
+            ], $analysis['valid'] ? 200 : 422);
         }
 
-        return back()->with('status', 'Dataset uploaded successfully.');
+        return back()->with('status', $message);
+    }
+
+    public function trainDataset(Dataset $dataset, MlTrainingService $training): RedirectResponse
+    {
+        if ($dataset->status !== 'processed') {
+            return back()->withErrors(['dataset' => 'This dataset is not valid for training.']);
+        }
+
+        if (TrainingJob::query()->whereIn('status', ['queued', 'running'])->exists()) {
+            return back()->withErrors(['dataset' => 'A training job is already in progress.']);
+        }
+
+        $sourcePath = Storage::path($dataset->filename);
+
+        if (! File::exists($sourcePath)) {
+            $dataset->update(['status' => 'failed', 'notes' => 'Source file is missing.']);
+
+            return back()->withErrors(['dataset' => 'The dataset file could not be found on disk.']);
+        }
+
+        $splitDir = storage_path('app/training/dataset-'.$dataset->id);
+        File::ensureDirectoryExists($splitDir);
+        $fakeSplit = $splitDir.'/Fake.csv';
+        $trueSplit = $splitDir.'/True.csv';
+
+        try {
+            CsvHelper::splitByLabel($sourcePath, $fakeSplit, $trueSplit);
+
+            $training->launchJob(
+                auth()->id(),
+                $fakeSplit,
+                $trueSplit,
+                'datasets/'.basename($dataset->filename),
+                'datasets/'.basename($dataset->filename),
+                ['dataset_id' => $dataset->id, 'dataset_name' => $dataset->original_name],
+            );
+        } catch (RuntimeException $e) {
+            return back()->withErrors(['dataset' => $e->getMessage()]);
+        }
+
+        return redirect()
+            ->route('admin.training')
+            ->with('status', "Training started from dataset \"{$dataset->original_name}\". Progress will update automatically.");
+    }
+
+    public function destroyDataset(Dataset $dataset): RedirectResponse
+    {
+        if ($dataset->filename) {
+            Storage::delete($dataset->filename);
+        }
+
+        $name = $dataset->original_name;
+        $id = $dataset->id;
+        $dataset->delete();
+
+        AuditLogger::log('dataset.deleted', auth()->id(), Dataset::class, $id, [
+            'filename' => $name,
+        ]);
+
+        return back()->with('status', 'Dataset deleted.');
     }
 }

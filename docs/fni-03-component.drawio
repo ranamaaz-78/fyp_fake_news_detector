@@ -1,0 +1,173 @@
+<mxfile host="app.diagrams.net" version="24.7.17">
+  <diagram id="component-diagram" name="Component Diagram">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="2" value="FNI — Component Diagram"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=20;fontStyle=1;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="300" y="18" width="800" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             COMPONENT: Web Browser
+        ══════════════════════════════════════════ -->
+        <mxCell id="10" value="&lt;&lt;component&gt;&gt;&#xa;Web Browser"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="330" width="170" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             COMPONENT: Laravel Web Application (outer)
+        ══════════════════════════════════════════ -->
+        <mxCell id="20" value="&lt;&lt;component&gt;&gt;  Laravel Web Application"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#000000;strokeWidth=2;fontSize=14;fontStyle=1;fontColor=#000000;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="290" y="110" width="540" height="610" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-component: Presentation -->
+        <mxCell id="21" value="&lt;&lt;component&gt;&gt;&#xa;Presentation&#xa;(Blade · Tailwind · Alpine.js · Vite)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="310" y="155" width="500" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-component: Controllers -->
+        <mxCell id="22" value="&lt;&lt;component&gt;&gt;&#xa;Controllers&#xa;(NewsCheck · History · Admin · Training)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="310" y="255" width="500" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-component: Services -->
+        <mxCell id="23" value="&lt;&lt;component&gt;&gt;&#xa;Services&#xa;(FakeNewsApi · MlTraining · ArticleExtraction · AuditLogger)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="310" y="355" width="500" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-component: Middleware & Auth -->
+        <mxCell id="24" value="&lt;&lt;component&gt;&gt;&#xa;Middleware &amp; Auth&#xa;(auth · verified · EnsureUserIsAdmin · Breeze)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="310" y="455" width="500" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-component: Models -->
+        <mxCell id="25" value="&lt;&lt;component&gt;&gt;&#xa;Eloquent Models&#xa;(User · Prediction · AuditLog · Dataset · TrainingJob)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="310" y="555" width="500" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Internal arrows: layer flow -->
+        <mxCell id="ia1" style="endArrow=open;endFill=0;html=1;strokeColor=#555555;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="21" target="22">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ia2" style="endArrow=open;endFill=0;html=1;strokeColor=#555555;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="22" target="23">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ia3" style="endArrow=open;endFill=0;html=1;strokeColor=#555555;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="23" target="24">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ia4" style="endArrow=open;endFill=0;html=1;strokeColor=#555555;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="24" target="25">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             COMPONENT: Flask ML Microservice (outer)
+        ══════════════════════════════════════════ -->
+        <mxCell id="30" value="&lt;&lt;component&gt;&gt;  Flask ML Microservice"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#000000;strokeWidth=2;fontSize=14;fontStyle=1;fontColor=#000000;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="920" y="175" width="430" height="385" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-component: REST API -->
+        <mxCell id="31" value="&lt;&lt;component&gt;&gt;&#xa;REST API (app.py)&#xa;GET /health · POST /predict&#xa;POST /train/start · GET /train/status · POST /train/reload"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="940" y="220" width="390" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-component: ML Pipeline -->
+        <mxCell id="32" value="&lt;&lt;component&gt;&gt;&#xa;ML Pipeline (ml/src/)&#xa;preprocess.py · predictor.py · trainer.py · training_status.py"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="940" y="335" width="390" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-component: Model Store -->
+        <mxCell id="33" value="&lt;&lt;component&gt;&gt;&#xa;Model Store&#xa;model.pkl · model_meta.json · config.json"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="940" y="435" width="390" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Internal flask arrows -->
+        <mxCell id="ib1" style="endArrow=open;endFill=0;html=1;strokeColor=#555555;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="31" target="32">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="ib2" style="endArrow=open;endFill=0;html=1;strokeColor=#555555;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="32" target="33">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             COMPONENT: MySQL Database
+        ══════════════════════════════════════════ -->
+        <mxCell id="40" value="&lt;&lt;component&gt;&gt;&#xa;MySQL 8 Database&#xa;fni_db"
+          style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#ffffff;strokeColor=#000000;fontSize=13;fontStyle=1;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="500" y="790" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             COMPONENT: External Web
+        ══════════════════════════════════════════ -->
+        <mxCell id="50" value="&lt;&lt;component&gt;&gt;&#xa;External Web&#xa;(News URLs · HTTPS)"
+          style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="570" width="170" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             INTERFACE CONNECTORS
+        ══════════════════════════════════════════ -->
+
+        <!-- Browser ←→ Laravel: Web Interface (HTTP) -->
+        <mxCell id="c1" value="Web Interface&#xa;(HTTP / Blade)"
+          style="endArrow=open;startArrow=open;startFill=0;endFill=0;html=1;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=11;fontStyle=1;"
+          edge="1" parent="1" source="10" target="20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel Services ←→ Flask: ML API Interface -->
+        <mxCell id="c2" value="ML API Interface&#xa;(HTTP JSON)"
+          style="endArrow=open;startArrow=open;startFill=0;endFill=0;html=1;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=11;fontStyle=1;"
+          edge="1" parent="1" source="23" target="30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel Models ←→ MySQL: DB Interface -->
+        <mxCell id="c3" value="Database Interface&#xa;(Eloquent / PDO)"
+          style="endArrow=open;startArrow=open;startFill=0;endFill=0;html=1;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=11;fontStyle=1;"
+          edge="1" parent="1" source="25" target="40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel ArticleExtraction → External Web -->
+        <mxCell id="c4" value="HTTPS Fetch&#xa;(SSRF-safe)"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;strokeWidth=1;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1" source="23" target="50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

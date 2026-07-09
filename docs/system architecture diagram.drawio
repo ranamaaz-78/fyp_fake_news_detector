@@ -1,0 +1,267 @@
+<mxfile host="app.diagrams.net" agent="FNI-FYP" version="24.7.17">
+  <diagram id="fni-system-architecture" name="FNI System Architecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="FNI — Fake News Identification&#xa;System Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="480" y="20" width="640" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== CLIENT LAYER ========== -->
+        <mxCell id="client-layer" value="Client Layer" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="1520" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="browser" value="Web Browser&#xa;(Chrome / Firefox / Edge)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="client-layer">
+          <mxGeometry x="40" y="40" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="guest" value="Guest User&#xa;News check (no login)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="client-layer">
+          <mxGeometry x="320" y="40" width="180" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="user" value="Registered User&#xa;History · Profile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="client-layer">
+          <mxGeometry x="560" y="40" width="180" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="admin" value="Admin User&#xa;Dashboard · Training · Audit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="client-layer">
+          <mxGeometry x="800" y="40" width="200" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== LARAVEL WEB APPLICATION ========== -->
+        <mxCell id="laravel-box" value="Laravel 12 Web Application (Port 8000)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="40" y="240" width="900" height="520" as="geometry"/>
+        </mxCell>
+
+        <!-- Presentation -->
+        <mxCell id="presentation" value="Presentation Layer" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;startSize=24;" vertex="1" parent="laravel-box">
+          <mxGeometry x="20" y="40" width="860" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="blade" value="Blade Templates&#xa;(FNI Design System)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="presentation">
+          <mxGeometry x="20" y="35" width="160" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="tailwind" value="Tailwind CSS&#xa;+ Alpine.js" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="presentation">
+          <mxGeometry x="200" y="35" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="vite" value="Vite 7&#xa;(Asset Build)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="presentation">
+          <mxGeometry x="360" y="35" width="120" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="breeze" value="Laravel Breeze&#xa;(Auth UI)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="presentation">
+          <mxGeometry x="500" y="35" width="140" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Controllers -->
+        <mxCell id="controllers" value="Controllers" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;startSize=24;" vertex="1" parent="laravel-box">
+          <mxGeometry x="20" y="155" width="420" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="news-ctrl" value="NewsCheckController&#xa;GET / · POST /check" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="controllers">
+          <mxGeometry x="15" y="35" width="185" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="history-ctrl" value="HistoryController&#xa;/history" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="controllers">
+          <mxGeometry x="215" y="35" width="185" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="admin-ctrl" value="Admin\DashboardController&#xa;/admin/*" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="controllers">
+          <mxGeometry x="15" y="100" width="185" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="training-ctrl" value="Admin\TrainingController&#xa;/admin/training" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="controllers">
+          <mxGeometry x="215" y="100" width="185" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Services -->
+        <mxCell id="services" value="Services" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;startSize=24;" vertex="1" parent="laravel-box">
+          <mxGeometry x="460" y="155" width="420" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="ml-service" value="FakeNewsApiService&#xa;HTTP → /predict, /health" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="services">
+          <mxGeometry x="15" y="35" width="185" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="train-service" value="MlTrainingService&#xa;HTTP → /train/*" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="services">
+          <mxGeometry x="215" y="35" width="185" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="extract-service" value="ArticleExtractionService&#xa;URL fetch + SSRF protection" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="services">
+          <mxGeometry x="15" y="100" width="185" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="audit-service" value="AuditLogger&#xa;Admin action logging" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="services">
+          <mxGeometry x="215" y="100" width="185" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Middleware & Auth -->
+        <mxCell id="middleware" value="Middleware &amp; Auth" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;startSize=24;" vertex="1" parent="laravel-box">
+          <mxGeometry x="20" y="350" width="420" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="auth-mw" value="auth · verified · admin" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="middleware">
+          <mxGeometry x="15" y="35" width="160" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="session" value="Session Auth&#xa;(Database driver)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="middleware">
+          <mxGeometry x="195" y="35" width="160" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- Eloquent Models -->
+        <mxCell id="models" value="Eloquent Models" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;startSize=24;" vertex="1" parent="laravel-box">
+          <mxGeometry x="460" y="350" width="420" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="model-list" value="User · Prediction · AuditLog · Dataset · TrainingJob" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="models">
+          <mxGeometry x="15" y="35" width="390" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- Routes note -->
+        <mxCell id="routes-note" value="Routes: web.php · auth.php  |  Config: config/fni.php (.env)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;fontColor=#666666;" vertex="1" parent="laravel-box">
+          <mxGeometry x="20" y="445" width="860" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== DATABASE ========== -->
+        <mxCell id="mysql" value="MySQL 8 Database&#xa;(fni_db)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="380" width="180" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="db-tables" value="users&#xa;predictions&#xa;audit_logs&#xa;datasets&#xa;training_jobs&#xa;sessions · cache · jobs" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="980" y="510" width="220" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== ML SERVICE ========== -->
+        <mxCell id="ml-box" value="Flask ML Microservice (Port 5000)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="980" y="240" width="580" height="320" as="geometry"/>
+        </mxCell>
+
+        <!-- API Endpoints -->
+        <mxCell id="api" value="REST API (app.py)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;startSize=24;" vertex="1" parent="ml-box">
+          <mxGeometry x="20" y="40" width="540" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ep-health" value="GET /health" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="api">
+          <mxGeometry x="15" y="35" width="100" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="ep-predict" value="POST /predict&#xa;{ text }" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="api">
+          <mxGeometry x="130" y="35" width="110" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="ep-train-start" value="POST /train/start" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="api">
+          <mxGeometry x="255" y="35" width="120" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="ep-train-status" value="GET /train/status" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="api">
+          <mxGeometry x="390" y="35" width="130" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="ep-reload" value="POST /train/reload" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="api">
+          <mxGeometry x="130" y="80" width="120" height="0" as="geometry"/>
+        </mxCell>
+
+        <!-- ML Pipeline -->
+        <mxCell id="ml-pipeline" value="ML Pipeline (ml/src/)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;startSize=24;" vertex="1" parent="ml-box">
+          <mxGeometry x="20" y="145" width="540" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="preprocess" value="preprocess.py&#xa;NLTK · stemming" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="ml-pipeline">
+          <mxGeometry x="15" y="35" width="120" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="predictor" value="predictor.py&#xa;TF-IDF + classifier" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="ml-pipeline">
+          <mxGeometry x="150" y="35" width="130" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="trainer" value="trainer.py&#xa;LR · NB · SVM" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="ml-pipeline">
+          <mxGeometry x="295" y="35" width="110" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="status" value="training_status.py&#xa;JSON progress" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="ml-pipeline">
+          <mxGeometry x="420" y="35" width="110" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- Model & Data -->
+        <mxCell id="model-store" value="Model Store" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;startSize=24;" vertex="1" parent="ml-box">
+          <mxGeometry x="20" y="250" width="260" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="model-pkl" value="model.pkl + model_meta.json" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="model-store">
+          <mxGeometry x="15" y="30" width="230" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="data-store" value="Training Data" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;startSize=24;" vertex="1" parent="ml-box">
+          <mxGeometry x="300" y="250" width="260" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="csv-data" value="Fake.csv · True.csv (Kaggle)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="data-store">
+          <mxGeometry x="15" y="30" width="230" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Output labels -->
+        <mxCell id="output" value="Output: REAL · FAKE · UNCERTAIN&#xa;(threshold &lt; 0.60 → UNCERTAIN)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=2;" vertex="1" parent="ml-box">
+          <mxGeometry x="20" y="315" width="540" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== LEGEND / FLOW NOTES ========== -->
+        <mxCell id="flow-box" value="Key Data Flows" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;fontStyle=1;startSize=24;" vertex="1" parent="1">
+          <mxGeometry x="40" y="790" width="1520" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="flow1" value="① Guest/User submits text or URL → Laravel validates → ArticleExtractionService (if URL) → FakeNewsApiService POST /predict → result page + save Prediction" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;" vertex="1" parent="flow-box">
+          <mxGeometry x="20" y="35" width="1480" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="flow2" value="② Authenticated user views/deletes history → HistoryController → MySQL predictions (scoped by user_id)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;" vertex="1" parent="flow-box">
+          <mxGeometry x="20" y="60" width="1480" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="flow3" value="③ Admin uploads CSVs → TrainingController → MlTrainingService POST /train/start → Flask subprocess trains → poll /train/status → POST /train/reload" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;" vertex="1" parent="flow-box">
+          <mxGeometry x="20" y="85" width="1480" height="25" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== CONNECTIONS ========== -->
+
+        <!-- Browser to Laravel -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#333333;" edge="1" parent="1" source="browser" target="laravel-box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1-label" value="HTTP (Blade pages)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="e1">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry">
+            <mxPoint as="offset"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Laravel to MySQL -->
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#b85450;dashed=0;" edge="1" parent="1" source="laravel-box" target="mysql">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2-label" value="Eloquent ORM&#xa;(PDO MySQL)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="e2">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Laravel to Flask (predict) -->
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="ml-service" target="ep-predict">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="920" y="290"/>
+              <mxPoint x="920" y="290"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3-label" value="HTTP JSON&#xa;POST /predict" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=1;" vertex="1" connectable="0" parent="e3">
+          <mxGeometry x="0.1" relative="1" as="geometry">
+            <mxPoint as="offset"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Laravel to Flask (train) -->
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d6b656;dashed=1;" edge="1" parent="1" source="train-service" target="ep-train-start">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="320"/>
+              <mxPoint x="960" y="320"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4-label" value="Admin training&#xa;/train/*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="e4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Extract service to external URL -->
+        <mxCell id="external" value="External News URLs&#xa;(HTTPS fetch)" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="640" width="160" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#666666;dashed=1;" edge="1" parent="1" source="extract-service" target="external">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5-label" value="SSRF-safe fetch" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="e5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Tech stack footer -->
+        <mxCell id="footer" value="Stack: Laravel 12 · PHP 8.2 · MySQL 8 · Flask 3 · Scikit-learn · NLTK · Tailwind · Alpine.js · Vite 7  |  Tests: PHPUnit · pytest" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;fontColor=#999999;" vertex="1" parent="1">
+          <mxGeometry x="40" y="940" width="1520" height="30" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

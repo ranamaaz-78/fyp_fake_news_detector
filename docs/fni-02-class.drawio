@@ -1,0 +1,239 @@
+<mxfile host="app.diagrams.net" version="24.7.17">
+  <diagram id="class-diagram" name="Class Diagram">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="2" value="FNI — Class Diagram"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=20;fontStyle=1;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="400" y="18" width="800" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Zone labels -->
+        <mxCell id="3" value="Domain Models"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;fontStyle=3;fontColor=#777777;"
+          vertex="1" parent="1">
+          <mxGeometry x="100" y="60" width="900" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Service Layer"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=11;fontStyle=3;fontColor=#777777;"
+          vertex="1" parent="1">
+          <mxGeometry x="1270" y="60" width="220" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Vertical divider separating models from services -->
+        <mxCell id="5" value=""
+          style="endArrow=none;html=1;strokeColor=#aaaaaa;dashed=1;strokeWidth=1;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1240" y="55" as="sourcePoint" />
+            <mxPoint x="1240" y="970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             CLASS: User  (x=560, y=80)
+        ══════════════════════════════════════════ -->
+        <!-- name -->
+        <mxCell id="100" value="User"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=13;align=center;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="560" y="80" width="240" height="32" as="geometry" />
+        </mxCell>
+        <!-- attributes -->
+        <mxCell id="101" value="- id: bigInt&#xa;- name: string&#xa;- username: string (unique)&#xa;- email: string&#xa;- role: enum (user | admin)&#xa;- is_active: boolean&#xa;- email_verified_at: datetime&#xa;- password: string"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="560" y="112" width="240" height="148" as="geometry" />
+        </mxCell>
+        <!-- methods -->
+        <mxCell id="102" value="+ isAdmin(): bool&#xa;+ predictions(): HasMany&#xa;+ auditLogs(): HasMany"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="560" y="260" width="240" height="58" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             CLASS: Prediction  (x=110, y=400)
+        ══════════════════════════════════════════ -->
+        <mxCell id="110" value="Prediction"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=13;align=center;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="110" y="400" width="260" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="111" value="- id: bigInt&#xa;- user_id: bigInt (nullable FK)&#xa;- input_text: text&#xa;- result: enum (REAL | FAKE | UNCERTAIN)&#xa;- confidence: float&#xa;- confidence_level: string&#xa;- model_used: string&#xa;- created_at: datetime"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="110" y="432" width="260" height="148" as="geometry" />
+        </mxCell>
+        <mxCell id="112" value="+ user(): BelongsTo"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="110" y="580" width="260" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             CLASS: AuditLog  (x=930, y=400)
+        ══════════════════════════════════════════ -->
+        <mxCell id="120" value="AuditLog"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=13;align=center;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="930" y="400" width="260" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="121" value="- id: bigInt&#xa;- user_id: bigInt (FK)&#xa;- action: string&#xa;- target_type: string&#xa;- target_id: bigInt&#xa;- metadata: json&#xa;- ip_address: string&#xa;- created_at: datetime"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="930" y="432" width="260" height="148" as="geometry" />
+        </mxCell>
+        <mxCell id="122" value="+ user(): BelongsTo"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="930" y="580" width="260" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             CLASS: Dataset  (x=110, y=680)
+        ══════════════════════════════════════════ -->
+        <mxCell id="130" value="Dataset"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=13;align=center;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="110" y="680" width="240" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="131" value="- id: bigInt&#xa;- name: string&#xa;- file_path: string&#xa;- file_size: integer&#xa;- row_count: integer&#xa;- uploaded_by: bigInt (FK → users)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="110" y="712" width="240" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             CLASS: TrainingJob  (x=555, y=680)
+        ══════════════════════════════════════════ -->
+        <mxCell id="140" value="TrainingJob"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=13;align=center;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="555" y="680" width="260" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="141" value="- id: bigInt&#xa;- status: enum&#xa;- progress: integer&#xa;- metrics: json&#xa;- fake_csv_path: string&#xa;- true_csv_path: string&#xa;- started_at: datetime&#xa;- completed_at: datetime"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="555" y="712" width="260" height="148" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             SERVICE: FakeNewsApiService  (x=1280, y=80)
+        ══════════════════════════════════════════ -->
+        <mxCell id="200" value="&lt;&lt;service&gt;&gt;&#xa;FakeNewsApiService"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;align=center;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="1280" y="80" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="201" value="+ predict(text: string): array&#xa;+ checkHealth(): bool"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="1280" y="120" width="220" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             SERVICE: MlTrainingService  (x=1280, y=240)
+        ══════════════════════════════════════════ -->
+        <mxCell id="210" value="&lt;&lt;service&gt;&gt;&#xa;MlTrainingService"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;align=center;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="1280" y="240" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="211" value="+ startTraining(fake, true): bool&#xa;+ getStatus(): array&#xa;+ reloadModel(): bool"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="1280" y="280" width="220" height="58" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             SERVICE: ArticleExtractionService  (x=1280, y=410)
+        ══════════════════════════════════════════ -->
+        <mxCell id="220" value="&lt;&lt;service&gt;&gt;&#xa;ArticleExtractionService"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;align=center;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="1280" y="410" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="221" value="+ extract(url: string): string"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="1280" y="450" width="220" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             SERVICE: AuditLogger  (x=1280, y=550)
+        ══════════════════════════════════════════ -->
+        <mxCell id="230" value="&lt;&lt;service&gt;&gt;&#xa;AuditLogger"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;align=center;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="1280" y="550" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="231" value="+ log(user, action, meta): void"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;align=left;spacingLeft=6;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="1280" y="590" width="220" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             RELATIONSHIPS
+        ══════════════════════════════════════════ -->
+
+        <!-- User 1 ──── 0..* Prediction (user_id) -->
+        <mxCell id="r1" value="1          0..*"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;"
+          edge="1" parent="1" source="100" target="110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r1-lbl" value="checks" style="edgeLabel;html=1;align=center;fontSize=10;resizable=0;fontColor=#000000;" vertex="1" connectable="0" parent="r1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- User 1 ──── 0..* AuditLog (user_id) -->
+        <mxCell id="r2" value="1          0..*"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;"
+          edge="1" parent="1" source="100" target="120">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r2-lbl" value="logs" style="edgeLabel;html=1;align=center;fontSize=10;resizable=0;fontColor=#000000;" vertex="1" connectable="0" parent="r2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- User 1 ──── 0..* Dataset (uploaded_by) -->
+        <mxCell id="r3" value="1          0..*"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1" source="100" target="130">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3-lbl" value="uploads" style="edgeLabel;html=1;align=center;fontSize=10;resizable=0;fontColor=#000000;" vertex="1" connectable="0" parent="r3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- FakeNewsApiService ..> Prediction (creates) -->
+        <mxCell id="r4" value="&lt;&lt;creates&gt;&gt;"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=10;"
+          edge="1" parent="1" source="200" target="110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- MlTrainingService ..> TrainingJob (manages) -->
+        <mxCell id="r5" value="&lt;&lt;manages&gt;&gt;"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=10;"
+          edge="1" parent="1" source="210" target="140">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- AuditLogger ..> AuditLog (writes) -->
+        <mxCell id="r6" value="&lt;&lt;writes&gt;&gt;"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=10;"
+          edge="1" parent="1" source="230" target="120">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

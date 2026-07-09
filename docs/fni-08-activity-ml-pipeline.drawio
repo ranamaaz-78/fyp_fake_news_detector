@@ -1,0 +1,255 @@
+<mxfile host="app.diagrams.net" version="24.7.17">
+  <diagram id="activity-ml" name="Activity: ML Pipeline">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="960" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="2" value="FNI — Activity Diagram: ML Pipeline"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=18;fontStyle=1;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="300" y="15" width="800" height="38" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ SWIM LANE BORDERS ══════════ -->
+        <mxCell id="slL" value="Prediction Pipeline  (runtime)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#000000;verticalAlign=top;align=center;"
+          vertex="1" parent="1">
+          <mxGeometry x="15" y="58" width="650" height="870" as="geometry" />
+        </mxCell>
+        <mxCell id="slR" value="Training Pipeline  (admin-triggered)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=2;fontSize=13;fontStyle=1;fontColor=#000000;verticalAlign=top;align=center;"
+          vertex="1" parent="1">
+          <mxGeometry x="720" y="58" width="660" height="870" as="geometry" />
+        </mxCell>
+
+        <!-- ════════════════════════════════════
+             LEFT LANE — PREDICTION PIPELINE
+        ════════════════════════════════════ -->
+
+        <!-- Start -->
+        <mxCell id="ps" value=""
+          style="shape=mxgraph.flowchart.start_2;fillColor=#000000;strokeColor=#000000;fontColor=#ffffff;"
+          vertex="1" parent="1">
+          <mxGeometry x="305" y="100" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Activities -->
+        <mxCell id="pa1" value="Receive input text"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="205" y="168" width="240" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pa2" value="Preprocess text&#xa;strip HTML/URLs · lowercase · tokenize&#xa;remove stopwords (NLTK) · Porter stemming"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="170" y="240" width="310" height="66" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pa3" value="TF-IDF Vectorization  (max 5000 features)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="175" y="334" width="300" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pa4" value="Feed to LinearSVC Classifier"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="195" y="406" width="260" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pa5" value="Compute class probabilities&#xa;(REAL, FAKE)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="195" y="478" width="260" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Decision -->
+        <mxCell id="pd1" value="max(probability)&#xa;≥ 0.60 ?"
+          style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="245" y="548" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- YES branch -->
+        <mxCell id="pa6" value="Assign REAL or FAKE&#xa;(argmax of probabilities)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="80" y="660" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- NO branch -->
+        <mxCell id="pa7" value="Assign UNCERTAIN"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="445" y="660" width="185" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Merge (invisible join point) -->
+        <mxCell id="pm" value=""
+          style="rhombus;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="305" y="737" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pa8" value="Return { label, confidence, confidence_level, model }"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="165" y="805" width="320" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- End -->
+        <mxCell id="pe" value=""
+          style="shape=doubleEllipse;fillColor=#000000;strokeColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="305" y="875" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- LEFT LANE ARROWS -->
+        <mxCell id="pa_e1" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ps" target="pa1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pa_e2" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa1" target="pa2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pa_e3" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa2" target="pa3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pa_e4" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa3" target="pa4"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pa_e5" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa4" target="pa5"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pa_e6" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa5" target="pd1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <!-- YES branch (left) -->
+        <mxCell id="pa_e7" value="YES" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontSize=11;fontColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="pd1" target="pa6"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <!-- NO branch (right) -->
+        <mxCell id="pa_e8" value="NO" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontSize=11;fontColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="pd1" target="pa7"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <!-- YES → merge -->
+        <mxCell id="pa_e9" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa6" target="pm"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <!-- NO → merge -->
+        <mxCell id="pa_e10" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa7" target="pm"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pa_e11" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="pm" target="pa8"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pa_e12" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa8" target="pe"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- ════════════════════════════════════
+             RIGHT LANE — TRAINING PIPELINE
+        ════════════════════════════════════ -->
+
+        <!-- Start -->
+        <mxCell id="ts" value=""
+          style="shape=mxgraph.flowchart.start_2;fillColor=#000000;strokeColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="1025" y="100" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ta1" value="Load Fake.csv + True.csv  (admin upload)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="870" y="168" width="310" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ta2" value="Label data  (REAL = 0 · FAKE = 1)  +  merge"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="870" y="240" width="310" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ta3" value="Preprocess all texts  (same pipeline as left lane)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="870" y="312" width="310" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ta4" value="Stratified 80 / 20 train-test split"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="870" y="384" width="310" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ta5" value="TF-IDF fit_transform on training set"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="870" y="456" width="310" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- Fork bar -->
+        <mxCell id="tfork" value=""
+          style="shape=mxgraph.uml.fork_bar;fillColor=#000000;strokeColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="840" y="522" width="370" height="8" as="geometry" />
+        </mxCell>
+
+        <!-- Parallel activities -->
+        <mxCell id="ta6a" value="Logistic&#xa;Regression"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="740" y="550" width="140" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="ta6b" value="Naive Bayes&#xa;(Multinomial)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="955" y="550" width="140" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="ta6c" value="Linear SVM&#xa;(LinearSVC)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="1170" y="550" width="135" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- Join bar -->
+        <mxCell id="tjoin" value=""
+          style="shape=mxgraph.uml.fork_bar;fillColor=#000000;strokeColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="840" y="618" width="370" height="8" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ta7" value="Evaluate each model on test set  (weighted F1 score)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="840" y="645" width="370" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ta8" value="Select best model  (highest weighted F1)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="870" y="717" width="310" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ta9" value="Save model.pkl  +  model_meta.json  +  update training_status.json"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="820" y="789" width="410" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- End -->
+        <mxCell id="te" value=""
+          style="shape=doubleEllipse;fillColor=#000000;strokeColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="1025" y="867" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- RIGHT LANE ARROWS -->
+        <mxCell id="ta_e1" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ts" target="ta1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e2" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ta1" target="ta2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e3" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ta2" target="ta3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e4" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ta3" target="ta4"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e5" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ta4" target="ta5"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e6" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ta5" target="tfork"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <!-- Fork → 3 models -->
+        <mxCell id="ta_e7a" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;" edge="1" parent="1" source="tfork" target="ta6a"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e7b" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;" edge="1" parent="1" source="tfork" target="ta6b"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e7c" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;" edge="1" parent="1" source="tfork" target="ta6c"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <!-- 3 models → join -->
+        <mxCell id="ta_e8a" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;" edge="1" parent="1" source="ta6a" target="tjoin"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e8b" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;" edge="1" parent="1" source="ta6b" target="tjoin"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e8c" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;" edge="1" parent="1" source="ta6c" target="tjoin"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e9" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="tjoin" target="ta7"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e10" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ta7" target="ta8"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e11" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ta8" target="ta9"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ta_e12" style="endArrow=block;endFill=1;html=1;strokeColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ta9" target="te"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Legend -->
+        <mxCell id="leg1" value="● filled circle = initial state   ◎ double circle = final state   ▬ fork/join bar = parallel flows"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;fontStyle=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="100" y="935" width="900" height="18" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

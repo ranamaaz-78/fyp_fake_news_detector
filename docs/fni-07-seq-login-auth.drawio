@@ -1,0 +1,209 @@
+<mxfile host="app.diagrams.net" version="24.7.17">
+  <diagram id="seq-login-auth" name="Sequence: Login &amp; Auth">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="940" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="2" value="FNI — Sequence Diagram: User Login &amp; Email Verification Flow"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=18;fontStyle=1;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="15" width="1000" height="38" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ LIFELINE HEADERS
+             Centers: Browser=85  Router=265  LoginReq=450  Auth=635  DB=820
+        ═══════════════════════════════════════════════════════ -->
+        <mxCell id="L1" value="Browser"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="5" y="60" width="160" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="L2" value="Router +&#xa;Auth Controllers"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="185" y="60" width="160" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="L3" value="Login&#xa;Request"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="370" y="60" width="160" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="L4" value="Auth Guard&#xa;(Session)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="555" y="60" width="160" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="L5" value="Database&#xa;(User model)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="740" y="60" width="160" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ LIFELINE VERTICALS ══════════ -->
+        <mxCell id="v1" style="endArrow=none;dashed=1;strokeColor=#000000;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="85" y="108" as="sourcePoint"/><mxPoint x="85" y="910" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="v2" style="endArrow=none;dashed=1;strokeColor=#000000;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="265" y="108" as="sourcePoint"/><mxPoint x="265" y="910" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="v3" style="endArrow=none;dashed=1;strokeColor=#000000;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="450" y="108" as="sourcePoint"/><mxPoint x="450" y="910" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="v4" style="endArrow=none;dashed=1;strokeColor=#000000;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="635" y="108" as="sourcePoint"/><mxPoint x="635" y="910" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="v5" style="endArrow=none;dashed=1;strokeColor=#000000;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="820" y="108" as="sourcePoint"/><mxPoint x="820" y="910" as="targetPoint"/></mxGeometry></mxCell>
+
+        <!-- ══════════ PART A: LOGIN ══════════ -->
+        <mxCell id="a_lbl" value="Part A — Login"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;fontStyle=1;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="8" y="128" width="120" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m1" value="GET /login"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="85" y="155" as="sourcePoint"/><mxPoint x="265" y="155" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="login form (HTML)"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="265" y="183" as="sourcePoint"/><mxPoint x="85" y="183" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="m3" value="POST /login  {email, password}"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="85" y="218" as="sourcePoint"/><mxPoint x="265" y="218" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="authorize()  — validate form rules + rate limit"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="265" y="250" as="sourcePoint"/><mxPoint x="450" y="250" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="attempt(email, password)"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="450" y="282" as="sourcePoint"/><mxPoint x="635" y="282" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m6" value="find user by email"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="635" y="314" as="sourcePoint"/><mxPoint x="820" y="314" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m7" value="user record"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="820" y="346" as="sourcePoint"/><mxPoint x="635" y="346" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- Auth Guard note: check is_active -->
+        <mxCell id="n1" value="check password hash&#xa;check is_active = true"
+          style="shape=note;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=10;fontColor=#000000;size=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="647" y="354" width="165" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- ALT frame: active vs inactive -->
+        <mxCell id="altf" value="alt  [is_active = true]  /  [is_active = false → abort 403]"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;dashed=1;strokeWidth=1;fontSize=10;fontStyle=1;fontColor=#000000;verticalAlign=top;align=left;spacingLeft=6;"
+          vertex="1" parent="1">
+          <mxGeometry x="265" y="400" width="600" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m8" value="authenticated"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="635" y="425" as="sourcePoint"/><mxPoint x="450" y="425" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m9" value="regenerate session"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="450" y="455" as="sourcePoint"/><mxPoint x="635" y="455" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="302 redirect → /dashboard"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="265" y="520" as="sourcePoint"/><mxPoint x="85" y="520" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- Separator -->
+        <mxCell id="sep" value=""
+          style="endArrow=none;html=1;strokeColor=#cccccc;strokeWidth=1;dashed=1;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="8" y="550" as="sourcePoint"/><mxPoint x="1090" y="550" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- ══════════ PART B: EMAIL VERIFICATION ══════════ -->
+        <mxCell id="b_lbl" value="Part B — Email Verification (verified middleware)"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=11;fontStyle=1;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="8" y="560" width="340" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m11" value="GET /dashboard"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="85" y="590" as="sourcePoint"/><mxPoint x="265" y="590" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- OPT frame: not verified -->
+        <mxCell id="optf" value="opt  [email_verified_at = null]"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;dashed=1;strokeWidth=1;fontSize=10;fontStyle=1;fontColor=#000000;verticalAlign=top;align=left;spacingLeft=6;"
+          vertex="1" parent="1">
+          <mxGeometry x="85" y="608" width="580" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m12" value="302 redirect → /verify-email"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="265" y="632" as="sourcePoint"/><mxPoint x="85" y="632" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m13" value="POST /email/verification-notification"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="85" y="663" as="sourcePoint"/><mxPoint x="265" y="663" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m14" value="send verification email (Mailable)"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="265" y="690" as="sourcePoint"/><mxPoint x="450" y="690" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m15" value="email sent"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="265" y="718" as="sourcePoint"/><mxPoint x="85" y="718" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- User clicks link -->
+        <mxCell id="clk" value="(user clicks verification link in email)"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;fontStyle=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="85" y="760" width="350" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m16" value="GET /verify-email/{id}/{hash}"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="85" y="788" as="sourcePoint"/><mxPoint x="265" y="788" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m17" value="verify signature + markEmailAsVerified()"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="265" y="818" as="sourcePoint"/><mxPoint x="635" y="818" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m18" value="UPDATE users SET email_verified_at = now()"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="635" y="848" as="sourcePoint"/><mxPoint x="820" y="848" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m19" value="ok"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="820" y="874" as="sourcePoint"/><mxPoint x="635" y="874" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="m20" value="302 redirect → /dashboard  (verified)"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="265" y="900" as="sourcePoint"/><mxPoint x="85" y="900" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

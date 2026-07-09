@@ -1,0 +1,259 @@
+<mxfile host="app.diagrams.net" version="24.7.17">
+  <diagram id="use-case" name="Use Case Diagram">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="2" value="FNI — Use Case Diagram"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=20;fontStyle=1;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="300" y="18" width="800" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- SYSTEM BOUNDARY -->
+        <mxCell id="3" value="&lt;&lt;System&gt;&gt;  FNI — Fake News Identification"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=2;dashed=1;fontSize=13;fontStyle=1;verticalAlign=top;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="190" y="72" width="950" height="870" as="geometry" />
+        </mxCell>
+
+        <!-- Internal dividers -->
+        <!-- Vertical: separates user UCs (left) from admin UCs (right) -->
+        <mxCell id="4" value=""
+          style="endArrow=none;html=1;strokeColor=#aaaaaa;dashed=1;strokeWidth=1;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="660" y="72" as="sourcePoint" />
+            <mxPoint x="660" y="942" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Horizontal: separates public from authenticated UCs -->
+        <mxCell id="5" value=""
+          style="endArrow=none;html=1;strokeColor=#aaaaaa;dashed=1;strokeWidth=1;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="190" y="316" as="sourcePoint" />
+            <mxPoint x="660" y="316" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Zone labels -->
+        <mxCell id="6" value="Public"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontStyle=3;fontColor=#777777;"
+          vertex="1" parent="1">
+          <mxGeometry x="197" y="293" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="Authenticated"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontStyle=3;fontColor=#777777;"
+          vertex="1" parent="1">
+          <mxGeometry x="197" y="322" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="Admin Only"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontStyle=3;fontColor=#777777;"
+          vertex="1" parent="1">
+          <mxGeometry x="668" y="78" width="100" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ ACTORS ══════════ -->
+
+        <!-- Guest User -->
+        <mxCell id="10" value="Guest User"
+          style="shape=mxgraph.uml.actor2;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="100" y="170" width="50" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Registered User -->
+        <mxCell id="11" value="Registered User"
+          style="shape=mxgraph.uml.actor2;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="100" y="550" width="50" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Admin User -->
+        <mxCell id="12" value="Admin User"
+          style="shape=mxgraph.uml.actor2;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="1205" y="460" width="50" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ PUBLIC USE CASES ══════════ -->
+
+        <mxCell id="20" value="Check News (Text / URL)"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="240" y="162" width="215" height="52" as="geometry" />
+        </mxCell>
+
+        <mxCell id="21" value="View Result (REAL / FAKE / UNCERTAIN)"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="240" y="238" width="215" height="52" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ AUTHENTICATED USE CASES ══════════ -->
+
+        <mxCell id="22" value="Register"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="255" y="340" width="160" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="23" value="Login"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="255" y="402" width="160" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="24" value="View History"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="255" y="464" width="160" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="25" value="Delete History"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="255" y="526" width="160" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="26" value="Recheck Article"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="255" y="588" width="160" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="27" value="Update Profile"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="255" y="650" width="160" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="28" value="Delete Account"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="255" y="712" width="160" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ ADMIN USE CASES ══════════ -->
+
+        <mxCell id="30" value="View Dashboard"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="800" y="155" width="210" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="31" value="Manage Users (Search / Filter)"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="800" y="225" width="210" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="32" value="Toggle User Active Status"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="800" y="302" width="210" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="33" value="View All Predictions"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="800" y="373" width="210" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="34" value="View Audit Log"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="800" y="444" width="210" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="35" value="Upload Dataset (Fake.csv / True.csv)"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="800" y="515" width="210" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="36" value="Train ML Model"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="800" y="590" width="210" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="37" value="Monitor Training Status"
+          style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="800" y="660" width="210" height="46" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ ASSOCIATIONS — Guest ══════════ -->
+        <mxCell id="e10" style="endArrow=none;html=1;strokeColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="10" target="20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" style="endArrow=none;html=1;strokeColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="10" target="21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ ASSOCIATIONS — Registered User ══════════ -->
+        <mxCell id="e20" style="endArrow=none;html=1;strokeColor=#000000;" edge="1" parent="1" source="11" target="20"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e21" style="endArrow=none;html=1;strokeColor=#000000;" edge="1" parent="1" source="11" target="21"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e22" style="endArrow=none;html=1;strokeColor=#000000;" edge="1" parent="1" source="11" target="22"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e23" style="endArrow=none;html=1;strokeColor=#000000;" edge="1" parent="1" source="11" target="23"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e24" style="endArrow=none;html=1;strokeColor=#000000;" edge="1" parent="1" source="11" target="24"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e25" style="endArrow=none;html=1;strokeColor=#000000;" edge="1" parent="1" source="11" target="25"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e26" style="endArrow=none;html=1;strokeColor=#000000;" edge="1" parent="1" source="11" target="26"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e27" style="endArrow=none;html=1;strokeColor=#000000;" edge="1" parent="1" source="11" target="27"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e28" style="endArrow=none;html=1;strokeColor=#000000;" edge="1" parent="1" source="11" target="28"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- ══════════ ASSOCIATIONS — Admin ══════════ -->
+        <mxCell id="e30" style="endArrow=none;html=1;strokeColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="12" target="30"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e31" style="endArrow=none;html=1;strokeColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="12" target="31"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e32" style="endArrow=none;html=1;strokeColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="12" target="32"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e33" style="endArrow=none;html=1;strokeColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="12" target="33"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e34" style="endArrow=none;html=1;strokeColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="12" target="34"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e35" style="endArrow=none;html=1;strokeColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="12" target="35"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e36" style="endArrow=none;html=1;strokeColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="12" target="36"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e37" style="endArrow=none;html=1;strokeColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="12" target="37"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- ══════════ EXTEND / INCLUDE ══════════ -->
+
+        <!-- <<extend>>: Recheck extends Check News -->
+        <mxCell id="ext1" value="&lt;&lt;extend&gt;&gt;"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=10;"
+          edge="1" parent="1" source="26" target="20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- <<include>>: Train Model includes Upload Dataset -->
+        <mxCell id="inc1" value="&lt;&lt;include&gt;&gt;"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=10;"
+          edge="1" parent="1" source="36" target="35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- <<include>>: Train Model includes Monitor Status -->
+        <mxCell id="inc2" value="&lt;&lt;include&gt;&gt;"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=10;"
+          edge="1" parent="1" source="36" target="37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- <<include>>: View Result included by Check News -->
+        <mxCell id="inc3" value="&lt;&lt;include&gt;&gt;"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=10;"
+          edge="1" parent="1" source="20" target="21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- <<extend>>: Toggle extends Manage Users -->
+        <mxCell id="ext2" value="&lt;&lt;extend&gt;&gt;"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=10;"
+          edge="1" parent="1" source="32" target="31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

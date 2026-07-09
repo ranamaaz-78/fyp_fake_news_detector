@@ -1,0 +1,178 @@
+<mxfile host="app.diagrams.net" version="24.7.17">
+  <diagram id="deployment-diagram" name="Deployment Diagram">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="2" value="FNI — Deployment Diagram"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=20;fontStyle=1;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="300" y="18" width="800" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             NODE: Client Device
+        ══════════════════════════════════════════ -->
+        <mxCell id="10" value="&lt;&lt;device&gt;&gt;&#xa;Client Machine"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#000000;strokeWidth=2;fontSize=14;fontStyle=1;fontColor=#000000;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="300" width="200" height="160" as="geometry" />
+        </mxCell>
+        <!-- Artifact: Web Browser -->
+        <mxCell id="11" value="&lt;&lt;artifact&gt;&gt;&#xa;Web Browser"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="70" y="360" width="160" height="50" as="geometry" />
+        </mxCell>
+        <!-- User note -->
+        <mxCell id="12" value="Used by: Guest, Registered User, Admin"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="465" width="200" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             NODE: Application Server
+        ══════════════════════════════════════════ -->
+        <mxCell id="20" value="&lt;&lt;device&gt;&gt;&#xa;Application Server (Windows / WAMP)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#000000;strokeWidth=2;fontSize=14;fontStyle=1;fontColor=#000000;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="330" y="100" width="720" height="690" as="geometry" />
+        </mxCell>
+
+        <!-- ExecutionEnv: Apache HTTP Server -->
+        <mxCell id="21" value="&lt;&lt;executionEnvironment&gt;&gt;&#xa;Apache HTTP Server  (Port 8000 dev / Port 80 prod)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontSize=13;fontStyle=1;fontColor=#000000;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="355" y="165" width="670" height="290" as="geometry" />
+        </mxCell>
+
+        <!-- ExecutionEnv: PHP 8.2 Runtime -->
+        <mxCell id="22" value="&lt;&lt;executionEnvironment&gt;&gt;&#xa;PHP 8.2 Runtime"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#000000;strokeWidth=1;fontSize=12;fontStyle=1;fontColor=#000000;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="375" y="215" width="630" height="210" as="geometry" />
+        </mxCell>
+
+        <!-- Artifact: FNI Laravel App -->
+        <mxCell id="23" value="&lt;&lt;artifact&gt;&gt;  FNI Laravel Application&#xa;&#xa;app/  ·  routes/  ·  resources/views/&#xa;database/  ·  config/  ·  .env"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="395" y="260" width="590" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Artifact: Deployed packages -->
+        <mxCell id="24" value="composer packages: Laravel 12 · Breeze · Guzzle&#xa;npm packages: Tailwind · Alpine.js · Vite"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="395" y="358" width="590" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ExecutionEnv: Python Runtime -->
+        <mxCell id="25" value="&lt;&lt;executionEnvironment&gt;&gt;&#xa;Python 3.10+ Runtime  (Port 5000  ·  localhost only)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontSize=13;fontStyle=1;fontColor=#000000;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="355" y="475" width="670" height="270" as="geometry" />
+        </mxCell>
+
+        <!-- Artifact: Flask ML API -->
+        <mxCell id="26" value="&lt;&lt;artifact&gt;&gt;  Flask ML API&#xa;&#xa;ml/api/app.py  ·  ml/src/  ·  ml/scripts/"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="375" y="530" width="630" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Artifact: model.pkl -->
+        <mxCell id="27" value="&lt;&lt;artifact&gt;&gt;  model.pkl&#xa;LinearSVC · TF-IDF · ~99.78% accuracy"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="375" y="618" width="400" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Artifact: Training data -->
+        <mxCell id="28" value="&lt;&lt;artifact&gt;&gt;  Fake.csv · True.csv&#xa;ml/data/raw/"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#000000;fontSize=12;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="793" y="618" width="215" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- pip packages note -->
+        <mxCell id="29" value="pip packages: Flask 3 · Scikit-learn · NLTK · pandas · joblib"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontColor=#000000;verticalAlign=middle;"
+          vertex="1" parent="1">
+          <mxGeometry x="375" y="696" width="630" height="38" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             NODE: Database Server
+        ══════════════════════════════════════════ -->
+        <mxCell id="30" value="&lt;&lt;device&gt;&gt;&#xa;Database Server (WAMP MySQL)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#000000;strokeWidth=2;fontSize=14;fontStyle=1;fontColor=#000000;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="1130" y="250" width="230" height="280" as="geometry" />
+        </mxCell>
+
+        <!-- ExecutionEnv: MySQL 8 -->
+        <mxCell id="31" value="&lt;&lt;executionEnvironment&gt;&gt;&#xa;MySQL 8.0&#xa;Port: 3306"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontStyle=1;fontColor=#000000;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="1148" y="315" width="194" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Artifact: fni_db -->
+        <mxCell id="32" value="&lt;&lt;artifact&gt;&gt;&#xa;fni_db&#xa;&#xa;users · predictions&#xa;audit_logs · datasets&#xa;training_jobs&#xa;sessions · cache · jobs"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#000000;fontSize=11;fontColor=#000000;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="1148" y="430" width="194" height="88" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════
+             COMMUNICATION PATHS
+        ══════════════════════════════════════════ -->
+
+        <!-- Browser ←→ Apache/Laravel: HTTP -->
+        <mxCell id="c1" value="HTTP / HTTPS"
+          style="endArrow=open;startArrow=open;startFill=0;endFill=0;html=1;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=11;fontStyle=1;"
+          edge="1" parent="1" source="11" target="20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel ←→ Flask: HTTP localhost:5000 -->
+        <mxCell id="c2" value="HTTP localhost:5000&#xa;(internal only)"
+          style="endArrow=open;startArrow=open;startFill=0;endFill=0;html=1;strokeColor=#000000;strokeWidth=1;dashed=1;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1" source="23" target="26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel ←→ MySQL: PDO TCP 3306 -->
+        <mxCell id="c3" value="MySQL / PDO&#xa;TCP Port 3306"
+          style="endArrow=open;startArrow=open;startFill=0;endFill=0;html=1;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontSize=11;fontStyle=1;"
+          edge="1" parent="1" source="20" target="30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- trainer writes model.pkl -->
+        <mxCell id="c4" value="writes / reads"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#555555;strokeWidth=1;dashed=1;fontColor=#555555;fontSize=10;"
+          edge="1" parent="1" source="26" target="27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Port labels -->
+        <mxCell id="p1" value="Port 8000 (dev)&#xa;Port 80 (prod)"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#555555;"
+          vertex="1" parent="1">
+          <mxGeometry x="215" y="330" width="110" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" value="Port 3306"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#555555;"
+          vertex="1" parent="1">
+          <mxGeometry x="1062" y="375" width="70" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,191 @@
+<mxfile host="app.diagrams.net" version="24.7.17">
+  <diagram id="seq-news-check" name="Sequence: News Check">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="920" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="2" value="FNI — Sequence Diagram: Public News Check Flow"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=18;fontStyle=1;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="150" y="15" width="1000" height="38" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ LIFELINE HEADERS (y=60, h=48) ══════════
+             Centers: Browser=85  NCC=270  AES=455  FNA=640  Flask=825  DB=1010
+        ═══════════════════════════════════════════════════════ -->
+        <mxCell id="L1" value="Browser / User"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="5" y="60" width="160" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="L2" value="NewsCheckController"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="190" y="60" width="160" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="L3" value="ArticleExtraction&#xa;Service"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="375" y="60" width="160" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="L4" value="FakeNewsApi&#xa;Service"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="560" y="60" width="160" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="L5" value="Flask ML API&#xa;(Port 5000)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="745" y="60" width="160" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="L6" value="Database&#xa;(MySQL)"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontStyle=1;fontSize=12;fontColor=#000000;"
+          vertex="1" parent="1">
+          <mxGeometry x="930" y="60" width="160" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ LIFELINE VERTICALS (dashed) ══════════ -->
+        <mxCell id="v1" style="endArrow=none;dashed=1;strokeColor=#000000;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="85" y="108" as="sourcePoint"/><mxPoint x="85" y="870" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="v2" style="endArrow=none;dashed=1;strokeColor=#000000;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="270" y="108" as="sourcePoint"/><mxPoint x="270" y="870" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="v3" style="endArrow=none;dashed=1;strokeColor=#000000;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="455" y="108" as="sourcePoint"/><mxPoint x="455" y="870" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="v4" style="endArrow=none;dashed=1;strokeColor=#000000;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="640" y="108" as="sourcePoint"/><mxPoint x="640" y="870" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="v5" style="endArrow=none;dashed=1;strokeColor=#000000;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="825" y="108" as="sourcePoint"/><mxPoint x="825" y="870" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="v6" style="endArrow=none;dashed=1;strokeColor=#000000;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1010" y="108" as="sourcePoint"/><mxPoint x="1010" y="870" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- ══════════ OPT FRAME: URL provided ══════════ -->
+        <mxCell id="f1" value="opt  [URL provided]"
+          style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;dashed=1;strokeWidth=1;fontSize=11;fontStyle=1;fontColor=#000000;verticalAlign=top;align=left;spacingLeft=6;"
+          vertex="1" parent="1">
+          <mxGeometry x="190" y="208" width="650" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════ MESSAGES ══════════ -->
+
+        <!-- 1: Browser → NCC: POST /check -->
+        <mxCell id="m1" value="POST /check  {text | url}"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="85" y="148" as="sourcePoint"/><mxPoint x="270" y="148" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- 2: NCC → NCC self: validate (note) -->
+        <mxCell id="n1" value="validate input&#xa;(min/max chars, regex)"
+          style="shape=note;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=10;fontColor=#000000;size=14;"
+          vertex="1" parent="1">
+          <mxGeometry x="282" y="162" width="170" height="38" as="geometry" />
+        </mxCell>
+
+        <!-- 3: NCC → ArticleExtract: extract(url)  [inside OPT] -->
+        <mxCell id="m3" value="extract(url)"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="270" y="240" as="sourcePoint"/><mxPoint x="455" y="240" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- 4: AES note: SSRF + external fetch -->
+        <mxCell id="n2" value="SSRF check · resolve DNS&#xa;block private IPs · GET URL"
+          style="shape=note;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=10;fontColor=#000000;size=14;"
+          vertex="1" parent="1">
+          <mxGeometry x="467" y="252" width="195" height="38" as="geometry" />
+        </mxCell>
+
+        <!-- 5: AES → NCC: extracted text (return) -->
+        <mxCell id="m5" value="extracted text"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="455" y="352" as="sourcePoint"/><mxPoint x="270" y="352" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- 6: NCC → FakeNewsApi: predict(text) -->
+        <mxCell id="m6" value="predict(text)"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="270" y="418" as="sourcePoint"/><mxPoint x="640" y="418" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- 7: FakeNewsApi → Flask: POST /predict -->
+        <mxCell id="m7" value="POST /predict  {text}"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="640" y="455" as="sourcePoint"/><mxPoint x="825" y="455" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- Flask internal note -->
+        <mxCell id="n3" value="preprocess → TF-IDF&#xa;→ LinearSVC → threshold"
+          style="shape=note;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=10;fontColor=#000000;size=14;"
+          vertex="1" parent="1">
+          <mxGeometry x="837" y="464" width="185" height="38" as="geometry" />
+        </mxCell>
+
+        <!-- 8: Flask → FakeNewsApi: result (return) -->
+        <mxCell id="m8" value="{label, confidence, model}"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="825" y="524" as="sourcePoint"/><mxPoint x="640" y="524" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- 9: FakeNewsApi → NCC: result (return) -->
+        <mxCell id="m9" value="result array"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="640" y="560" as="sourcePoint"/><mxPoint x="270" y="560" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- 10: NCC → DB: Prediction::create() -->
+        <mxCell id="m10" value="Prediction::create({ user_id, text, result, confidence })"
+          style="endArrow=block;endFill=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="270" y="600" as="sourcePoint"/><mxPoint x="1010" y="600" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- 11: DB → NCC: saved (return) -->
+        <mxCell id="m11" value="prediction saved  (user_id nullable for guest)"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1010" y="638" as="sourcePoint"/><mxPoint x="270" y="638" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- 12: NCC → Browser: return view -->
+        <mxCell id="m12" value="return view (result-real | result-fake | result-uncertain)"
+          style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#000000;fontColor=#000000;fontSize=11;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="270" y="680" as="sourcePoint"/><mxPoint x="85" y="680" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <!-- Sequence numbers -->
+        <mxCell id="sn1" value="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;" vertex="1" parent="1"><mxGeometry x="165" y="135" width="20" height="20" as="geometry"/></mxCell>
+        <mxCell id="sn3" value="2" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;" vertex="1" parent="1"><mxGeometry x="350" y="227" width="20" height="20" as="geometry"/></mxCell>
+        <mxCell id="sn5" value="3" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;" vertex="1" parent="1"><mxGeometry x="350" y="339" width="20" height="20" as="geometry"/></mxCell>
+        <mxCell id="sn6" value="4" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;" vertex="1" parent="1"><mxGeometry x="430" y="405" width="20" height="20" as="geometry"/></mxCell>
+        <mxCell id="sn7" value="5" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;" vertex="1" parent="1"><mxGeometry x="720" y="442" width="20" height="20" as="geometry"/></mxCell>
+        <mxCell id="sn8" value="6" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;" vertex="1" parent="1"><mxGeometry x="720" y="511" width="20" height="20" as="geometry"/></mxCell>
+        <mxCell id="sn9" value="7" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;" vertex="1" parent="1"><mxGeometry x="440" y="547" width="20" height="20" as="geometry"/></mxCell>
+        <mxCell id="sn10" value="8" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;" vertex="1" parent="1"><mxGeometry x="620" y="587" width="20" height="20" as="geometry"/></mxCell>
+        <mxCell id="sn11" value="9" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;" vertex="1" parent="1"><mxGeometry x="620" y="625" width="20" height="20" as="geometry"/></mxCell>
+        <mxCell id="sn12" value="10" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#777777;" vertex="1" parent="1"><mxGeometry x="155" y="667" width="20" height="20" as="geometry"/></mxCell>
+
+        <!-- Legend -->
+        <mxCell id="leg" value="——→  request / call     - - →  return / response"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontColor=#777777;fontStyle=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="888" width="400" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
