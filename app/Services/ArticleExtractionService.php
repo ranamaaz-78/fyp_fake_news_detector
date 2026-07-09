@@ -14,12 +14,19 @@ class ArticleExtractionService
         $this->assertSafeUrl($url);
 
         try {
-            $response = Http::timeout(config('fni.url_fetch_timeout'))
+            $request = Http::timeout(config('fni.url_fetch_timeout'))
                 ->withHeaders([
                     'User-Agent' => 'FNI/1.0 (+https://fni.local)',
                     'Accept' => 'text/html,application/xhtml+xml',
-                ])
-                ->get($url);
+                ]);
+
+            $caBundle = config('fni.url_ca_bundle');
+
+            if (is_string($caBundle) && $caBundle !== '' && is_file($caBundle)) {
+                $request->withOptions(['verify' => $caBundle]);
+            }
+
+            $response = $request->get($url);
         } catch (ConnectionException) {
             throw new RuntimeException('Could not reach that URL. Check the link and try again.');
         }

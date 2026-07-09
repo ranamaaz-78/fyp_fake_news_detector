@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="12oHdpoJFzoJjustypBDHDXwA1n0vPCv0BIg0mkh">
+    <title>FNI - Fake News Identifier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="http://127.0.0.1:8000/build/assets/app-DmE6vsyH.css" /><link rel="modulepreload" as="script" href="http://127.0.0.1:8000/build/assets/app-BBPB1kKK.js" /><link rel="stylesheet" href="http://127.0.0.1:8000/build/assets/app-DmE6vsyH.css" /><script type="module" src="http://127.0.0.1:8000/build/assets/app-BBPB1kKK.js"></script></head>
+<body class="min-h-screen bg-background text-on-surface selection:bg-primary-fixed">
+    
+    <nav class="fixed top-0 w-full z-50 fni-glass-nav">
+        <div class="flex justify-between items-center h-16 px-4 md:px-gutter max-w-container-max mx-auto">
+        <div class="flex items-center gap-6 md:gap-8">
+            <a href="http://127.0.0.1:8000" class="text-headline-lg font-bold text-primary">FNI</a>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="http://127.0.0.1:8000"
+                   class="text-body-md pb-1 transition-colors text-primary font-bold border-b-2 border-primary">
+                    Home
+                </a>
+                <a href="http://127.0.0.1:8000#how-it-works"
+                   class="text-body-md text-on-surface-variant hover:text-primary transition-colors">
+                    How It Works
+                </a>
+                            </div>
+        </div>
+        <div class="flex items-center gap-3 md:gap-4">
+                            <a href="http://127.0.0.1:8000/login" class="text-body-md text-on-surface-variant hover:text-primary transition-opacity active:scale-95">Login</a>
+                <a href="http://127.0.0.1:8000/register" class="bg-primary text-on-primary px-4 md:px-6 py-2 rounded-lg text-label-bold hover:opacity-90 active:scale-95 transition-all shadow-sm">Sign-Up</a>
+                    </div>
+    </div>
+</nav>
+
+    <div
+    x-data="fniToaster([])"
+    @toast.window="push($event.detail)"
+    class="fixed top-4 right-4 z-[100] flex w-full max-w-sm flex-col gap-3 px-4 sm:px-0 pointer-events-none"
+    role="region"
+    aria-live="polite"
+    aria-label="Notifications"
+>
+    <template x-for="toast in toasts" :key="toast.id">
+        <div
+            x-show="toast.visible"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 translate-x-10"
+            x-transition:enter-end="opacity-100 translate-x-0"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 translate-x-0"
+            x-transition:leave-end="opacity-0 translate-x-10"
+            @mouseenter="pause(toast)"
+            @mouseleave="resume(toast)"
+            class="pointer-events-auto relative flex items-start gap-3 overflow-hidden rounded-xl border p-4 shadow-fni-lg"
+            :class="styles(toast.type).box"
+            role="alert"
+        >
+            <span
+                class="material-symbols-outlined material-symbols-filled shrink-0 text-[20px] leading-none"
+                :class="styles(toast.type).icon"
+                x-text="styles(toast.type).glyph"
+            ></span>
+
+            <p class="flex-1 text-body-sm leading-snug pt-px" x-text="toast.message"></p>
+
+            <button
+                type="button"
+                @click="dismiss(toast)"
+                class="shrink-0 -mr-1 -mt-1 rounded-full p-1 opacity-60 transition hover:opacity-100 hover:bg-black/5"
+                aria-label="Dismiss notification"
+            >
+                <span class="material-symbols-outlined text-[18px] leading-none" :class="styles(toast.type).icon">close</span>
+            </button>
+
+            <span
+                class="absolute bottom-0 left-0 h-1 origin-left"
+                :class="styles(toast.type).bar"
+                :style="`animation: fni-toast-bar ${toast.duration}ms linear forwards; animation-play-state: ${toast.paused ? 'paused' : 'running'}`"
+            ></span>
+        </div>
+    </template>
+</div>
+
+<style>
+    @keyframes fni-toast-bar {
+        from { width: 100%; }
+        to { width: 0%; }
+    }
+</style>
+<script>
+    function fniToaster(initial = []) {
+        return {
+            toasts: [],
+            seq: 0,
+            init() {
+                (initial || []).forEach((t) => this.push(t));
+            },
+            push(detail) {
+                if (!detail || !detail.message) return;
+
+                const id = ++this.seq;
+                const toast = {
+                    id,
+                    type: detail.type || 'info',
+                    message: detail.message,
+                    duration: detail.duration || 5000,
+                    visible: false,
+                    paused: false,
+                    timer: null,
+                };
+
+                this.toasts.push(toast);
+                this.$nextTick(() => { toast.visible = true; });
+                this.arm(toast);
+            },
+            arm(toast) {
+                toast.timer = setTimeout(() => this.dismiss(toast), toast.duration);
+            },
+            pause(toast) {
+                toast.paused = true;
+                if (toast.timer) { clearTimeout(toast.timer); toast.timer = null; }
+            },
+            resume(toast) {
+                toast.paused = false;
+                if (!toast.timer) this.arm(toast);
+            },
+            dismiss(toast) {
+                toast.visible = false;
+                setTimeout(() => {
+                    this.toasts = this.toasts.filter((t) => t.id !== toast.id);
+                }, 250);
+            },
+            styles(type) {
+                const map = {
+                    success: {
+                        box: 'bg-status-real-light border-status-real/30 text-status-real',
+                        icon: 'text-status-real',
+                        bar: 'bg-status-real/40',
+                        glyph: 'check_circle',
+                    },
+                    error: {
+                        box: 'bg-status-fake-light border-status-fake/30 text-status-fake',
+                        icon: 'text-status-fake',
+                        bar: 'bg-status-fake/40',
+                        glyph: 'error',
+                    },
+                    warning: {
+                        box: 'bg-status-uncertain-light border-status-uncertain/40 text-status-uncertain',
+                        icon: 'text-status-uncertain',
+                        bar: 'bg-status-uncertain/40',
+                        glyph: 'warning',
+                    },
+                    info: {
+                        box: 'bg-trust-blue-light border-primary-fixed text-trust-blue-dark',
+                        icon: 'text-primary',
+                        bar: 'bg-primary/30',
+                        glyph: 'info',
+                    },
+                };
+
+                return map[type] || map.info;
+            },
+        };
+    }
+
+    window.fniToast = function (message, type = 'info', options = {}) {
+        window.dispatchEvent(new CustomEvent('toast', { detail: { message, type, ...options } }));
+    };
+</script>
+
+    <main class="pt-32 pb-stack-lg overflow-x-hidden">
+        <section class="max-w-container-max mx-auto px-4 md:px-gutter text-center">
+    <div class="flex flex-col items-center gap-stack-sm mb-stack-md">
+        <div class="inline-flex items-center gap-2 bg-trust-blue-light text-trust-blue-dark px-3 py-1 rounded-full text-label-caps border border-primary-fixed">
+            <span class="material-symbols-outlined text-base material-symbols-filled">verified</span>
+            AI-POWERED VERIFICATION ENGINE
+        </div>
+        <h1 class="text-headline-xl md:text-headline-xl text-on-surface max-w-2xl">
+            Verify any news in seconds.
+        </h1>
+        <p class="text-body-lg text-on-surface-variant max-w-3xl">
+            Paste a headline, full article text, or a URL — our AI tells you if it's real, fake, or uncertain.
+        </p>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-4 md:gap-6 mb-stack-lg">
+        <div class="flex items-center gap-2 text-on-surface-variant text-label-bold bg-surface-container-low px-4 py-2 rounded-lg">
+            <span class="material-symbols-outlined text-status-real">check_circle</span>
+            85%+ accuracy
+        </div>
+        <div class="flex items-center gap-2 text-on-surface-variant text-label-bold bg-surface-container-low px-4 py-2 rounded-lg">
+            <span class="material-symbols-outlined text-primary">bolt</span>
+            &lt; 3 seconds
+        </div>
+        <div class="flex items-center gap-2 text-on-surface-variant text-label-bold bg-surface-container-low px-4 py-2 rounded-lg">
+            <span class="material-symbols-outlined text-secondary">code</span>
+            Free &amp; open-source
+        </div>
+    </div>
+
+    <div class="max-w-card-max mx-auto text-left" x-data="newsCheckForm('text')">
+        <div class="bg-surface-container-lowest rounded-xl shadow-fni border border-outline-variant overflow-hidden">
+            <div class="flex border-b border-outline-variant">
+                <button
+                    type="button"
+                    @click="activeTab = 'text'"
+                    :class="activeTab === 'text' ? 'text-primary active-tab-border' : 'text-on-surface-variant hover:text-primary'"
+                    class="flex-1 py-4 text-label-bold transition-all flex items-center justify-center gap-2"
+                >
+                    <span class="material-symbols-outlined">description</span>
+                    Paste Text
+                </button>
+                <button
+                    type="button"
+                    @click="activeTab = 'url'"
+                    :class="activeTab === 'url' ? 'text-primary active-tab-border' : 'text-on-surface-variant hover:text-primary'"
+                    class="flex-1 py-4 text-label-bold transition-all flex items-center justify-center gap-2"
+                >
+                    <span class="material-symbols-outlined">link</span>
+                    From URL
+                </button>
+            </div>
+            <form method="POST" action="http://127.0.0.1:8000/check" class="p-6" @submit.prevent="submit($event)">
+                <input type="hidden" name="_token" value="12oHdpoJFzoJjustypBDHDXwA1n0vPCv0BIg0mkh" autocomplete="off">                <div x-show="activeTab === 'text'" x-cloak>
+                    <div>
+    <textarea
+        id="text"
+        name="text"
+        rows="8"
+                minlength="20"
+        maxlength="10000"
+        placeholder="Enter the article headline or full text here..."
+        class="fni-input h-48 resize-none" x-bind:required="activeTab === 'text'" x-bind:disabled="activeTab !== 'text'"
+    ></textarea>
+    <div class="mt-2 flex justify-between items-center">
+        <p class="text-label-caps uppercase tracking-wide text-on-surface-variant">Minimum 20 characters</p>
+        <p class="text-label-caps text-on-surface-variant">0 / 10000</p>
+    </div>
+    </div>
+                </div>
+                <div x-show="activeTab === 'url'" x-cloak>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">language</span>
+                        <input
+                            type="url"
+                            name="url"
+                            value=""
+                            placeholder="https://news-site.com/article-slug"
+                            x-bind:required="activeTab === 'url'"
+                            x-bind:disabled="activeTab !== 'url'"
+                            class="fni-input w-full pl-12"
+                        />
+                    </div>
+                    <p class="mt-2 text-label-caps uppercase tracking-wide text-on-surface-variant">We fetch and extract article text from the page</p>
+                </div>
+                <div class="mt-6 flex flex-col items-center gap-4">
+                    <button type="submit" class="fni-btn-primary-lg group" x-bind:disabled="loading" x-bind:class="loading ? 'opacity-60 pointer-events-none' : ''">
+        <span class="material-symbols-outlined">search_check</span>        <span x-show="!loading">Check Credibility</span>
+                        <span x-show="loading" x-cloak class="flex items-center gap-2">
+                            <span class="material-symbols-outlined animate-spin">progress_activity</span>
+                            Analyzing…
+                        </span>
+    </button>
+                    <p class="text-body-sm text-on-surface-variant text-center opacity-70">
+                        Results are generated by AI analysis and should be used for informational purposes.
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="max-w-container-max mx-auto px-4 md:px-gutter mt-stack-lg pt-stack-lg" id="how-it-works">
+    <div class="text-center mb-stack-md">
+        <h2 class="text-headline-xl text-on-surface mb-2">How It Works</h2>
+        <div class="h-1 w-20 bg-primary mx-auto rounded-full"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant flex flex-col items-center text-center group hover:shadow-fni-lg transition-shadow">
+            <div class="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-primary text-4xl material-symbols-filled">input</span>
+            </div>
+            <h3 class="text-headline-lg mb-4">1. Input News</h3>
+            <p class="text-body-md text-on-surface-variant">Provide a headline, a full story, or just the URL. Our system processes text using NLP preprocessing.</p>
+        </div>
+        <div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant flex flex-col items-center text-center group hover:shadow-fni-lg transition-shadow">
+            <div class="w-16 h-16 bg-secondary-fixed rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-secondary text-4xl material-symbols-filled">psychology</span>
+            </div>
+            <h3 class="text-headline-lg mb-4">2. AI Analysis</h3>
+            <p class="text-body-md text-on-surface-variant">TF-IDF vectorization and ML models detect misinformation linguistic patterns.</p>
+        </div>
+        <div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant flex flex-col items-center text-center group hover:shadow-fni-lg transition-shadow">
+            <div class="w-16 h-16 bg-status-real-light rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-status-real text-4xl material-symbols-filled">fact_check</span>
+            </div>
+            <h3 class="text-headline-lg mb-4">3. Instant Verdict</h3>
+            <p class="text-body-md text-on-surface-variant">Receive Real, Fake, or Uncertain with a confidence percentage.</p>
+        </div>
+    </div>
+</section>
+
+<div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-20">
+    <div class="absolute top-[20%] left-[10%] w-96 h-96 bg-primary-fixed blur-[120px] rounded-full"></div>
+    <div class="absolute bottom-[20%] right-[10%] w-[500px] h-[500px] bg-secondary-fixed blur-[150px] rounded-full"></div>
+</div>
+
+<script>
+    function newsCheckForm(initialTab) {
+        return {
+            activeTab: initialTab,
+            loading: false,
+            async submit(event) {
+                if (this.loading) return;
+
+                const form = event.target;
+                const data = new FormData(form);
+
+                // Only send the field for the active tab so we never trip the
+                // "provide either text or url" guard.
+                data.delete(this.activeTab === 'text' ? 'url' : 'text');
+
+                this.loading = true;
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        body: data,
+                    });
+
+                    const json = await response.json().catch(() => ({}));
+
+                    if (response.ok && json.redirect) {
+                        window.location.assign(json.redirect);
+                        return;
+                    }
+
+                    const message = json.message
+                        || (json.errors ? Object.values(json.errors).flat()[0] : null)
+                        || 'Something went wrong. Please try again.';
+
+                    window.fniToast(message, 'error');
+                } catch (error) {
+                    window.fniToast('Could not reach the server. Check your connection and try again.', 'error');
+                } finally {
+                    this.loading = false;
+                }
+            },
+        };
+    }
+</script>
+    </main>
+
+    <footer class="w-full bg-surface-container-low border-t border-outline-variant">
+        <div class="flex flex-col md:flex-row justify-between items-center py-stack-md px-4 md:px-gutter max-w-container-max mx-auto gap-4">
+            <div class="flex items-center gap-2 text-center md:text-left flex-wrap justify-center">
+                <span class="font-label-bold text-primary">FNI</span>
+                <span class="text-body-sm text-on-surface-variant">© 2026 FNI. AI analysis for informational purposes only.</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+

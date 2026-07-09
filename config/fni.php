@@ -8,4 +8,5 @@ return [
     'ml_train_timeout' => (int) env('FNI_ML_TRAIN_TIMEOUT', 30),
     'url_fetch_timeout' => (int) env('FNI_URL_FETCH_TIMEOUT', 10),
     'url_max_bytes' => (int) env('FNI_URL_MAX_BYTES', 524288),
+    'url_ca_bundle' => env('FNI_URL_CA_BUNDLE', storage_path('certs/cacert.pem')),
 ];
