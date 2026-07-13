@@ -31,7 +31,12 @@ MIN_CHARS = CONFIG["min_input_chars"]
 MAX_CHARS = CONFIG["max_input_chars"]
 ALLOWED_HOSTS = os.environ.get("FNI_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
+DEFAULT_TESSERACT_CMD = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+TESSERACT_CMD = os.environ.get("FNI_TESSERACT_CMD", DEFAULT_TESSERACT_CMD)
+MAX_IMAGE_BYTES = int(os.environ.get("FNI_IMAGE_MAX_BYTES", 8 * 1024 * 1024))
+
 app = Flask(__name__)
+app.config["MAX_CONTENT_LENGTH"] = MAX_IMAGE_BYTES
 _predictor = None
 _last_reloaded_job_id: str | None = None
 _training_process: subprocess.Popen | None = None
@@ -133,6 +138,77 @@ def predict():
     result["input_length"] = len(text)
     result["response_time_ms"] = elapsed_ms
     return jsonify(result)
+
+
+@app.route("/ocr", methods=["POST"])
+def ocr():
+    if not _client_allowed():
+        return jsonify({"error": "Forbidden", "message": "Internal API only."}), 403
+
+    start = time.perf_counter()
+    file = request.files.get("image")
+
+    if file is None or not file.filename:
+        return jsonify({"error": "Validation failed", "message": "An image file is required."}), 422
+
+    try:
+        from PIL import Image, ImageOps, UnidentifiedImageError
+        import pytesseract
+    except ImportError:
+        return (
+            jsonify(
+                {
+                    "error": "Service unavailable",
+                    "message": "OCR libraries are not installed. Run: pip install pytesseract Pillow.",
+                }
+            ),
+            503,
+        )
+
+    if TESSERACT_CMD:
+        pytesseract.pytesseract.tesseract_cmd = TESSERACT_CMD
+
+    try:
+        image = Image.open(file.stream)
+        image = ImageOps.exif_transpose(image)
+    except UnidentifiedImageError:
+        return jsonify({"error": "Validation failed", "message": "That file is not a readable image."}), 422
+    except Exception as exc:
+        return jsonify({"error": "OCR failed", "message": str(exc)}), 500
+
+    try:
+        text = pytesseract.image_to_string(image)
+    except pytesseract.TesseractNotFoundError:
+        return (
+            jsonify(
+                {
+                    "error": "Service unavailable",
+                    "message": "Tesseract OCR engine not found. Install it and set FNI_TESSERACT_CMD.",
+                }
+            ),
+            503,
+        )
+    except Exception as exc:
+        return jsonify({"error": "OCR failed", "message": str(exc)}), 500
+
+    text = " ".join(text.split()).strip()
+
+    if len(text) < MIN_CHARS:
+        return (
+            jsonify(
+                {
+                    "error": "Validation failed",
+                    "message": "Could not read enough text from the image. Try a clearer screenshot.",
+                }
+            ),
+            422,
+        )
+
+    if len(text) > MAX_CHARS:
+        text = text[:MAX_CHARS]
+
+    elapsed_ms = round((time.perf_counter() - start) * 1000, 2)
+    return jsonify({"text": text, "char_count": len(text), "response_time_ms": elapsed_ms})
 
 
 @app.route("/train/start", methods=["POST"])

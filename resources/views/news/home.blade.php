@@ -17,7 +17,7 @@
             Verify any news in seconds.
         </h1>
         <p class="text-body-lg text-on-surface-variant max-w-3xl">
-            Paste a headline, full article text, or a URL — our AI tells you if it's real, fake, or uncertain.
+            Paste a headline, full article text, a URL, or an image — our AI tells you if it's real, fake, or uncertain.
         </p>
     </div>
 
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div class="max-w-card-max mx-auto text-left" x-data="{ activeTab: '{{ old('url') ? 'url' : 'text' }}' }">
+    <div class="max-w-card-max mx-auto text-left" x-data="{ activeTab: '{{ $errors->has('image') ? 'image' : (old('url') ? 'url' : 'text') }}' }">
         <div class="bg-surface-container-lowest rounded-xl shadow-fni border border-outline-variant overflow-hidden">
             <div class="flex border-b border-outline-variant">
                 <button
@@ -57,8 +57,17 @@
                     <span class="material-symbols-outlined">link</span>
                     From URL
                 </button>
+                <button
+                    type="button"
+                    @click="activeTab = 'image'"
+                    :class="activeTab === 'image' ? 'text-primary active-tab-border' : 'text-on-surface-variant hover:text-primary'"
+                    class="flex-1 py-4 text-label-bold transition-all flex items-center justify-center gap-2"
+                >
+                    <span class="material-symbols-outlined">image</span>
+                    From Image
+                </button>
             </div>
-            <form method="POST" action="{{ route('news.check') }}" class="p-6">
+            <form method="POST" action="{{ route('news.check') }}" class="p-6" enctype="multipart/form-data">
                 @csrf
                 <div x-show="activeTab === 'text'" x-cloak>
                     <x-fni.input-textarea
@@ -88,6 +97,31 @@
                     @enderror
                     <p class="mt-2 text-label-caps uppercase tracking-wide text-on-surface-variant">We fetch and extract article text from the page</p>
                 </div>
+                <div x-show="activeTab === 'image'" x-cloak x-data="{ fileName: '' }">
+                    <label
+                        class="flex flex-col items-center justify-center gap-3 w-full py-10 px-6 border-2 border-dashed border-outline-variant rounded-xl cursor-pointer hover:border-primary hover:bg-surface-container-low transition-colors text-center"
+                    >
+                        <span class="material-symbols-outlined text-primary text-5xl">add_photo_alternate</span>
+                        <span class="text-body-md text-on-surface" x-show="!fileName">Click to upload a screenshot or photo of the news</span>
+                        <span class="text-body-md text-primary font-medium break-all" x-show="fileName" x-text="fileName"></span>
+                        <span class="text-label-caps uppercase tracking-wide text-on-surface-variant">
+                            JPG, PNG or WEBP &middot; up to {{ (int) (config('fni.image_max_kb') / 1024) }} MB
+                        </span>
+                        <input
+                            type="file"
+                            name="image"
+                            accept="image/*"
+                            class="hidden"
+                            x-bind:required="activeTab === 'image'"
+                            x-bind:disabled="activeTab !== 'image'"
+                            @change="fileName = $event.target.files.length ? $event.target.files[0].name : ''"
+                        />
+                    </label>
+                    @error('image')
+                        <p class="mt-2 text-body-sm text-error">{{ $message }}</p>
+                    @enderror
+                    <p class="mt-2 text-label-caps uppercase tracking-wide text-on-surface-variant">We read the text from your image and analyse it</p>
+                </div>
                 <div class="mt-6 flex flex-col items-center gap-4">
                     <x-fni.button-primary type="submit" size="lg" icon="search_check" class="group">
                         Check Credibility
@@ -112,7 +146,7 @@
                 <span class="material-symbols-outlined text-primary text-4xl material-symbols-filled">input</span>
             </div>
             <h3 class="text-headline-lg mb-4">1. Input News</h3>
-            <p class="text-body-md text-on-surface-variant">Provide a headline, a full story, or just the URL. Our system processes text using NLP preprocessing.</p>
+            <p class="text-body-md text-on-surface-variant">Provide a headline, a full story, a URL, or an image. Our system processes text using NLP preprocessing.</p>
         </div>
         <div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant flex flex-col items-center text-center group hover:shadow-fni-lg transition-shadow">
             <div class="w-16 h-16 bg-secondary-fixed rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">

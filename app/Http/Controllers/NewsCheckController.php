@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Prediction;
 use App\Services\ArticleExtractionService;
 use App\Services\FakeNewsApiService;
+use App\Services\OcrService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -15,6 +16,7 @@ class NewsCheckController extends Controller
     public function __construct(
         private FakeNewsApiService $ml,
         private ArticleExtractionService $extractor,
+        private OcrService $ocr,
     ) {}
 
     public function home(Request $request): View
@@ -28,47 +30,64 @@ class NewsCheckController extends Controller
     {
         $validated = $request->validate([
             'text' => [
-                'required_without:url',
+                'required_without_all:url,image',
                 'nullable',
                 'string',
                 'min:'.config('fni.min_input_chars'),
                 'max:'.config('fni.max_input_chars'),
             ],
             'url' => [
-                'required_without:text',
+                'required_without_all:text,image',
                 'nullable',
                 'url',
                 'max:2048',
                 'regex:/^https?:\/\//i',
             ],
+            'image' => [
+                'required_without_all:text,url',
+                'nullable',
+                'image',
+                'mimes:'.config('fni.image_mimes'),
+                'max:'.config('fni.image_max_kb'),
+            ],
         ]);
 
-        if ($request->filled('text') && $request->filled('url')) {
+        $inputs = [
+            'text' => $request->filled('text'),
+            'url' => $request->filled('url'),
+            'image' => $request->hasFile('image'),
+        ];
+
+        if (count(array_filter($inputs)) > 1) {
             return back()
                 ->withInput()
-                ->withErrors(['text' => 'Provide either article text or a URL, not both.']);
+                ->withErrors(['text' => 'Provide only one input: article text, a URL, or an image.']);
         }
 
-        if ($request->filled('url')) {
-            try {
+        $inputField = 'text';
+
+        try {
+            if ($request->hasFile('image')) {
+                $inputField = 'image';
+                $text = $this->ocr->extract($request->file('image'));
+            } elseif ($request->filled('url')) {
+                $inputField = 'url';
                 $text = $this->extractor->extract($validated['url']);
-            } catch (RuntimeException $e) {
-                return back()
-                    ->withInput()
-                    ->withErrors(['url' => $e->getMessage()]);
+            } else {
+                $text = $validated['text'];
             }
-        } else {
-            $text = $validated['text'];
+        } catch (RuntimeException $e) {
+            return back()
+                ->withInput()
+                ->withErrors([$inputField => $e->getMessage()]);
         }
 
         try {
             $result = $this->ml->predict($text);
         } catch (RuntimeException $e) {
-            $field = $request->filled('url') ? 'url' : 'text';
-
             return back()
                 ->withInput()
-                ->withErrors([$field => $e->getMessage()]);
+                ->withErrors([$inputField => $e->getMessage()]);
         }
 
         Prediction::create([
