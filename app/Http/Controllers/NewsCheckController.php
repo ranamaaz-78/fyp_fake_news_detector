@@ -24,7 +24,7 @@ class NewsCheckController extends Controller
         ]);
     }
 
-    public function check(Request $request): View|RedirectResponse
+    public function check(Request $request): View|RedirectResponse|\Illuminate\Http\JsonResponse
     {
         $validated = $request->validate([
             'text' => [
@@ -44,6 +44,9 @@ class NewsCheckController extends Controller
         ]);
 
         if ($request->filled('text') && $request->filled('url')) {
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json(['error' => 'Provide either article text or a URL, not both.'], 422);
+            }
             return back()
                 ->withInput()
                 ->withErrors(['text' => 'Provide either article text or a URL, not both.']);
@@ -53,6 +56,9 @@ class NewsCheckController extends Controller
             try {
                 $text = $this->extractor->extract($validated['url']);
             } catch (RuntimeException $e) {
+                if ($request->expectsJson() || $request->ajax()) {
+                    return response()->json(['error' => $e->getMessage()], 422);
+                }
                 return back()
                     ->withInput()
                     ->withErrors(['url' => $e->getMessage()]);
@@ -65,6 +71,9 @@ class NewsCheckController extends Controller
             $result = $this->ml->predict($text);
         } catch (RuntimeException $e) {
             $field = $request->filled('url') ? 'url' : 'text';
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json(['error' => $e->getMessage()], 503);
+            }
 
             return back()
                 ->withInput()
@@ -79,6 +88,14 @@ class NewsCheckController extends Controller
             'confidence_level' => $result['confidence_level'] ?? null,
             'model_used' => $result['model'],
         ]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'text' => $text,
+                'result' => $result,
+            ]);
+        }
 
         $view = match ($result['label']) {
             'REAL' => 'news.result-real',

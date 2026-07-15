@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [NewsCheckController::class, 'home'])->name('home');
 Route::post('/check', [NewsCheckController::class, 'check'])->name('news.check');
 
+Route::view('/features', 'news.features')->name('features');
+Route::view('/how-it-works', 'news.how-it-works')->name('how-it-works');
+Route::view('/integrations', 'news.integrations')->name('integrations');
+Route::view('/faq', 'news.faq')->name('faq');
+Route::view('/contact', 'news.contact')->name('contact');
+
 Route::get('/dashboard', function () {
     if (auth()->user()?->isAdmin()) {
         return redirect()->route('admin.overview');
