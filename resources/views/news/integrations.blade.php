@@ -6,7 +6,7 @@
 
 @section('content')
 <!-- rts features area start -->
-    <section class="rts-feature-area inner-one rts-section-gap2" data-bg-src="{{ asset(\'assets/images/banner/10.webp\') }}">
+    <section class="rts-feature-area inner-one rts-section-gap2" data-bg-src="{{ asset('assets/images/banner/10.webp') }}">
         <div class="container-1320">
             <div class="section-title-area center-style">
                 <p class="sub-title"><span class="dot"></span>FEATURE</p>
@@ -26,7 +26,7 @@
                         <div class="rts-integration-wrapper">
                             <div class="top-area">
                                 <div class="logo-area">
-                                    <img src="{{ asset(\'assets/images/integrations/1.svg\') }}" alt="">
+                                    <img src="{{ asset('assets/images/integrations/1.svg') }}" alt="">
                                     <h3 class="title">Slack Bot</h3>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                         <div class="rts-integration-wrapper">
                             <div class="top-area">
                                 <div class="logo-area">
-                                    <img src="{{ asset(\'assets/images/integrations/2.svg\') }}" alt="">
+                                    <img src="{{ asset('assets/images/integrations/2.svg') }}" alt="">
                                     <h3 class="title">Twitter / X Monitor</h3>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                         <div class="rts-integration-wrapper">
                             <div class="top-area">
                                 <div class="logo-area">
-                                    <img src="{{ asset(\'assets/images/integrations/3.svg\') }}" alt="">
+                                    <img src="{{ asset('assets/images/integrations/3.svg') }}" alt="">
                                     <h3 class="title">Chrome Extension</h3>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                         <div class="rts-integration-wrapper">
                             <div class="top-area">
                                 <div class="logo-area">
-                                    <img src="{{ asset(\'assets/images/integrations/4.svg\') }}" alt="">
+                                    <img src="{{ asset('assets/images/integrations/4.svg') }}" alt="">
                                     <h3 class="title">WordPress Plugin</h3>
                                 </div>
                             </div>
@@ -98,7 +98,7 @@
                         <div class="rts-integration-wrapper">
                             <div class="top-area">
                                 <div class="logo-area">
-                                    <img src="{{ asset(\'assets/images/integrations/5.svg\') }}" alt="">
+                                    <img src="{{ asset('assets/images/integrations/5.svg') }}" alt="">
                                     <h3 class="title">Unified Newsroom API</h3>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
                         <div class="rts-integration-wrapper">
                             <div class="top-area">
                                 <div class="logo-area">
-                                    <img src="{{ asset(\'assets/images/integrations/6.svg\') }}" alt="">
+                                    <img src="{{ asset('assets/images/integrations/6.svg') }}" alt="">
                                     <h3 class="title">Telegram Bot</h3>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                         <div class="rts-integration-wrapper">
                             <div class="top-area">
                                 <div class="logo-area">
-                                    <img src="{{ asset(\'assets/images/integrations/2.svg\') }}" alt="">
+                                    <img src="{{ asset('assets/images/integrations/2.svg') }}" alt="">
                                     <h3 class="title">Zapier</h3>
                                 </div>
                                 <a href="#">
@@ -162,7 +162,7 @@
                         <div class="rts-integration-wrapper">
                             <div class="top-area">
                                 <div class="logo-area">
-                                    <img src="{{ asset(\'assets/images/integrations/3.svg\') }}" alt="">
+                                    <img src="{{ asset('assets/images/integrations/3.svg') }}" alt="">
                                     <h3 class="title">Stripe</h3>
                                 </div>
                                 <a href="#">
@@ -194,12 +194,12 @@
     <!-- rts integration area end -->
 
     <!-- rts faq area start -->
-    <section class="rts-faq-area area-2 rts-section-gap2" data-bg-src="{{ asset(\'assets/images/faq/faq-bg.webp\') }}">
+    <section class="rts-faq-area area-2 rts-section-gap2" data-bg-src="{{ asset('assets/images/faq/faq-bg.webp') }}">
         <div class="container">
             <div class="section-inner">
                 <div class="section-title-area">
                     <div class="left">
-                        <p class="sub-title"><img src="{{ asset(\'assets/images/feature/icon/11.svg\') }}" alt="">FAQ</p>
+                        <p class="sub-title"><img src="{{ asset('assets/images/feature/icon/11.svg') }}" alt="">FAQ</p>
                         <h2 class="h3 section-title rts-text-anime-style-1 text-transform-0">Trusted Answers That Support <br> <span>Your AI Workflow</span>
                         </h2>
                     </div>
@@ -299,7 +299,7 @@
     <section class="rts-testimonials-area area-2 rts-section-gap2">
         <div class="container">
             <div class="section-title-area center-style">
-                <p class="sub-title"><img src="{{ asset(\'assets/images/feature/icon/12.svg\') }}" alt="">Testimonial</p>
+                <p class="sub-title"><img src="{{ asset('assets/images/feature/icon/12.svg') }}" alt="">Testimonial</p>
                 <h2 class="h3 section-title rts-text-anime-style-1 text-transform-0">Trusted Voices That Strengthen <br> <span>Your AI Confidencet</span></h2>
             </div>
             <div class="section-inner mt--60 wow fadeInUp" data-wow-delay=".2s">
@@ -315,7 +315,7 @@
                                         efficiently daily.</p>
                                     <div class="author-area">
                                         <div class="left">
-                                            <img src="{{ asset(\'assets/images/testimonials/round-01.svg\') }}" width="61" alt="">
+                                            <img src="{{ asset('assets/images/testimonials/round-01.svg') }}" width="61" alt="">
                                             <div class="author-content">
                                                 <p class="text">Michael Roberts</p>
                                                 <p class="desc">CEO at FinTrack Solutions</p>
@@ -372,7 +372,7 @@
                                         teams work faster.</p>
                                     <div class="author-area">
                                         <div class="left">
-                                            <img src="{{ asset(\'assets/images/testimonials/round-01.svg\') }}" width="61" alt="">
+                                            <img src="{{ asset('assets/images/testimonials/round-01.svg') }}" width="61" alt="">
                                             <div class="author-content">
                                                 <p class="text">Sarah Lee</p>
                                                 <p class="desc">Product Manager at BrightTech</p>
@@ -453,8 +453,8 @@
                     </a>
                 </div>
                 <div class="shape-area">
-                    <img src="{{ asset(\'assets/images/cta/cta-bg-shape-04.svg\') }}" alt="">
-                    <img src="{{ asset(\'assets/images/cta/cta-bg-shape-05.svg\') }}" alt="">
+                    <img src="{{ asset('assets/images/cta/cta-bg-shape-04.svg') }}" alt="">
+                    <img src="{{ asset('assets/images/cta/cta-bg-shape-05.svg') }}" alt="">
                 </div>
             </div>
         </div>

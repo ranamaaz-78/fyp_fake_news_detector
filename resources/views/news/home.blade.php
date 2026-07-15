@@ -38,7 +38,41 @@
                     <p>Paste an article paragraph, headline, or domain URL to run an instant credibility and sensationalism check.</p>
                 </div>
                 <form class="verifier-form">
-                    <textarea id="newsText" placeholder="Paste the news story, statement, or URL here... (e.g., 'SHOCKING: Secrets exposed! The government is hiding a miracle vaccine cure!!!' or standard factual report text)"></textarea>
+                    <!-- Tabs -->
+                    <div class="verifier-tabs mb-4 d-flex justify-content-center gap-3">
+                        <button type="button" class="verifier-tab-btn active" data-tab="text">
+                            <i class="fa-solid fa-file-lines"></i> Text Check
+                        </button>
+                        <button type="button" class="verifier-tab-btn" data-tab="url">
+                            <i class="fa-solid fa-link"></i> URL Link Check
+                        </button>
+                        <button type="button" class="verifier-tab-btn" data-tab="image">
+                            <i class="fa-solid fa-image"></i> Image Check
+                        </button>
+                    </div>
+
+                    <!-- Tab Contents -->
+                    <div class="verifier-tab-content active" id="tab-text">
+                        <textarea id="newsText" placeholder="Paste the news story, statement, or article here... (e.g., 'SHOCKING: Secrets exposed! The government is hiding a miracle vaccine cure!!!' or standard factual report text)"></textarea>
+                    </div>
+                    <div class="verifier-tab-content d-none" id="tab-url">
+                        <input type="url" id="newsUrl" class="verifier-input mb-4" placeholder="Paste the news article link here... (e.g., https://nytimes.com/some-article-url)">
+                    </div>
+                    <div class="verifier-tab-content d-none" id="tab-image">
+                        <div class="image-upload-wrapper text-center p-5 mb-4 cursor-pointer" id="dragBoxContainer">
+                            <input type="file" id="newsImage" accept="image/*" class="d-none">
+                            <div id="imageDragBox" class="py-3">
+                                <i class="fa-solid fa-cloud-arrow-up text-primary mb-3" style="font-size: 40px;"></i>
+                                <h5 class="mb-2" style="color: #1a2d54;">Choose image file or drag here</h5>
+                                <p class="text-sm mb-0" style="color: #64748b;">Supports PNG, JPG, JPEG up to 4MB</p>
+                            </div>
+                            <div id="imagePreviewBox" class="d-none position-relative d-inline-block">
+                                <img id="imagePreview" src="" alt="preview" style="max-height: 150px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                                <button type="button" id="removeImageBtn" class="btn btn-danger btn-sm rounded-circle position-absolute" style="top: -10px; right: -10px; border-radius: 50%; padding: 4px 8px; font-size: 11px;"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="verifier-actions">
                         <button type="submit" id="verifyBtn" class="verifier-btn">
                             <span class="spinner" id="btnSpinner" style="display: none;"></span>
@@ -47,7 +81,7 @@
                                 <path d="M2.78609 0.636774C3.42696 1.41352 5.13873 1.95475 6.7051 2.30304C8.72196 2.75133 10.7973 2.8843 12.8309 2.61539C14.3541 2.41363 16.072 2.00892 17.0527 1.19981M14.9104 15.3317C14.2695 14.555 14.0633 12.7716 14.0189 11.1676C13.962 9.10235 14.2256 7.03943 14.8759 5.09401C15.3633 3.63687 16.087 2.02707 17.0676 1.21797M17.0602 1.2089L0.63638 14.7596" stroke="white" stroke-width="2" />
                             </svg>
                         </button>
-                        <button type="button" id="clearBtn" class="verifier-btn-clear">Clear Text</button>
+                        <button type="button" id="clearBtn" class="verifier-btn-clear">Clear Input</button>
                     </div>
                 </form>
 

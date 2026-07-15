@@ -1,9 +1,11 @@
-/* VeriFact AI Widget Custom Styles */
+/* VeriFact AI Widget Custom Light Theme Styles */
 .verifier-section {
-    background: #0f1016;
+    background: #f8fafc; /* Slate 50 background */
     padding: 80px 0;
     position: relative;
     overflow: hidden;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .verifier-section::before {
@@ -13,7 +15,7 @@
     left: -10%;
     width: 40%;
     height: 40%;
-    background: radial-gradient(circle, rgba(30, 58, 138, 0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(30, 58, 138, 0.05) 0%, transparent 70%);
     z-index: 1;
     pointer-events: none;
 }
@@ -25,18 +27,17 @@
     right: -10%;
     width: 40%;
     height: 40%;
-    background: radial-gradient(circle, rgba(245, 67, 41, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(245, 67, 41, 0.04) 0%, transparent 70%);
     z-index: 1;
     pointer-events: none;
 }
 
 .verifier-container {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 24px;
     padding: 40px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08), 0 20px 40px -15px rgba(0, 0, 0, 0.06);
     position: relative;
     z-index: 2;
 }
@@ -47,15 +48,15 @@
 }
 
 .verifier-title-block h3 {
-    color: #ffffff;
-    font-size: 2.2rem;
+    color: #1a2d54; /* Deep Navy theme color */
+    font-size: 32px;
     font-weight: 700;
     margin-bottom: 12px;
 }
 
 .verifier-title-block p {
-    color: #a0aec0;
-    font-size: 1.1rem;
+    color: #475569; /* Slate 600 */
+    font-size: 16px;
     max-width: 600px;
     margin: 0 auto;
 }
@@ -63,22 +64,26 @@
 .verifier-form textarea {
     width: 100%;
     height: 180px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: #ffffff;
+    border: 2px solid #cbd5e1;
     border-radius: 16px;
     padding: 20px;
-    color: #ffffff;
-    font-size: 1.05rem;
+    color: #0f172a;
+    font-size: 16px;
     resize: none;
     transition: all 0.3s ease;
     margin-bottom: 20px;
 }
 
+.verifier-form textarea::placeholder {
+    color: #94a3b8;
+}
+
 .verifier-form textarea:focus {
     outline: none;
-    border-color: #1E3A8A;
-    background: rgba(255, 255, 255, 0.04);
-    box-shadow: 0 0 15px rgba(30, 58, 138, 0.3);
+    border-color: #F54329;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(245, 67, 41, 0.15);
 }
 
 .verifier-actions {
@@ -89,12 +94,12 @@
 }
 
 .verifier-btn {
-    background: #1E3A8A;
+    background: #F54329;
     color: #ffffff;
     border: none;
     border-radius: 12px;
     padding: 14px 32px;
-    font-size: 1.1rem;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -104,9 +109,9 @@
 }
 
 .verifier-btn:hover {
-    background: #1d4ed8;
+    background: #f75d47;
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(30, 58, 138, 0.4);
+    box-shadow: 0 10px 20px rgba(245, 67, 41, 0.4);
 }
 
 .verifier-btn:active {
@@ -115,20 +120,20 @@
 
 .verifier-btn-clear {
     background: transparent;
-    color: #a0aec0;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #475569;
+    border: 1px solid #cbd5e1;
     border-radius: 12px;
     padding: 14px 24px;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .verifier-btn-clear:hover {
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.05);
+    color: #0f172a;
+    border-color: #94a3b8;
+    background: #f1f5f9;
 }
 
 /* Spinner */
@@ -149,16 +154,16 @@
 /* Results Panel */
 .verifier-results {
     margin-top: 40px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid #e2e8f0;
     padding-top: 40px;
     display: none;
 }
 
 .result-header-box {
-    background: rgba(255, 255, 255, 0.02);
+    background: #f8fafc;
     border-radius: 16px;
     padding: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid #e2e8f0;
     display: flex;
     align-items: center;
     gap: 30px;
@@ -180,7 +185,7 @@
 
 .score-bg {
     fill: none;
-    stroke: rgba(255, 255, 255, 0.05);
+    stroke: #e2e8f0;
     stroke-width: 10px;
 }
 
@@ -202,16 +207,16 @@
 }
 
 .score-val {
-    font-size: 2rem;
+    font-size: 32px;
     font-weight: 800;
-    color: #ffffff;
+    color: #0f172a;
     line-height: 1;
 }
 
 .score-lbl {
-    font-size: 0.75rem;
+    font-size: 12px;
     text-transform: uppercase;
-    color: #a0aec0;
+    color: #64748b;
     margin-top: 4px;
     letter-spacing: 1px;
 }
@@ -224,7 +229,7 @@
     display: inline-block;
     padding: 6px 16px;
     border-radius: 30px;
-    font-size: 0.9rem;
+    font-size: 14px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -232,15 +237,15 @@
 }
 
 .verdict-title {
-    color: #ffffff;
-    font-size: 1.5rem;
+    color: #0f172a;
+    font-size: 24px;
     font-weight: 700;
     margin-bottom: 8px;
 }
 
 .verdict-desc {
-    color: #cbd5e0;
-    font-size: 1rem;
+    color: #475569;
+    font-size: 16px;
     margin-bottom: 0;
     line-height: 1.6;
 }
@@ -248,7 +253,7 @@
 /* Verdict Colors */
 .status-credible {
     background: rgba(16, 185, 129, 0.15);
-    color: #10B981;
+    color: #047857;
     border: 1px solid rgba(16, 185, 129, 0.3);
 }
 .stroke-credible {
@@ -257,7 +262,7 @@
 
 .status-mixed {
     background: rgba(236, 201, 75, 0.15);
-    color: #ecc94b;
+    color: #b45309;
     border: 1px solid rgba(236, 201, 75, 0.3);
 }
 .stroke-mixed {
@@ -266,7 +271,7 @@
 
 .status-suspicious {
     background: rgba(245, 67, 41, 0.15);
-    color: #f54329;
+    color: #b91c1c;
     border: 1px solid rgba(245, 67, 41, 0.3);
 }
 .stroke-suspicious {
@@ -281,16 +286,16 @@
 }
 
 .metric-card {
-    background: rgba(255, 255, 255, 0.01);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 16px;
     padding: 20px;
     transition: all 0.3s ease;
 }
 
 .metric-card:hover {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: rgba(255, 255, 255, 0.08);
+    background: #f8fafc;
+    border-color: #cbd5e1;
 }
 
 .metric-header {
@@ -301,19 +306,19 @@
 }
 
 .metric-name {
-    color: #ffffff;
+    color: #0f172a;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 15px;
 }
 
 .metric-score {
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 14px;
 }
 
 .metric-progress {
     height: 6px;
-    background: rgba(255, 255, 255, 0.08);
+    background: #e2e8f0;
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 12px;
@@ -327,8 +332,8 @@
 }
 
 .metric-desc {
-    color: #a0aec0;
-    font-size: 0.85rem;
+    color: #64748b;
+    font-size: 13px;
     line-height: 1.4;
     margin-bottom: 0;
 }
@@ -341,25 +346,25 @@
 }
 
 .analysis-step {
-    color: #a0aec0;
-    font-size: 1.1rem;
+    color: #64748b;
+    font-size: 16px;
     margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    opacity: 0.3;
+    opacity: 0.4;
     transition: all 0.3s ease;
 }
 
 .analysis-step.active {
-    color: #ffffff;
+    color: #0f172a;
     opacity: 1;
     font-weight: 600;
 }
 
 .analysis-step.completed {
-    color: #1E3A8A;
+    color: #F54329;
     opacity: 0.8;
 }
 
@@ -380,4 +385,83 @@
         width: 100%;
         justify-content: center;
     }
+}
+
+/* Multi-input Tab Styles */
+.verifier-tabs {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+    margin-bottom: 25px !important;
+}
+
+.verifier-tab-btn {
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: auto;
+}
+
+.verifier-tab-btn:hover {
+    color: #0f172a;
+    background: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.verifier-tab-btn.active {
+    color: #ffffff;
+    background: #F54329;
+    border-color: #F54329;
+    box-shadow: 0 4px 15px rgba(245, 67, 41, 0.3);
+}
+
+/* Image Upload Area */
+.image-upload-wrapper {
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1 !important;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.image-upload-wrapper:hover, .image-upload-wrapper.dragover {
+    border-color: #F54329 !important;
+    background: rgba(245, 67, 41, 0.04);
+}
+
+.image-upload-wrapper h5 {
+    color: #1a2d54;
+}
+
+.image-upload-wrapper p {
+    color: #64748b;
+}
+
+.verifier-input {
+    background: #ffffff !important;
+    border: 2px solid #cbd5e1 !important;
+    border-radius: 16px !important;
+    padding: 16px 20px !important;
+    color: #0f172a !important;
+    font-size: 16px !important;
+    transition: all 0.3s ease !important;
+    width: 100%;
+}
+
+.verifier-input::placeholder {
+    color: #94a3b8;
+}
+
+.verifier-input:focus {
+    outline: none !important;
+    border-color: #F54329 !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(245, 67, 41, 0.15) !important;
 }

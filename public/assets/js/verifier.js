@@ -4,10 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkBtn = document.getElementById('verifyBtn');
     const clearBtn = document.getElementById('clearBtn');
     const newsInput = document.getElementById('newsText');
+    const newsUrl = document.getElementById('newsUrl');
+    const newsImage = document.getElementById('newsImage');
     const loader = document.getElementById('analysisLoader');
     const results = document.getElementById('verifierResults');
     const btnText = document.getElementById('btnText');
     const btnSpinner = document.getElementById('btnSpinner');
+
+    // Drag and Drop elements
+    const dragBoxContainer = document.getElementById('dragBoxContainer');
+    const imageDragBox = document.getElementById('imageDragBox');
+    const imagePreviewBox = document.getElementById('imagePreviewBox');
+    const imagePreview = document.getElementById('imagePreview');
+    const removeImageBtn = document.getElementById('removeImageBtn');
+
+    // Tab buttons & contents
+    const tabButtons = document.querySelectorAll('.verifier-tab-btn');
+    const tabContents = document.querySelectorAll('.verifier-tab-content');
+    let activeTab = 'text';
 
     // Steps list elements
     const steps = [
@@ -17,15 +31,124 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('step4')
     ];
 
-    if (!checkBtn || !newsInput) return;
+    if (tabButtons.length > 0) {
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabButtons.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => {
+                    c.classList.add('d-none');
+                    c.classList.remove('active');
+                });
+
+                btn.classList.add('active');
+                activeTab = btn.getAttribute('data-tab');
+                const targetPanel = document.getElementById(`tab-${activeTab}`);
+                if (targetPanel) {
+                    targetPanel.classList.remove('d-none');
+                    targetPanel.classList.add('active');
+                }
+            });
+        });
+    }
+
+    // Image Upload Interactions
+    if (dragBoxContainer && newsImage) {
+        dragBoxContainer.addEventListener('click', (e) => {
+            if (e.target.closest('#removeImageBtn') || e.target.closest('#imagePreview')) {
+                return;
+            }
+            newsImage.click();
+        });
+
+        // Drag and drop events
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dragBoxContainer.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dragBoxContainer.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dragBoxContainer.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dragBoxContainer.classList.remove('dragover');
+            }, false);
+        });
+
+        dragBoxContainer.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length > 0) {
+                newsImage.files = files;
+                handleImageSelect(files[0]);
+            }
+        });
+
+        newsImage.addEventListener('change', (e) => {
+            if (newsImage.files.length > 0) {
+                handleImageSelect(newsImage.files[0]);
+            }
+        });
+
+        removeImageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            newsImage.value = '';
+            imagePreview.src = '';
+            imagePreviewBox.classList.add('d-none');
+            imageDragBox.classList.remove('d-none');
+        });
+    }
+
+    function handleImageSelect(file) {
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file.');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imagePreview.src = e.target.result;
+            imageDragBox.classList.add('d-none');
+            imagePreviewBox.classList.remove('d-none');
+            imagePreviewBox.classList.add('d-inline-block');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    if (!checkBtn) return;
 
     checkBtn.addEventListener('click', async (e) => {
         e.preventDefault();
-        const text = newsInput.value.trim();
+        
+        let body;
+        let headers = {
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        };
 
-        if (!text) {
-            alert('Please paste some news text, a statement, or a URL to analyze.');
-            return;
+        if (activeTab === 'text') {
+            const val = newsInput.value.trim();
+            if (!val) {
+                alert('Please paste some news text to analyze.');
+                return;
+            }
+            body = JSON.stringify({ text: val });
+            headers['Content-Type'] = 'application/json';
+        } else if (activeTab === 'url') {
+            const val = newsUrl.value.trim();
+            if (!val) {
+                alert('Please paste a link URL to analyze.');
+                return;
+            }
+            body = JSON.stringify({ url: val });
+            headers['Content-Type'] = 'application/json';
+        } else if (activeTab === 'image') {
+            const file = newsImage.files[0];
+            if (!file) {
+                alert('Please upload or drag an image containing text to analyze.');
+                return;
+            }
+            body = new FormData();
+            body.append('image', file);
         }
 
         // Reset UI
@@ -42,20 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Run analysis step animation sequence in parallel with the AJAX request
         try {
-            const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
-            const csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : '';
-
-            const isUrl = /^https?:\/\//i.test(text);
-            const payload = isUrl ? { url: text } : { text: text };
-
             const apiPromise = fetch('/check', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: JSON.stringify(payload)
+                headers: headers,
+                body: body
             });
 
             await runAnalysisStep(0, 800);
@@ -77,7 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const backend = resData.result; // label, confidence, model, confidence_level, probabilities
 
             // Compute local heuristic analysis for sub-score details
-            const analysis = performNLPAnalysis(text);
+            const analysisText = resData.text || '';
+            const analysis = performNLPAnalysis(analysisText);
 
             // Override final verdict and trust score based on the ML Model
             let trustScore = Math.round(backend.confidence);
@@ -129,7 +243,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     clearBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        newsInput.value = '';
+        if (activeTab === 'text' && newsInput) {
+            newsInput.value = '';
+        } else if (activeTab === 'url' && newsUrl) {
+            newsUrl.value = '';
+        } else if (activeTab === 'image' && newsImage) {
+            removeImageBtn.click();
+        }
         results.style.display = 'none';
         loader.style.display = 'none';
         window.scrollTo({

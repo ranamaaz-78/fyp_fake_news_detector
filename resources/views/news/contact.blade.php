@@ -6,7 +6,7 @@
 
 @section('content')
 <!-- rts contact area start -->
-    <section class="rts-contact-area" data-bg-src="{{ asset(\'assets/images/banner/10.webp\') }}">
+    <section class="rts-contact-area" data-bg-src="{{ asset('assets/images/banner/10.webp') }}">
         <div class="container-1320">
             <div class="section-title-area center-style">
                 <p class="sub-title text-uppercase"><span class="dot"></span>Contact Us</p>
@@ -89,12 +89,12 @@
     <!-- rts contact area end -->
 
     <!-- rts faq area start -->
-    <section class="rts-faq-area area-2 rts-section-gap2" data-bg-src="{{ asset(\'assets/images/faq/faq-bg.webp\') }}">
+    <section class="rts-faq-area area-2 rts-section-gap2" data-bg-src="{{ asset('assets/images/faq/faq-bg.webp') }}">
         <div class="container">
             <div class="section-inner">
                 <div class="section-title-area">
                     <div class="left">
-                        <p class="sub-title"><img src="{{ asset(\'assets/images/feature/icon/11.svg\') }}" alt="">FAQ</p>
+                        <p class="sub-title"><img src="{{ asset('assets/images/feature/icon/11.svg') }}" alt="">FAQ</p>
                         <h2 class="h3 section-title">Frequently Asked Questions <br> <span>About VeriFact AI</span>
                         </h2>
                     </div>
@@ -203,8 +203,8 @@
                     </a>
                 </div>
                 <div class="shape-area">
-                    <img src="{{ asset(\'assets/images/cta/cta-bg-shape-04.svg\') }}" alt="">
-                    <img src="{{ asset(\'assets/images/cta/cta-bg-shape-05.svg\') }}" alt="">
+                    <img src="{{ asset('assets/images/cta/cta-bg-shape-04.svg') }}" alt="">
+                    <img src="{{ asset('assets/images/cta/cta-bg-shape-05.svg') }}" alt="">
                 </div>
             </div>
         </div>

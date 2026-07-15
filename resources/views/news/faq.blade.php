@@ -6,7 +6,7 @@
 
 @section('content')
 <!-- rts faq area start -->
-    <section class="rts-faq-area inner-one rts-section-gap2" data-bg-src="{{ asset(\'assets/images/banner/10.webp\') }}">
+    <section class="rts-faq-area inner-one rts-section-gap2" data-bg-src="{{ asset('assets/images/banner/10.webp') }}">
         <div class="container">
             <div class="section-inner">
                 <div class="section-title-area center-style">
@@ -66,12 +66,12 @@
                     <div class="accordion-item">
                         <div class="accordion-header" id="five">
                             <h3 class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#item__five" aria-expanded="false" aria-controls="item__five">
-                                Does it detect deepfakes or edited images?
+                                Does it check images for fake news?
                             </h3>
                         </div>
                         <div id="item__five" class="accordion-collapse collapse" data-bs-parent="#rts-accordion">
                             <div class="accordion-body">
-                                <p class="desc">Currently, our client-side toolkit focuses on textual claim heuristics, NLP sentiment analysis, and stylistic indicators. Image and media verification features are currently in active development.</p>
+                                <p class="desc">Yes! You can upload an image of a news snippet or article in the Image Check tab. VeriFact AI will automatically extract the text from the image using our OCR parsing service and analyze it using our Machine Learning prediction model.</p>
                             </div>
                         </div>
                     </div>
@@ -116,8 +116,8 @@
                     </a>
                 </div>
                 <div class="shape-area">
-                    <img src="{{ asset(\'assets/images/cta/cta-bg-shape-04.svg\') }}" alt="">
-                    <img src="{{ asset(\'assets/images/cta/cta-bg-shape-05.svg\') }}" alt="">
+                    <img src="{{ asset('assets/images/cta/cta-bg-shape-04.svg') }}" alt="">
+                    <img src="{{ asset('assets/images/cta/cta-bg-shape-05.svg') }}" alt="">
                 </div>
             </div>
         </div>

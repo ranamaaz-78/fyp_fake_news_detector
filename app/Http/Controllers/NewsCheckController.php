@@ -28,31 +28,77 @@ class NewsCheckController extends Controller
     {
         $validated = $request->validate([
             'text' => [
-                'required_without:url',
+                'required_without_all:url,image',
                 'nullable',
                 'string',
                 'min:'.config('fni.min_input_chars'),
                 'max:'.config('fni.max_input_chars'),
             ],
             'url' => [
-                'required_without:text',
+                'required_without_all:text,image',
                 'nullable',
                 'url',
                 'max:2048',
                 'regex:/^https?:\/\//i',
             ],
+            'image' => [
+                'required_without_all:text,url',
+                'nullable',
+                'image',
+                'max:4096',
+            ],
         ]);
 
-        if ($request->filled('text') && $request->filled('url')) {
+        $inputsCount = 0;
+        if ($request->filled('text')) $inputsCount++;
+        if ($request->filled('url')) $inputsCount++;
+        if ($request->hasFile('image')) $inputsCount++;
+
+        if ($inputsCount > 1) {
             if ($request->expectsJson() || $request->ajax()) {
-                return response()->json(['error' => 'Provide either article text or a URL, not both.'], 422);
+                return response()->json(['error' => 'Provide only one check method: text, url, or image.'], 422);
             }
             return back()
                 ->withInput()
-                ->withErrors(['text' => 'Provide either article text or a URL, not both.']);
+                ->withErrors(['text' => 'Provide only one check method: text, url, or image.']);
         }
 
-        if ($request->filled('url')) {
+        if ($request->hasFile('image')) {
+            try {
+                $imageFile = $request->file('image');
+                $ocrResponse = \Illuminate\Support\Facades\Http::attach(
+                    'file',
+                    file_get_contents($imageFile->getRealPath()),
+                    $imageFile->getClientOriginalName()
+                )->post('https://api.ocr.space/parse/image', [
+                    'apikey' => 'helloworld',
+                    'language' => 'eng',
+                ]);
+
+                if (!$ocrResponse->successful()) {
+                    throw new \RuntimeException('OCR service request failed.');
+                }
+
+                $ocrData = $ocrResponse->json();
+                if (isset($ocrData['ParsedResults'][0]['ParsedText'])) {
+                    $text = trim($ocrData['ParsedResults'][0]['ParsedText']);
+                } else {
+                    $errorMsg = $ocrData['ErrorMessage'][0] ?? 'Failed to extract text from the image.';
+                    throw new \RuntimeException($errorMsg);
+                }
+
+                if (strlen($text) < config('fni.min_input_chars')) {
+                    throw new \RuntimeException('The text extracted from the image is too short for analysis.');
+                }
+            } catch (\RuntimeException $e) {
+                if ($request->expectsJson() || $request->ajax()) {
+                    return response()->json(['error' => $e->getMessage()], 422);
+                }
+                return back()
+                    ->withInput()
+                    ->withErrors(['image' => $e->getMessage()]);
+            }
+        } elseif ($request->filled('url')) {
             try {
                 $text = $this->extractor->extract($validated['url']);
             } catch (RuntimeException $e) {
@@ -70,7 +116,7 @@ class NewsCheckController extends Controller
         try {
             $result = $this->ml->predict($text);
         } catch (RuntimeException $e) {
-            $field = $request->filled('url') ? 'url' : 'text';
+            $field = $request->hasFile('image') ? 'image' : ($request->filled('url') ? 'url' : 'text');
             if ($request->expectsJson() || $request->ajax()) {
                 return response()->json(['error' => $e->getMessage()], 503);
             }

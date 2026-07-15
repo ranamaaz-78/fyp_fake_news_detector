@@ -6,7 +6,7 @@
 
 @section('content')
 <!-- rts features area start -->
-    <section class="rts-feature-area inner-one rts-section-gap2" data-bg-src="{{ asset(\'assets/images/banner/09.webp\') }}">
+    <section class="rts-feature-area inner-one rts-section-gap2" data-bg-src="{{ asset('assets/images/banner/09.webp') }}">
         <div class="container-1320">
             <div class="section-title-area center-style">
                 <p class="sub-title"><span class="dot"></span>KEY CAPABILITIES</p>
@@ -21,158 +21,35 @@
                         <div class="features-wrapper2 project">
                             <div class="wrapper-inner">
                                 <div class="top-content">
-                                    <p class="pre">Total Balance</p>
-                                    <p class="sub-title">Project budget</p>
+                                    <p class="pre">Verification Stats</p>
+                                    <p class="sub-title">Total Active Checks</p>
                                     <div class="mid-inner">
                                         <ul class="progress-list">
                                             <li>
                                                 <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/05.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Branding</p>
+                                                    <div class="icon"><img src="{{ asset('assets/images/feature/icon/05.svg') }}" alt=""></div>
+                                                    <p class="text">Linguistic Checks</p>
                                                 </div>
                                                 <div class="right">
-                                                    <p class="tag">Pending</p>
+                                                    <p class="tag done">Active</p>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/06.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Development</p>
+                                                    <div class="icon"><img src="{{ asset('assets/images/feature/icon/06.svg') }}" alt=""></div>
+                                                    <p class="text">OCR Image Scan</p>
                                                 </div>
                                                 <div class="right">
-                                                    <p class="tag done">Completed</p>
+                                                    <p class="tag done">Active</p>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/07.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Design</p>
+                                                    <div class="icon"><img src="{{ asset('assets/images/feature/icon/07.svg') }}" alt=""></div>
+                                                    <p class="text">ML Predictions</p>
                                                 </div>
                                                 <div class="right">
-                                                    <p class="tag done">Completed</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/05.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Branding</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag">Pending</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/06.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Development</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag done">Completed</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/07.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Design</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag done">Completed</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/05.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Branding</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag">Pending</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/06.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Development</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag done">Completed</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/07.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Design</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag done">Completed</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/05.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Branding</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag">Pending</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/06.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Development</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag done">Completed</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/07.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Design</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag done">Completed</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/05.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Branding</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag">Pending</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/06.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Development</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag done">Completed</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <div class="icon"><img src="{{ asset(\'assets/images/feature/icon/07.svg\') }}"
-                                                            alt=""></div>
-                                                    <p class="text">Design</p>
-                                                </div>
-                                                <div class="right">
-                                                    <p class="tag done">Completed</p>
+                                                    <p class="tag done">Active</p>
                                                 </div>
                                             </li>
                                         </ul>
@@ -189,12 +66,12 @@
                     <div class="col-xl-4 col-lg-6 wow fadeInRight" data-wow-delay=".4s">
                         <div class="features-wrapper2 labels">
                             <div class="wrapper-inner">
-                                <div class="top-shape"><img src="{{ asset(\'assets/images/feature/shape/card-shape.svg\') }}" alt="">
+                                <div class="top-shape"><img src="{{ asset('assets/images/feature/shape/card-shape.svg') }}" alt="">
                                 </div>
                                 <div class="top-content">
                                     <p class="sub-title">Add labels</p>
                                     <div class="label-image-area">
-                                        <img src="{{ asset(\'assets/images/feature/shape/labels.png\') }}" alt="">
+                                        <img src="{{ asset('assets/images/feature/shape/labels.png') }}" alt="">
                                     </div>
                                 </div>
                                 <div class="bottom-content">
@@ -210,130 +87,36 @@
                             <div class="wrapper-inner">
                                 <div class="top-content">
                                     <div class="top">
-                                        <p class="sub-title">Meeting</p>
-                                        <div class="icon"><img src="{{ asset(\'assets/images/feature/shape/toggle.svg\') }}" alt="">
-                                        </div>
+                                        <p class="sub-title">Model Retraining Status</p>
+                                        <div class="icon"><img src="{{ asset('assets/images/feature/shape/toggle.svg') }}" alt=""></div>
                                     </div>
                                     <div class="mid-inner">
                                         <ul class="schedule-list">
                                             <li>
                                                 <div class="left">
-                                                    <p class="text">Framer Development</p>
-                                                    <p class="time">01:00 PM - 02:00 PM</p>
+                                                    <p class="text">CSV Parser Job</p>
+                                                    <p class="time">Success - 14,000 Rows</p>
                                                 </div>
                                                 <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-01.webp\') }}"
-                                                            alt="" width="42"></div>
+                                                    <div class="avatar"><img src="{{ asset('assets/images/feature/avatar-01.webp') }}" alt="" width="42"></div>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="left">
-                                                    <p class="text">Product Design</p>
-                                                    <p class="time">03:30 PM</p>
+                                                    <p class="text">TF-IDF Vectorizer</p>
+                                                    <p class="time">Fit & Transform Completed</p>
                                                 </div>
                                                 <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-02.webp\') }}"
-                                                            alt="" width="42"></div>
+                                                    <div class="avatar"><img src="{{ asset('assets/images/feature/avatar-02.webp') }}" alt="" width="42"></div>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="left">
-                                                    <p class="text">Figma Design</p>
-                                                    <p class="time">03:30 PM</p>
+                                                    <p class="text">ML PassiveAggressive Model</p>
+                                                    <p class="time">Retrained - Accuracy 94.2%</p>
                                                 </div>
                                                 <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-03.webp\') }}"
-                                                            alt="" width="42"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <p class="text">Webflow website Design</p>
-                                                    <p class="time">01:00 PM - 02:00 PM</p>
-                                                </div>
-                                                <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-04.webp\') }}"
-                                                            alt="" width="42"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <p class="text">Opps Design System</p>
-                                                    <p class="time">01:00 PM - 02:00 PM</p>
-                                                </div>
-                                                <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-05.webp\') }}"
-                                                            alt="" width="42"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <p class="text">Support for lala Saas</p>
-                                                    <p class="time">03:30 PM</p>
-                                                </div>
-                                                <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-06.webp\') }}"
-                                                            alt="" width="42"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <p class="text">Framer Development</p>
-                                                    <p class="time">01:00 PM - 02:00 PM</p>
-                                                </div>
-                                                <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-01.webp\') }}"
-                                                            alt="" width="42"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <p class="text">Product Design</p>
-                                                    <p class="time">03:30 PM</p>
-                                                </div>
-                                                <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-02.webp\') }}"
-                                                            alt="" width="42"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <p class="text">Figma Design</p>
-                                                    <p class="time">03:30 PM</p>
-                                                </div>
-                                                <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-03.webp\') }}"
-                                                            alt="" width="42"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <p class="text">Webflow website Design</p>
-                                                    <p class="time">01:00 PM - 02:00 PM</p>
-                                                </div>
-                                                <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-04.webp\') }}"
-                                                            alt="" width="42"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <p class="text">Opps Design System</p>
-                                                    <p class="time">01:00 PM - 02:00 PM</p>
-                                                </div>
-                                                <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-05.webp\') }}"
-                                                            alt="" width="42"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="left">
-                                                    <p class="text">Support for lala Saas</p>
-                                                    <p class="time">03:30 PM</p>
-                                                </div>
-                                                <div class="right">
-                                                    <div class="avatar"><img src="{{ asset(\'assets/images/feature/avatar-06.webp\') }}"
-                                                            alt="" width="42"></div>
+                                                    <div class="avatar"><img src="{{ asset('assets/images/feature/avatar-03.webp') }}" alt="" width="42"></div>
                                                 </div>
                                             </li>
                                         </ul>
@@ -426,12 +209,12 @@
                             and punctuation patterns that flag fake reports.</p>
                     </div>
                     <div class="image-area">
-                        <img src="{{ asset(\'assets/images/service/01.webp\') }}" width="600" alt="">
+                        <img src="{{ asset('assets/images/service/01.webp') }}" width="600" alt="">
                     </div>
                 </div>
                 <div class="business-wrapper2 wow fadeInUp" data-wow-delay=".4s">
                     <div class="image-area">
-                        <img src="{{ asset(\'assets/images/service/02.webp\') }}" width="600" alt="">
+                        <img src="{{ asset('assets/images/service/02.webp') }}" width="600" alt="">
                     </div>
                     <div class="content-area">
                         <div class="icon">
@@ -482,12 +265,12 @@
                             of media outlets and domain sources.</p>
                     </div>
                     <div class="image-area">
-                        <img src="{{ asset(\'assets/images/service/03.webp\') }}" width="600" alt="">
+                        <img src="{{ asset('assets/images/service/03.webp') }}" width="600" alt="">
                     </div>
                 </div>
                 <div class="business-wrapper2 wow fadeInUp" data-wow-delay=".8s">
                     <div class="image-area">
-                        <img src="{{ asset(\'assets/images/service/04.webp\') }}" width="600" alt="">
+                        <img src="{{ asset('assets/images/service/04.webp') }}" width="600" alt="">
                     </div>
                     <div class="content-area">
                         <div class="icon">
@@ -531,12 +314,12 @@
     <!-- rts solution area end -->
 
     <!-- rts faq area start -->
-    <section class="rts-faq-area area-2 rts-section-gap2" data-bg-src="{{ asset(\'assets/images/faq/faq-bg.webp\') }}">
+    <section class="rts-faq-area area-2 rts-section-gap2" data-bg-src="{{ asset('assets/images/faq/faq-bg.webp') }}">
         <div class="container">
             <div class="section-inner">
                 <div class="section-title-area">
                     <div class="left">
-                        <p class="sub-title"><img src="{{ asset(\'assets/images/feature/icon/11.svg\') }}" alt="">FAQ</p>
+                        <p class="sub-title"><img src="{{ asset('assets/images/feature/icon/11.svg') }}" alt="">FAQ</p>
                         <h2 class="h3 section-title rts-text-anime-style-1 text-transform-0">Frequently Asked <br>
                             <span>Questions</span>
                         </h2>
@@ -605,7 +388,7 @@
     <section class="rts-testimonials-area area-2 rts-section-gap2">
         <div class="container">
             <div class="section-title-area center-style">
-                <p class="sub-title"><img src="{{ asset(\'assets/images/feature/icon/12.svg\') }}" alt="">Testimonial</p>
+                <p class="sub-title"><img src="{{ asset('assets/images/feature/icon/12.svg') }}" alt="">Testimonial</p>
                 <h2 class="h3 section-title rts-text-anime-style-1 text-transform-0">Trusted Voices That Strengthen <br>
                     <span>Your AI Confidencet</span></h2>
             </div>
@@ -622,7 +405,7 @@
                                         efficiently daily.</p>
                                     <div class="author-area">
                                         <div class="left">
-                                            <img src="{{ asset(\'assets/images/testimonials/round-01.svg\') }}" width="61" alt="">
+                                            <img src="{{ asset('assets/images/testimonials/round-01.svg') }}" width="61" alt="">
                                             <div class="author-content">
                                                 <p class="text">Michael Roberts</p>
                                                 <p class="desc">CEO at FinTrack Solutions</p>
@@ -698,7 +481,7 @@
                                         teams work faster.</p>
                                     <div class="author-area">
                                         <div class="left">
-                                            <img src="{{ asset(\'assets/images/testimonials/round-01.svg\') }}" width="61" alt="">
+                                            <img src="{{ asset('assets/images/testimonials/round-01.svg') }}" width="61" alt="">
                                             <div class="author-content">
                                                 <p class="text">Sarah Lee</p>
                                                 <p class="desc">Product Manager at BrightTech</p>
@@ -800,8 +583,8 @@
                     </a>
                 </div>
                 <div class="shape-area">
-                    <img src="{{ asset(\'assets/images/cta/cta-bg-shape-04.svg\') }}" alt="">
-                    <img src="{{ asset(\'assets/images/cta/cta-bg-shape-05.svg\') }}" alt="">
+                    <img src="{{ asset('assets/images/cta/cta-bg-shape-04.svg') }}" alt="">
+                    <img src="{{ asset('assets/images/cta/cta-bg-shape-05.svg') }}" alt="">
                 </div>
             </div>
         </div>
