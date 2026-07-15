@@ -25,3 +25,15 @@ Thumbs.db
 
 /ml/data/raw/*.csv
 /srs_extract.txt
+
+# Python virtual environments & bytecode cache
+.venv/
+venv/
+/ml/.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local PHP configuration overrides
+/php_local/php.ini
