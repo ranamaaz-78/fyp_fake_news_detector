@@ -16,12 +16,12 @@ class UserFactory extends Factory
 
     public function definition(): array
     {
-        $username = Str::slug(fake()->unique()->userName(), '_');
+        $username = Str::slug($this->faker->unique()->userName(), '_');
 
         return [
-            'name' => fake()->name(),
+            'name' => $this->faker->name(),
             'username' => $username,
-            'email' => fake()->unique()->safeEmail(),
+            'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'role' => 'user',

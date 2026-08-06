@@ -2,13 +2,27 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminController;
 use App\Http\Controllers\Admin\TrainingController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\NewsCheckController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [NewsCheckController::class, 'home'])->name('home');
 Route::post('/check', [NewsCheckController::class, 'check'])->name('news.check');
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+
+Route::get('/pricing', [PaymentController::class, 'showPlans'])->name('pricing');
+Route::post('/payment/checkout', [PaymentController::class, 'createCheckout'])->middleware('auth')->name('payment.checkout');
+Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+Route::post('/stripe/webhook', [PaymentController::class, 'webhook'])->name('stripe.webhook');
+
+Route::view('/how-it-works', 'news.how-it-works')->name('how-it-works');
+Route::view('/faq', 'news.faq')->name('faq');
+Route::view('/contact', 'news.contact')->name('contact');
+Route::view('/about', 'news.about')->name('about');
 
 Route::get('/dashboard', function () {
     if (auth()->user()?->isAdmin()) {

@@ -6,5 +6,13 @@
   "max_tfidf_features": 5000,
   "test_size": 0.2,
   "random_state": 42,
-  "models": ["logistic_regression", "naive_bayes", "svm"]
+  "models": ["logistic_regression", "naive_bayes", "svm"],
+  "fact_check": {
+    "enabled": true,
+    "override_threshold": 85,
+    "timeout_seconds": 4.0,
+    "source_timeout_seconds": 2.5,
+    "cache_ttl_days": 7,
+    "sources": ["local_kb", "wikidata", "google_factcheck"]
+  }
 }

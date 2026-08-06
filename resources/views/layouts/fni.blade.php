@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'FNI - Fake News Identifier')</title>
+    <title>@yield('title', 'VeriFact AI - Fake News Identifier')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
@@ -39,9 +39,10 @@
 
     <footer class="w-full bg-surface-container-low border-t border-outline-variant">
         <div class="flex flex-col md:flex-row justify-between items-center py-stack-md px-4 md:px-gutter max-w-container-max mx-auto gap-4">
-            <div class="flex items-center gap-2 text-center md:text-left flex-wrap justify-center">
-                <span class="font-label-bold text-primary">FNI</span>
-                <span class="text-body-sm text-on-surface-variant">© {{ date('Y') }} FNI. AI analysis for informational purposes only.</span>
+            <div class="flex flex-col md:flex-row items-center gap-x-2 gap-y-1 text-center md:text-left flex-wrap justify-center">
+                <span class="font-label-bold text-primary">VeriFact AI</span>
+                <span class="text-body-sm text-on-surface-variant">© {{ date('Y') }} VeriFact AI. AI analysis for informational purposes only.</span>
+                <span class="text-body-sm text-outline">Built by Maaz Naveed, Jazil Mehmood &amp; Muhammad Abrar — UCP Gujranwala</span>
             </div>
         </div>
     </footer>

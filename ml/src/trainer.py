@@ -64,28 +64,60 @@ def _load_augmentation() -> pd.DataFrame | None:
     return pd.concat(frames, ignore_index=True)
 
 
-def load_dataset(max_per_class: int | None = 8000) -> pd.DataFrame:
+def load_dataset(max_per_class: int | None = 20000) -> pd.DataFrame:
+    frames = []
+
+    # 1. WELFake Dataset (72k benchmark)
+    welfake_paths = [
+        RAW_DIR / "WELFake_Dataset.csv",
+        RAW_DIR / "welfake.csv",
+        ROOT.parent / "WELFake_Dataset.csv",
+    ]
+    for w_path in welfake_paths:
+        if w_path.exists():
+            wf = pd.read_csv(w_path)
+            title = wf["title"].fillna("") if "title" in wf.columns else ""
+            text = wf["text"].fillna("") if "text" in wf.columns else wf.iloc[:, -2].fillna("")
+            wf["combined_text"] = (title + " " + text).str.strip()
+
+            label_col = "label" if "label" in wf.columns else wf.columns[-1]
+            wf["clean_label"] = wf[label_col].map({
+                1: "FAKE", 0: "REAL",
+                "1": "FAKE", "0": "REAL",
+                "FAKE": "FAKE", "REAL": "REAL",
+                "fake": "FAKE", "real": "REAL"
+            })
+            wf = wf.dropna(subset=["combined_text", "clean_label"])
+            wf = wf[wf["combined_text"].str.len() > 15]
+            wf = wf.rename(columns={"combined_text": "text", "clean_label": "label"})[["text", "label"]]
+
+            if max_per_class:
+                fake_wf = wf[wf["label"] == "FAKE"].head(max_per_class)
+                real_wf = wf[wf["label"] == "REAL"].head(max_per_class)
+                wf = pd.concat([fake_wf, real_wf], ignore_index=True)
+
+            frames.append(wf)
+            break
+
+    # 2. Fake.csv and True.csv
     fake_path = RAW_DIR / "Fake.csv"
     true_path = RAW_DIR / "True.csv"
-
     if fake_path.exists() and true_path.exists():
         fake = pd.read_csv(fake_path, nrows=max_per_class)
         true = pd.read_csv(true_path, nrows=max_per_class)
         fake["label"] = "FAKE"
         true["label"] = "REAL"
         text_col = "text" if "text" in fake.columns else fake.columns[-1]
-        df = pd.concat(
-            [
-                fake[[text_col, "label"]].rename(columns={text_col: "text"}),
-                true[[text_col, "label"]].rename(columns={text_col: "text"}),
-            ],
-            ignore_index=True,
-        )
+        frames.append(fake[[text_col, "label"]].rename(columns={text_col: "text"}))
+        frames.append(true[[text_col, "label"]].rename(columns={text_col: "text"}))
 
-        augment = _load_augmentation()
-        if augment is not None and not augment.empty:
-            df = pd.concat([df, augment], ignore_index=True)
+    # 3. Augmentation CSVs
+    augment = _load_augmentation()
+    if augment is not None and not augment.empty:
+        frames.append(augment)
 
+    if frames:
+        df = pd.concat(frames, ignore_index=True)
         return df.dropna(subset=["text"]).drop_duplicates(subset=["text"])
 
     sample_path = ROOT / "data" / "sample_news.csv"
@@ -93,15 +125,15 @@ def load_dataset(max_per_class: int | None = 8000) -> pd.DataFrame:
         return pd.read_csv(sample_path)
 
     raise FileNotFoundError(
-        "Fake.csv and True.csv are required in ml/data/raw/. Upload both files from the admin panel."
+        "No dataset found. Please upload WELFake_Dataset.csv or Fake.csv and True.csv."
     )
 
 
 def build_models() -> dict[str, Pipeline]:
-    return {
+    models = {
         "logistic_regression": Pipeline(
             [
-                ("tfidf", TfidfVectorizer(max_features=5000, ngram_range=(1, 2))),
+                ("tfidf", TfidfVectorizer(max_features=8000, ngram_range=(1, 3), sublinear_tf=True)),
                 (
                     "clf",
                     LogisticRegression(max_iter=1000, class_weight="balanced", random_state=42),
@@ -110,13 +142,13 @@ def build_models() -> dict[str, Pipeline]:
         ),
         "naive_bayes": Pipeline(
             [
-                ("tfidf", TfidfVectorizer(max_features=5000, ngram_range=(1, 2))),
+                ("tfidf", TfidfVectorizer(max_features=8000, ngram_range=(1, 3), sublinear_tf=True)),
                 ("clf", MultinomialNB()),
             ]
         ),
         "svm": Pipeline(
             [
-                ("tfidf", TfidfVectorizer(max_features=5000, ngram_range=(1, 2))),
+                ("tfidf", TfidfVectorizer(max_features=8000, ngram_range=(1, 3), sublinear_tf=True)),
                 (
                     "clf",
                     LinearSVC(class_weight="balanced", random_state=42, max_iter=3000),
@@ -124,6 +156,24 @@ def build_models() -> dict[str, Pipeline]:
             ]
         ),
     }
+
+    try:
+        from xgboost import XGBClassifier
+
+        models["xgboost"] = Pipeline(
+            [
+                ("tfidf", TfidfVectorizer(max_features=5000, ngram_range=(1, 2))),
+                (
+                    "clf",
+                    XGBClassifier(n_estimators=100, learning_rate=0.1, max_depth=6, random_state=42, eval_metric="logloss"),
+                ),
+            ]
+        )
+        MODEL_PROGRESS["xgboost"] = (85, "Training XGBoost...")
+    except ImportError:
+        pass
+
+    return models
 
 
 def _report(stage: str, progress: int, callback: ProgressCallback | None) -> None:
@@ -165,7 +215,7 @@ def run_training(progress_callback: ProgressCallback | None = None) -> dict[str,
     best_pipeline = None
 
     for name, pipeline in build_models().items():
-        progress, stage = MODEL_PROGRESS[name]
+        progress, stage = MODEL_PROGRESS.get(name, (50, f"Training {name}..."))
         _report(stage, progress, progress_callback)
         pipeline.fit(X_train, y_train)
         y_pred = pipeline.predict(X_test)
