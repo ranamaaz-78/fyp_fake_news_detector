@@ -24,6 +24,7 @@ Homestead.yaml
 Thumbs.db
 
 /ml/data/raw/*.csv
+/ml/data/cache/
 /srs_extract.txt
 
 # Python virtual environments & bytecode cache

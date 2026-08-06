@@ -135,10 +135,9 @@
                     </a>
                     <p class="desc">Verify Smarter. Expose Falsehoods. AI-Powered Credibility Diagnostics for Everyone.</p>
                     <ul class="social-area">
-                        <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
-                        <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
-                        <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
+                        <li><a href="https://www.ucp.edu.pk/" target="_blank" rel="noopener noreferrer" aria-label="University of Central Punjab"><i class="fa-solid fa-graduation-cap"></i></a></li>
+                        <li><a href="{{ route('contact') }}" aria-label="Contact us"><i class="fa-solid fa-envelope"></i></a></li>
+                        <li><a href="{{ route('faq') }}" aria-label="Frequently asked questions"><i class="fa-solid fa-circle-question"></i></a></li>
                     </ul>
                 </div>
                 <div class="single-footer-widget-one essential-links">
@@ -165,9 +164,9 @@
                 <div class="single-footer-widget-one get-in-touch">
                     <h2 class="title">Any Questions?</h2>
                     <ul>
-                        <li><a href="mailto:support@verifactai.com">support@verifactai.com</a></li>
-                        <li><a href="tel:+011161790666">+011 16 17 90 666</a></li>
-                        <li>23 Main Street, Apt 4B Springfield, UK</li>
+                        <li><a href="{{ route('contact') }}">Send us a message</a></li>
+                        <li><a href="https://www.ucp.edu.pk/" target="_blank" rel="noopener noreferrer">University of Central Punjab</a></li>
+                        <li>1-Khayaban-e-Jinnah Road, Johar Town, Lahore, Pakistan</li>
                     </ul>
                 </div>
             </div>
@@ -176,8 +175,8 @@
                     <!-- copyright area start -->
                     <div class="copyright-area-start">
                         <p>© {{ date('Y') }} VeriFact AI. All rights reserved.</p>
-                        <p><a href="#">Privacy Policy</a></p>
-                        <p><a href="#">Terms of Services</a></p>
+                        <p>Built by Maaz Naveed, Jazil Mehmood &amp; Muhammad Abrar</p>
+                        <p>UCP Lahore &mdash; supervised by Prof. Muzammil Sadiq &mdash; Group G1F22FYPCS016</p>
                     </div>
                     <!-- copyright area end -->
                 </div>

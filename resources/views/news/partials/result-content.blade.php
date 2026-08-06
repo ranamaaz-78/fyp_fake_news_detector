@@ -40,13 +40,42 @@
     };
     $confidence = $result['confidence'];
     $level = $result['confidence_level'] ?? null;
+
+    $explanation = $result['explanation'] ?? [];
+    $factCheck = $result['fact_check'] ?? [];
+    $evidence = $factCheck['evidence'] ?? [];
+    $signals = $result['signals'] ?? [];
+    $verdictSource = $result['verdict_source'] ?? 'model';
+    $viaFactCheck = $verdictSource === 'fact_check';
+    $verdictSourceLabel = [
+        'fact_check' => 'fact check',
+        'content_signal' => 'content check',
+        'model' => 'style model',
+    ][$verdictSource] ?? 'style model';
+
+    $summary = $explanation['plain'] ?? $config['summary'];
+    $headline = $explanation['headline'] ?? 'What we found';
+    $disclaimer = $explanation['disclaimer']
+        ?? 'This tool checks writing style and a limited database of known facts. It cannot verify every real-world claim. Always confirm important news with a trusted source.';
+
+    $sourceNames = [
+        'local_kb' => 'VeriFact fact database',
+        'wikidata' => 'Wikidata',
+        'google_factcheck' => 'Google Fact Check',
+    ];
+
+    $toneStyles = [
+        'negative' => ['border-status-fake/30 bg-status-fake-light', 'text-status-fake', 'warning'],
+        'positive' => ['border-status-real/30 bg-status-real-light', 'text-status-real', 'check_circle'],
+        'neutral' => ['border-outline-variant bg-surface-container-low', 'text-outline', 'info'],
+    ];
 @endphp
 
 <div class="max-w-container-max mx-auto px-4 md:px-gutter">
     <div class="text-center mb-stack-md">
         <h1 class="text-headline-xl mb-stack-sm">Analysis Complete</h1>
         <p class="text-body-lg text-on-surface-variant max-w-card-max mx-auto">
-            Our AI has processed the source material using TF-IDF features and trained classification models.
+            Here is what we found, and how we worked it out.
         </p>
     </div>
 
@@ -86,18 +115,100 @@
                 <section>
                     <h3 class="font-label-bold text-on-surface mb-2 flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary">info</span>
-                        Summary
+                        {{ $headline }}
                     </h3>
-                    <p class="text-body-md text-on-surface-variant">{{ $config['summary'] }}</p>
+                    <p class="text-body-md text-on-surface-variant">{{ $summary }}</p>
                 </section>
 
+                @if (!empty($evidence))
+                    <section>
+                        <h3 class="font-label-bold text-on-surface mb-stack-sm flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">balance</span>
+                            What we checked against real records
+                        </h3>
+                        <ul class="space-y-3">
+                            @foreach ($evidence as $item)
+                                @php
+                                    $isContradiction = ($item['verdict'] ?? '') === 'CONTRADICTED';
+                                    $url = $item['url'] ?? null;
+                                    $isSafeUrl = $url && preg_match('#^https?://#i', $url);
+                                @endphp
+                                <li class="flex items-start gap-3 p-stack-sm rounded-lg border {{ $isContradiction ? 'border-status-fake/30 bg-status-fake-light' : 'border-status-real/30 bg-status-real-light' }}">
+                                    <span class="material-symbols-outlined {{ $isContradiction ? 'text-status-fake' : 'text-status-real' }}">
+                                        {{ $isContradiction ? 'cancel' : 'check_circle' }}
+                                    </span>
+                                    <div class="min-w-0">
+                                        <p class="text-body-md text-on-surface">{{ $item['statement'] ?? '' }}</p>
+                                        <div class="flex flex-wrap items-center gap-3 mt-1">
+                                            <span class="text-body-sm text-outline">
+                                                {{ $sourceNames[$item['source'] ?? ''] ?? ($item['source'] ?? 'Source') }}
+                                            </span>
+                                            @if ($isSafeUrl)
+                                                <a href="{{ $url }}" target="_blank" rel="noopener noreferrer"
+                                                   class="text-body-sm text-primary font-bold hover:underline">
+                                                    View source
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+
+                        @if ($viaFactCheck && $label === 'FAKE' && ($result['style_label'] ?? null) === 'REAL')
+                            <p class="text-body-sm text-on-surface-variant mt-stack-sm p-stack-sm rounded-lg bg-surface-container-low border border-outline-variant">
+                                The writing style alone looked genuine, but a fact we could check does not match.
+                                A false statement can still be written calmly, so the fact check decides this result.
+                            </p>
+                        @endif
+                        @if (!empty($factCheck['degraded']))
+                            <p class="text-body-sm text-on-surface-variant mt-stack-sm p-stack-sm rounded-lg bg-surface-container-low border border-outline-variant">
+                                Some online fact sources could not be reached, so only our offline database was used.
+                            </p>
+                        @endif
+                    </section>
+                @endif
+
+                @if (!empty($signals))
+                    <section>
+                        <h3 class="font-label-bold text-on-surface mb-stack-sm flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">query_stats</span>
+                            How we reached this result
+                        </h3>
+                        <ul class="space-y-2">
+                            @foreach ($signals as $signal)
+                                @php
+                                    [$box, $iconColor, $icon] = $toneStyles[$signal['tone'] ?? 'neutral'] ?? $toneStyles['neutral'];
+                                @endphp
+                                <li class="flex items-start gap-3 p-stack-sm rounded-lg border {{ $box }}">
+                                    <span class="material-symbols-outlined text-base {{ $iconColor }}">{{ $icon }}</span>
+                                    <p class="text-body-sm text-on-surface-variant min-w-0">
+                                        <span class="font-label-bold text-on-surface">{{ $signal['label'] ?? '' }}</span>
+                                        &mdash; {{ $signal['detail'] ?? '' }}
+                                    </p>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </section>
+                @endif
+
                 <x-fni.confidence-gauge :confidence="$confidence" :color="$config['gaugeColor']" :track="$config['gaugeTrack']" />
+
+                <p class="text-body-sm text-on-surface-variant p-stack-sm rounded-lg bg-status-uncertain-light border-l-4 border-status-uncertain">
+                    {{ $disclaimer }}
+                </p>
 
                 <div class="flex flex-wrap gap-4 text-body-sm text-outline pt-2 border-t border-outline-variant">
                     <span class="flex items-center gap-1">
                         <span class="material-symbols-outlined text-base">psychology</span>
                         Model: {{ $result['model'] ?? 'N/A' }}
                     </span>
+                    @if (isset($result['verdict_source']))
+                        <span class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-base">rule</span>
+                            Decided by: {{ $verdictSourceLabel }}
+                        </span>
+                    @endif
                     @if(!empty($result['response_time_ms']))
                         <span class="flex items-center gap-1">
                             <span class="material-symbols-outlined text-base">speed</span>

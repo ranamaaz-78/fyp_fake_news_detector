@@ -88,16 +88,16 @@
                 <!-- Processing Loader -->
                 <div id="analysisLoader" class="analysis-loader" style="display: none;">
                     <div class="analysis-step" id="step1">
-                        <i class="fa-solid fa-microchip"></i> Scanning linguistic formatting and punctuation...
+                        <i class="fa-solid fa-font"></i> Reading the text and checking how it is written...
                     </div>
                     <div class="analysis-step" id="step2">
-                        <i class="fa-solid fa-globe"></i> Researching source publisher credibility registries...
+                        <i class="fa-solid fa-link"></i> Looking for source links and known publishers...
                     </div>
                     <div class="analysis-step" id="step3">
-                        <i class="fa-solid fa-database"></i> Cross-referencing claim databases...
+                        <i class="fa-solid fa-scale-balanced"></i> Checking any factual claims against our records...
                     </div>
                     <div class="analysis-step" id="step4">
-                        <i class="fa-solid fa-brain"></i> Evaluating neural text-bias sentiment...
+                        <i class="fa-solid fa-brain"></i> Running the trained AI model...
                     </div>
                 </div>
 
@@ -121,55 +121,63 @@
                         </div>
                     </div>
 
+                    <!-- Fact check evidence (only shown when we could check a real claim) -->
+                    <div id="factCheckPanel" class="fact-check-panel" style="display: none;"></div>
+
+                    <!-- Plain-language pattern breakdown -->
+                    <div id="patternBreakdown" class="pattern-breakdown" style="display: none;"></div>
+
                     <div class="metrics-grid">
                         <!-- Style check card -->
                         <div class="metric-card">
                             <div class="metric-header">
-                                <span class="metric-name">Linguistic Style Integrity</span>
+                                <span class="metric-name">Writing Style</span>
                                 <span class="metric-score" id="valStyle">0%</span>
                             </div>
                             <div class="metric-progress">
                                 <div class="metric-progress-bar" id="barStyle"></div>
                             </div>
-                            <p class="metric-desc">Checks for capitalization ratios, excessive exclamation marks, and sensational typography formatting.</p>
+                            <p class="metric-desc">Looks at CAPITAL LETTERS, exclamation marks and clickbait wording. A higher score means calmer, more professional writing.</p>
                         </div>
 
                         <!-- Source audit card -->
                         <div class="metric-card">
                             <div class="metric-header">
-                                <span class="metric-name">Source & Domain Authority</span>
+                                <span class="metric-name">Sources &amp; Links</span>
                                 <span class="metric-score" id="valSource">0%</span>
                             </div>
                             <div class="metric-progress">
                                 <div class="metric-progress-bar" id="barSource"></div>
                             </div>
-                            <p class="metric-desc">Cross-checks domain name history and references against publisher reputation indexes.</p>
+                            <p class="metric-desc">Checks whether the text links to a recognised news outlet, an unknown site, or gives no source at all.</p>
                         </div>
 
-                        <!-- Database cross ref card -->
+                        <!-- Fact check card -->
                         <div class="metric-card">
                             <div class="metric-header">
-                                <span class="metric-name">Fact-Check Cross-Reference</span>
-                                <span class="metric-score" id="valDatabase">0%</span>
+                                <span class="metric-name">Fact Check</span>
+                                <span class="metric-score" id="valDatabase">Not checked</span>
                             </div>
                             <div class="metric-progress">
                                 <div class="metric-progress-bar" id="barDatabase"></div>
                             </div>
-                            <p class="metric-desc">Scans claims against global fact-checking organization lists and academic study archives.</p>
+                            <p class="metric-desc">Looks for claims we can actually verify, such as who holds a public office, and compares them with our fact database, Wikidata and published fact-checks.</p>
                         </div>
 
-                        <!-- ML sentiment bias card -->
+                        <!-- Model confidence card -->
                         <div class="metric-card">
                             <div class="metric-header">
-                                <span class="metric-name">Semantic Bias Analysis (AI Model)</span>
+                                <span class="metric-name">AI Model Confidence</span>
                                 <span class="metric-score" id="valML">0%</span>
                             </div>
                             <div class="metric-progress">
                                 <div class="metric-progress-bar" id="barML"></div>
                             </div>
-                            <p class="metric-desc">Evaluates emotional density, vocabulary hostility, and bias indicators in structural writing.</p>
+                            <p class="metric-desc">How sure our trained model is about its own style-based reading of the text.</p>
                         </div>
                     </div>
+
+                    <p id="resultDisclaimer" class="result-disclaimer" style="display: none;"></p>
                 </div>
             </div>
         </div>
@@ -247,8 +255,8 @@
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="feature-wrapper-6 wow fadeInRight" data-wow-delay="1.0s">
-                                <h3 class="title">Private Client-Side Analysis</h3>
-                                <p class="desc">Your text queries and searches run securely in your browser and are never saved or sent to any logs.</p>
+                                <h3 class="title">Your Checks, Saved for You</h3>
+                                <p class="desc">Every check is sent over a secure connection and stored so you can revisit it in your history. We never sell your data or share it with advertisers.</p>
                                 <div class="inner-icon">
                                     <div class="icon">
                                         <a href="#verifier" class="rts-btn btn-link">
@@ -416,7 +424,7 @@
                                         <div class="inner"></div>
                                     </div>
                                     <div class="image-area">
-                                        <img src="{{ asset('assets/images/service/05.webp') }}" alt="Newsroom SDK">
+                                        <img src="{{ asset('assets/images/service/06.webp') }}" alt="Newsroom SDK">
                                     </div>
                                 </div>
                             </div>
@@ -426,7 +434,7 @@
                                         <div class="inner"></div>
                                     </div>
                                     <div class="image-area">
-                                        <img src="{{ asset('assets/images/service/05.webp') }}" alt="Brand Safety Audit">
+                                        <img src="{{ asset('assets/images/service/04.webp') }}" alt="Brand Safety Audit">
                                     </div>
                                 </div>
                             </div>
@@ -514,7 +522,7 @@
         <div class="container-1340">
             <div class="section-title-area center-style">
                 <h2 class="section-title rts-text-anime-style-1 text-transform-0">Flexible Plans for Every User</h2>
-                <p class="desc wow fadeInUp" data-wow-delay="0.2s">Choose the plan that fits your check volume. Upgrade anytime, cancel whenever, and enjoy accurate source analysis.</p>
+                <p class="desc wow fadeInUp" data-wow-delay="0.2s">Every verification feature on this site is currently free while VeriFact AI is in development. The paid tiers below show where the project is heading — no payments are being taken yet.</p>
             </div>
             <div class="section-inner mt--60">
                 <div class="row g-28">
@@ -593,11 +601,11 @@
                                         Standard API integration access
                                     </li>
                                 </ul>
-                                <a href="{{ route('register') }}" class="rts-btn btn-primary">Get Started</a>
+                                <span class="rts-btn btn-primary disabled" aria-disabled="true">Coming Soon</span>
                             </div>
                             <div class="inner-shape">
                                 <div class="icon">
-                                    <a href="{{ route('register') }}" class="rts-btn">
+                                    <a href="#pricing" class="rts-btn">
                                         <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M2.78609 0.636774C3.42696 1.41352 5.13873 1.95475 6.7051 2.30304C8.72196 2.75133 10.7973 2.8843 12.8309 2.61539C14.3541 2.41363 16.072 2.00892 17.0527 1.19981M14.9104 15.3317C14.2695 14.555 14.0633 12.7716 14.0189 11.1676C13.962 9.10235 14.2256 7.03943 14.8759 5.09401C15.3633 3.63687 16.087 2.02707 17.0676 1.21797M17.0602 1.2089L0.63638 14.7596" stroke="white" stroke-width="2" />
                                         </svg>
@@ -651,11 +659,11 @@
                                         24/7 dedicated support desk
                                     </li>
                                 </ul>
-                                <a href="{{ route('register') }}" class="rts-btn btn-primary">Get Started</a>
+                                <a href="{{ route('contact') }}" class="rts-btn btn-primary">Contact Us</a>
                             </div>
                             <div class="inner-shape">
                                 <div class="icon">
-                                    <a href="{{ route('register') }}" class="rts-btn">
+                                    <a href="{{ route('contact') }}" class="rts-btn">
                                         <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M2.78609 0.636774C3.42696 1.41352 5.13873 1.95475 6.7051 2.30304C8.72196 2.75133 10.7973 2.8843 12.8309 2.61539C14.3541 2.41363 16.072 2.00892 17.0527 1.19981M14.9104 15.3317C14.2695 14.555 14.0633 12.7716 14.0189 11.1676C13.962 9.10235 14.2256 7.03943 14.8759 5.09401C15.3633 3.63687 16.087 2.02707 17.0676 1.21797M17.0602 1.2089L0.63638 14.7596" stroke="white" stroke-width="2" />
                                         </svg>
@@ -669,6 +677,39 @@
         </div>
     </section>
     <!-- rts pricing area end -->
+
+    <!-- team area start -->
+    <section id="team" class="rts-feature-area area-6 rts-section-gap2">
+        <div class="container-1340">
+            <div class="section-title-area center-style">
+                <h2 class="section-title rts-text-anime-style-1 text-transform-0">Built By</h2>
+                <p class="desc wow fadeInUp" data-wow-delay="0.2s">VeriFact AI is a BS Computer Science Final Year Project built at the University of Central Punjab, Lahore.</p>
+            </div>
+            <div class="section-inner mt--50">
+                <div class="row g-28 justify-content-center">
+                    @foreach ([
+                        ['name' => 'Maaz Naveed', 'role' => 'Machine Learning & Backend', 'initials' => 'MN'],
+                        ['name' => 'Jazil Mehmood', 'role' => 'Frontend & User Experience', 'initials' => 'JM'],
+                        ['name' => 'Muhammad Abrar', 'role' => 'Data, Testing & Documentation', 'initials' => 'MA'],
+                    ] as $index => $member)
+                        <div class="col-lg-4 col-md-6">
+                            <div class="team-card wow fadeInUp" data-wow-delay="0.{{ $index * 2 + 2 }}s">
+                                <div class="team-avatar">{{ $member['initials'] }}</div>
+                                <h3 class="team-name">{{ $member['name'] }}</h3>
+                                <p class="team-role">{{ $member['role'] }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="team-meta wow fadeInUp" data-wow-delay="0.8s">
+                    <p><strong>University of Central Punjab (UCP), Lahore</strong></p>
+                    <p>Supervised by <strong>Prof. Muzammil Sadiq</strong></p>
+                    <p>BSCS Final Year Project &mdash; Group <strong>G1F22FYPCS016</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- team area end -->
 
     <!-- rts cta area start -->
     <section class="rts-cta-area rts-section-gap2 area-6">
@@ -686,15 +727,14 @@
                     <div class="rts-cta-content-area">
                         <div class="section-title-area">
                             <h2 class="section-title rts-text-anime-style-1 text-transform-0 cw">Still Unsure About <br> the Source?</h2>
-                            <p class="desc wow fadeInUp" data-wow-delay="0.4s">Subscribe to our newsletter to receive weekly summaries of trending rumors, debunked hoaxes, and credibility alerts.</p>
-                            <form action="#" class="cta-subscribe-area wow fadeInUp" data-wow-delay="0.4s">
-                                <input type="text" placeholder="Your Email Address">
-                                <button class="rts-btn btn-primary" type="submit">
-                                    Subscribe <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <p class="desc wow fadeInUp" data-wow-delay="0.4s">Paste the headline, article or screenshot into our verifier and we will tell you what the writing style suggests, whether the claim matches known records, and exactly how we reached that answer.</p>
+                            <div class="cta-subscribe-area wow fadeInUp" data-wow-delay="0.4s">
+                                <a href="#verifier" class="rts-btn btn-primary">
+                                    Check a Story Now <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M2.78609 0.636774C3.42696 1.41352 5.13873 1.95475 6.7051 2.30304C8.72196 2.75133 10.7973 2.8843 12.8309 2.61539C14.3541 2.41363 16.072 2.00892 17.0527 1.19981M14.9104 15.3317C14.2695 14.555 14.0633 12.7716 14.0189 11.1676C13.962 9.10235 14.2256 7.03943 14.8759 5.09401C15.3633 3.63687 16.087 2.02707 17.0676 1.21797M17.0602 1.2089L0.63638 14.7596" stroke="white" stroke-width="2" />
                                     </svg>
-                                </button>
-                            </form>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

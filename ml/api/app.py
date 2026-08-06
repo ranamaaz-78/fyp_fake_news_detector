@@ -29,7 +29,14 @@ with open(CONFIG_PATH, encoding="utf-8") as f:
 
 MIN_CHARS = CONFIG["min_input_chars"]
 MAX_CHARS = CONFIG["max_input_chars"]
+FACT_CHECK_CONFIG = CONFIG.get("fact_check", {})
+OVERRIDE_THRESHOLD = float(FACT_CHECK_CONFIG.get("override_threshold", 85))
 ALLOWED_HOSTS = os.environ.get("FNI_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+
+DISCLAIMER = (
+    "This tool checks writing style and a limited database of known facts. It cannot verify "
+    "every real-world claim. Always confirm important news with a trusted source."
+)
 
 app = Flask(__name__)
 _predictor = None
@@ -70,6 +77,154 @@ def _maybe_reload_on_complete() -> None:
     job_id = status.get("job_id")
     if job_id and job_id != _last_reloaded_job_id:
         reload_predictor()
+
+
+def _confidence_level(confidence: float) -> str:
+    if confidence >= 75:
+        return "HIGH"
+    if confidence >= 60:
+        return "MEDIUM"
+    return "LOW"
+
+
+def _build_explanation(label, verdict_source, style_label, fact, analysis):
+    """Plain-language write-up of how the verdict was reached."""
+    bullets = []
+
+    for item in fact.get("evidence", [])[:3]:
+        bullets.append(item["statement"])
+
+    for signal in analysis["signals"]:
+        if signal["tone"] != "neutral":
+            bullets.append(f"{signal['label']} — {signal['detail']}")
+    for signal in analysis["signals"]:
+        if signal["tone"] == "neutral":
+            bullets.append(f"{signal['label']} — {signal['detail']}")
+
+    if verdict_source == "fact_check" and label == "FAKE":
+        headline = "This contradicts our records"
+        plain = (
+            "We checked the claim against known facts and found it does not match. "
+            "This is a stronger signal than the writing style, so it decides the result."
+        )
+        if style_label == "REAL":
+            plain += (
+                " The text is written calmly, which is why the style check alone rated it as "
+                "real — a false statement can still be well written."
+            )
+    elif verdict_source == "fact_check" and label == "UNCERTAIN":
+        headline = "We could not decide"
+        plain = (
+            "The writing style looked suspicious, but the specific claim we could check matched "
+            "our records. That disagreement means the result is not reliable either way."
+        )
+    elif verdict_source == "content_signal":
+        reliability = analysis.get("reliability", {})
+        if reliability.get("satire_markers"):
+            headline = "This is written as fiction, not news"
+            plain = (
+                "The text describes itself as a made-up or humorous story. Satire is not "
+                "reporting, and it causes real confusion once it is forwarded without that "
+                "label, so we do not mark it as genuine news."
+            )
+        else:
+            language = "Urdu" if reliability.get("language") == "urdu" else "Roman Urdu"
+            headline = "We cannot reliably check this text"
+            plain = (
+                f"This is written in {language}, and our AI model was trained only on English "
+                "news, so its style reading means very little here. Rather than give you a "
+                "confident answer we cannot back up, we are marking this as unverified."
+            )
+    elif label == "FAKE":
+        headline = "This looks like fake news"
+        plain = (
+            "The wording matches patterns we usually see in false or misleading stories. "
+            "We could not check the facts directly, so this is based on how it is written."
+        )
+    elif label == "REAL":
+        headline = "This reads like genuine reporting"
+        plain = (
+            "The wording matches the calm, factual style of established news outlets. "
+            "We did not find anything in our fact database that contradicts it."
+        )
+    else:
+        headline = "We are not sure about this one"
+        plain = (
+            "The text does not clearly match either genuine reporting or fake news, and we "
+            "could not check the facts directly. Treat it as unverified."
+        )
+
+    if fact.get("degraded"):
+        plain += " Some online fact sources were unreachable, so only offline checks ran."
+
+    return {
+        "headline": headline,
+        "plain": plain,
+        "bullets": bullets[:6],
+        "disclaimer": DISCLAIMER,
+    }
+
+
+def _combine(prediction, analysis, fact):
+    """Merge the style model with the fact layer.
+
+    A verified contradiction overrides the model: no amount of polished writing
+    makes a false statement true. The reverse is deliberately not symmetrical —
+    confirming one claim says nothing about the rest of the text, so a support
+    can only soften a weak FAKE, never promote anything to REAL.
+    """
+    style_label = prediction["label"]
+    style_confidence = prediction["confidence"]
+
+    label = style_label
+    confidence = style_confidence
+    verdict_source = "model"
+
+    verdict = fact.get("verdict")
+    if verdict == "CONTRADICTED" and fact.get("confidence", 0) >= OVERRIDE_THRESHOLD:
+        label = "FAKE"
+        confidence = fact["confidence"]
+        verdict_source = "fact_check"
+    elif verdict == "SUPPORTED" and style_label == "FAKE" and style_confidence < 75:
+        label = "UNCERTAIN"
+        confidence = style_confidence
+        verdict_source = "fact_check"
+
+    # With no fact-layer ruling, the model's own verdict is only worth reporting
+    # when the model could actually read the text. Roman Urdu and Urdu are absent
+    # from its training corpus, and a story that declares itself fiction is not
+    # reporting whatever its prose looks like. In both cases a confident REAL is
+    # false reassurance, so the honest answer is UNCERTAIN.
+    reliability = analysis.get("reliability", {})
+    if verdict_source == "model":
+        if reliability.get("satire_markers"):
+            if label != "FAKE":
+                label = "UNCERTAIN"
+                confidence = min(confidence, 55.0)
+            verdict_source = "content_signal"
+        elif not reliability.get("language_supported", True):
+            label = "UNCERTAIN"
+            confidence = min(confidence, 55.0)
+            verdict_source = "content_signal"
+
+    result = dict(prediction)
+    result["label"] = label
+    result["confidence"] = round(confidence, 2)
+    result["confidence_level"] = "LOW" if label == "UNCERTAIN" else _confidence_level(confidence)
+    result["style_label"] = style_label
+    result["style_confidence"] = style_confidence
+    result["verdict_source"] = verdict_source
+    result["fact_check"] = fact
+    result["signals"] = analysis["signals"]
+    result["scores"] = {
+        "style": analysis["style_score"],
+        "source": analysis["source_score"],
+        "model": round(style_confidence),
+    }
+    result["stats"] = analysis["stats"]
+    result["reliability"] = reliability
+    result["explanation"] = _build_explanation(label, verdict_source, style_label, fact, analysis)
+    return result
 
 
 @app.route("/health", methods=["GET"])
@@ -115,7 +270,7 @@ def predict():
         )
 
     try:
-        result = get_predictor().predict(text)
+        prediction = get_predictor().predict(text)
     except FileNotFoundError:
         return (
             jsonify(
@@ -129,6 +284,25 @@ def predict():
     except Exception as exc:
         return jsonify({"error": "Prediction failed", "message": str(exc)}), 500
 
+    from src import explain, fact_verification
+
+    analysis = explain.analyse(text)
+    try:
+        fact = fact_verification.verify(text, FACT_CHECK_CONFIG)
+    except Exception:
+        # The fact layer is an enhancement; a failure here must never cost the
+        # user their prediction.
+        fact = {
+            "checked": False,
+            "verdict": "NO_DATA",
+            "confidence": 0.0,
+            "claims": [],
+            "evidence": [],
+            "sources_checked": [],
+            "degraded": True,
+        }
+
+    result = _combine(prediction, analysis, fact)
     elapsed_ms = round((time.perf_counter() - start) * 1000, 2)
     result["input_length"] = len(text)
     result["response_time_ms"] = elapsed_ms

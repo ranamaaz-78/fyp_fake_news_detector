@@ -1,0 +1,640 @@
+{
+  "updated_at": "2026-08-06",
+  "generated_by": "scripts/refresh_knowledge_base.py",
+  "notes": "Facts are sourced from Wikidata. Re-run the script to refresh. Add hand-curated entries with \"manual\": true to keep them across refreshes.",
+  "office_holders": [
+    {
+      "role": "prime minister",
+      "place": "Pakistan",
+      "place_aliases": [
+        "Islamic Republic of Pakistan"
+      ],
+      "place_wikidata_id": "Q843",
+      "holder": "Shehbaz Sharif",
+      "holder_aliases": [
+        "Shahbaz Sharif",
+        "Mian Muhammad Shahbaz Sharif",
+        "Mian Shahbaz Sharif",
+        "Mian Muhammad Shehbaz Sharif",
+        "HE Muhammad Shehbaz Sharif",
+        "Muhammad Shehbaz Sharif"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q843#P6",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "Pakistan",
+      "place_aliases": [
+        "Islamic Republic of Pakistan"
+      ],
+      "place_wikidata_id": "Q843",
+      "holder": "Asif Ali Zardari",
+      "holder_aliases": [
+        "Asif Zardari",
+        "Zardari",
+        "Asif Ali",
+        "Mr.10%",
+        "Mister Ten Percent",
+        "Sadar Asif Ali Zardari"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q843#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "prime minister",
+      "place": "India",
+      "place_aliases": [
+        "Republic of India",
+        "Bharat"
+      ],
+      "place_wikidata_id": "Q668",
+      "holder": "Narendra Modi",
+      "holder_aliases": [],
+      "source": "https://www.wikidata.org/wiki/Q668#P6",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "India",
+      "place_aliases": [
+        "Republic of India"
+      ],
+      "place_wikidata_id": "Q668",
+      "holder": "Droupadi Murmu",
+      "holder_aliases": [
+        "Murmu",
+        "Draupadi Murmu"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q668#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "United States",
+      "place_aliases": [
+        "USA",
+        "US",
+        "United States of America",
+        "America"
+      ],
+      "place_wikidata_id": "Q30",
+      "holder": "Donald Trump",
+      "holder_aliases": [
+        "POTUS 45",
+        "President Donald Trump",
+        "President Trump",
+        "President Donald J. Trump",
+        "President Donald John Trump",
+        "President Donald J Trump",
+        "@realDonaldTrump",
+        "POTUS 47"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q30#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "prime minister",
+      "place": "United Kingdom",
+      "place_aliases": [
+        "UK",
+        "Britain",
+        "Great Britain"
+      ],
+      "place_wikidata_id": "Q145",
+      "holder": "Andy Burnham",
+      "holder_aliases": [],
+      "source": "https://www.wikidata.org/wiki/Q145#P6",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "monarch",
+      "place": "United Kingdom",
+      "place_aliases": [
+        "UK",
+        "Britain",
+        "Great Britain"
+      ],
+      "place_wikidata_id": "Q145",
+      "holder": "Charles III",
+      "holder_aliases": [
+        "The Prince Charles Philip Arthur George, Prince of Wales",
+        "Prince Charles Philip Arthur George, Prince of Wales",
+        "His Majesty The King",
+        "Prince Charles Philip Arthur George of Edinburgh",
+        "Charles Wales",
+        "Prince Charles",
+        "Prince Charles, Duke of Rothesay",
+        "King of England"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q145#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "prime minister",
+      "place": "Canada",
+      "place_aliases": [],
+      "place_wikidata_id": "Q16",
+      "holder": "Mark Carney",
+      "holder_aliases": [
+        "Mark Joseph Carney"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q16#P6",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "prime minister",
+      "place": "Australia",
+      "place_aliases": [],
+      "place_wikidata_id": "Q408",
+      "holder": "Anthony Albanese",
+      "holder_aliases": [
+        "Albo",
+        "Anthony Norman Albanese"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q408#P6",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "prime minister",
+      "place": "Japan",
+      "place_aliases": [],
+      "place_wikidata_id": "Q17",
+      "holder": "Sanae Takaichi",
+      "holder_aliases": [
+        "Sanae Yamamoto",
+        "Takaichi Sanae",
+        "Yamamoto Sanae"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q17#P6",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "prime minister",
+      "place": "Israel",
+      "place_aliases": [],
+      "place_wikidata_id": "Q801",
+      "holder": "Benjamin Netanyahu",
+      "holder_aliases": [
+        "Bibi",
+        "Benyamin Netanyahu",
+        "Netanyahu",
+        "Benjamin Nitai",
+        "Binyamin Netanyahu",
+        "Bibi Netanyahu",
+        "Ben Nitai",
+        "Ben Nitay"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q801#P6",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "prime minister",
+      "place": "Bangladesh",
+      "place_aliases": [],
+      "place_wikidata_id": "Q902",
+      "holder": "Tarique Rahman",
+      "holder_aliases": [
+        "Tarique Zia",
+        "Tarique"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q902#P6",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "Bangladesh",
+      "place_aliases": [],
+      "place_wikidata_id": "Q902",
+      "holder": "Mohammad Shahabuddin",
+      "holder_aliases": [
+        "Shahabuddin Chuppu",
+        "Mohammad Shahabuddin Chuppu",
+        "Mohammed Shahabuddin"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q902#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "France",
+      "place_aliases": [],
+      "place_wikidata_id": "Q142",
+      "holder": "Emmanuel Macron",
+      "holder_aliases": [],
+      "source": "https://www.wikidata.org/wiki/Q142#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "Russia",
+      "place_aliases": [
+        "Russian Federation"
+      ],
+      "place_wikidata_id": "Q159",
+      "holder": "Vladimir Putin",
+      "holder_aliases": [],
+      "source": "https://www.wikidata.org/wiki/Q159#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "China",
+      "place_aliases": [
+        "People's Republic of China"
+      ],
+      "place_wikidata_id": "Q148",
+      "holder": "Xi Jinping",
+      "holder_aliases": [
+        "General Secretary Xi Jinping",
+        "Xi-Jinping"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q148#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "Turkey",
+      "place_aliases": [
+        "Turkiye",
+        "Türkiye"
+      ],
+      "place_wikidata_id": "Q43",
+      "holder": "Recep Tayyip Erdoğan",
+      "holder_aliases": [
+        "Erdoğan"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q43#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "Afghanistan",
+      "place_aliases": [],
+      "place_wikidata_id": "Q889",
+      "holder": "Hibatullah Akhundzada",
+      "holder_aliases": [
+        "Haibatullah Akhunzada",
+        "Haybatullah Akhundzada"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q889#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "Sri Lanka",
+      "place_aliases": [],
+      "place_wikidata_id": "Q854",
+      "holder": "Anura Kurankan Dissanayake",
+      "holder_aliases": [
+        "Anura Kumara Dissanayaka",
+        "Dissanayaka Mudiyanselage Anura Kumara Dissanayake",
+        "Dissanayake Mudiyanselage Anura Kumara Dissanayaka",
+        "Anura Dissanayaka",
+        "Anura Kumara"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q854#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "Indonesia",
+      "place_aliases": [],
+      "place_wikidata_id": "Q252",
+      "holder": "Prabowo Subianto",
+      "holder_aliases": [
+        "Prabowo Soebianto",
+        "Prabowo Subianto Djojohadikusumo"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q252#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "Egypt",
+      "place_aliases": [],
+      "place_wikidata_id": "Q79",
+      "holder": "Abdel Fattah el-Sisi",
+      "holder_aliases": [
+        "General Sisi",
+        "Abdul Fattah al-Sisi",
+        "Abdel Fattah Saeed Hussein Khalil el-Sisi",
+        "Abdelfattah Said Hussein Alsisi",
+        "Abdul Fatah Khalil a-Sisi",
+        "Abdel-Fattah el-Sissi",
+        "Abdel Fattah al-Sisi",
+        "Abd El-Fattah El-Sisi"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q79#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "South Africa",
+      "place_aliases": [],
+      "place_wikidata_id": "Q258",
+      "holder": "Cyril Ramaphosa",
+      "holder_aliases": [
+        "Ramaphosa",
+        "Matamela Cyril Ramaphosa",
+        "Cyril M. Ramaphosa"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q258#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "president",
+      "place": "Brazil",
+      "place_aliases": [],
+      "place_wikidata_id": "Q155",
+      "holder": "Luiz Inácio Lula da Silva",
+      "holder_aliases": [
+        "Luis Inacio Lula da Silva"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q155#P35",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "role": "monarch",
+      "place": "Saudi Arabia",
+      "place_aliases": [],
+      "place_wikidata_id": "Q851",
+      "holder": "Salman bin Abdulaziz Al Saud",
+      "holder_aliases": [
+        "Salman Al Saud",
+        "King Salman",
+        "Salman",
+        "Salman bin Abdulaziz bin Abdul Rahman bin Faisal bin Turki bin Abdullah bin Mohammed bin Saud",
+        "Salman bin Abdul-Aziz al-Saud, King of Saudi Arabia",
+        "Salman of Saudi Arabia"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q851#P35",
+      "updated_at": "2026-08-06"
+    }
+  ],
+  "person_roles": [
+    {
+      "person": "Mohammad Babar Azam",
+      "aliases": [
+        "Babar Azam"
+      ],
+      "wikidata_id": "Q4837515",
+      "known_roles": [
+        "cricketer"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q4837515",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Shaheen Afridi",
+      "aliases": [],
+      "wikidata_id": "Q41105190",
+      "known_roles": [
+        "cricketer"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q41105190",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Virat Kohli",
+      "aliases": [],
+      "wikidata_id": "Q213854",
+      "known_roles": [
+        "cricketer"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q213854",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Cristiano Ronaldo",
+      "aliases": [
+        "El Bicho",
+        "Cristiano Ronaldo dos Santos Aveiro",
+        "CR7",
+        "Ronaldo"
+      ],
+      "wikidata_id": "Q11571",
+      "known_roles": [
+        "association football player"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q11571",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Lionel Messi",
+      "aliases": [],
+      "wikidata_id": "Q615",
+      "known_roles": [
+        "association football player"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q615",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Shah Rukh Khan",
+      "aliases": [
+        "King Khan",
+        "Shahrukh Khan",
+        "SRK",
+        "King of Bollywood",
+        "Shahrukh Meer Taj Mohamed Khan",
+        "King of romance",
+        "Bollywood Badshah"
+      ],
+      "wikidata_id": "Q9535",
+      "known_roles": [
+        "television presenter",
+        "actor",
+        "screenwriter",
+        "film producer",
+        "dancer",
+        "film actor"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q9535",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Elon Musk",
+      "aliases": [],
+      "wikidata_id": "Q317521",
+      "known_roles": [
+        "programmer",
+        "engineer",
+        "entrepreneur",
+        "investor",
+        "politician",
+        "civil servant"
+      ],
+      "not_roles": [],
+      "source": "https://www.wikidata.org/wiki/Q317521",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Bill Gates",
+      "aliases": [
+        "William Henry \"Bill\" Gates III",
+        "William H. Gates III",
+        "William H. Gates",
+        "William Henry Gates",
+        "William Henry \"Bill\" Gates",
+        "William \"Bill\" Henry Gates"
+      ],
+      "wikidata_id": "Q5284",
+      "known_roles": [
+        "entrepreneur",
+        "programmer",
+        "computer scientist",
+        "investor"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q5284",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Malala Yousafzai",
+      "aliases": [],
+      "wikidata_id": "Q32732",
+      "known_roles": [
+        "blogger",
+        "human rights defender",
+        "memoirist",
+        "writer",
+        "women's rights activist",
+        "activist"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q32732",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Wasim Akram",
+      "aliases": [
+        "WAZ",
+        "Sultan of Swing",
+        "King of Swing"
+      ],
+      "wikidata_id": "Q982801",
+      "known_roles": [
+        "cricketer",
+        "athlete"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q982801",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Shoaib Akhtar",
+      "aliases": [],
+      "wikidata_id": "Q738330",
+      "known_roles": [
+        "cricketer",
+        "autobiographer",
+        "television producer",
+        "commentator",
+        "YouTuber"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q738330",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Fawad Afzal Khan",
+      "aliases": [
+        "Fawad Khan"
+      ],
+      "wikidata_id": "Q5438697",
+      "known_roles": [
+        "singer",
+        "actor",
+        "model",
+        "screenwriter",
+        "television actor"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q5438697",
+      "updated_at": "2026-08-06"
+    },
+    {
+      "person": "Atif Aslam",
+      "aliases": [
+        "Muhammad Atif Aslam"
+      ],
+      "wikidata_id": "Q755830",
+      "known_roles": [
+        "singer",
+        "singer-songwriter",
+        "actor",
+        "film actor"
+      ],
+      "not_roles": [
+        "prime minister",
+        "president",
+        "monarch",
+        "chief minister"
+      ],
+      "source": "https://www.wikidata.org/wiki/Q755830",
+      "updated_at": "2026-08-06"
+    }
+  ]
+}

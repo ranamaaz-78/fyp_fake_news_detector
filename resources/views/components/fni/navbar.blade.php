@@ -6,15 +6,23 @@
     @endif
     <div class="flex justify-between items-center h-16 px-4 md:px-gutter max-w-container-max mx-auto">
         <div class="flex items-center gap-6 md:gap-8">
-            <a href="{{ route('home') }}" class="text-headline-lg font-bold text-primary">FNI</a>
+            <a href="{{ route('home') }}" class="text-headline-lg font-bold text-primary">VeriFact AI</a>
             <div class="hidden md:flex items-center gap-6">
                 <a href="{{ route('home') }}"
                    class="text-body-md pb-1 transition-colors {{ $active === 'home' ? 'text-primary font-bold border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary' }}">
                     Home
                 </a>
-                <a href="{{ route('home') }}#how-it-works"
+                <a href="{{ route('features') }}"
+                   class="text-body-md text-on-surface-variant hover:text-primary transition-colors">
+                    Features
+                </a>
+                <a href="{{ route('how-it-works') }}"
                    class="text-body-md text-on-surface-variant hover:text-primary transition-colors">
                     How It Works
+                </a>
+                <a href="{{ route('faq') }}"
+                   class="text-body-md text-on-surface-variant hover:text-primary transition-colors">
+                    FAQ
                 </a>
                 @auth
                     <a href="{{ route('history.index') }}"

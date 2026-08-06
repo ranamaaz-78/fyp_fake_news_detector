@@ -1,4 +1,10 @@
 // VeriFact AI - Interactive Verification Engine
+//
+// Everything shown here comes from the server response. The browser used to
+// compute its own "fact-check cross-reference" score from a hardcoded topic
+// list, which meant the number on screen was invented. Scoring, pattern
+// detection and fact checking now all happen in the ML service so the inline
+// panel and the standalone result pages describe the same analysis.
 
 document.addEventListener('DOMContentLoaded', () => {
     const checkBtn = document.getElementById('verifyBtn');
@@ -23,13 +29,82 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabContents = document.querySelectorAll('.verifier-tab-content');
     let activeTab = 'text';
 
-    // Steps list elements
     const steps = [
         document.getElementById('step1'),
         document.getElementById('step2'),
         document.getElementById('step3'),
         document.getElementById('step4')
-    ];
+    ].filter(Boolean);
+
+    /* ------------------------------------------------------------------ */
+    /* Toasts                                                              */
+    /* ------------------------------------------------------------------ */
+
+    let toastHost = null;
+
+    function toast(message, type = 'error') {
+        if (!toastHost) {
+            toastHost = document.createElement('div');
+            toastHost.className = 'vf-toast-host';
+            document.body.appendChild(toastHost);
+        }
+
+        const el = document.createElement('div');
+        el.className = `vf-toast vf-toast-${type}`;
+        el.setAttribute('role', type === 'error' ? 'alert' : 'status');
+
+        const icon = document.createElement('i');
+        icon.className = type === 'error'
+            ? 'fa-solid fa-circle-exclamation'
+            : 'fa-solid fa-circle-info';
+        el.appendChild(icon);
+
+        const text = document.createElement('span');
+        text.textContent = message;
+        el.appendChild(text);
+
+        toastHost.appendChild(el);
+        requestAnimationFrame(() => el.classList.add('vf-toast-in'));
+
+        const remove = () => {
+            el.classList.remove('vf-toast-in');
+            setTimeout(() => el.remove(), 300);
+        };
+        el.addEventListener('click', remove);
+        setTimeout(remove, 5000);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Helpers                                                             */
+    /* ------------------------------------------------------------------ */
+
+    function escapeHtml(value) {
+        const div = document.createElement('div');
+        div.textContent = value == null ? '' : String(value);
+        return div.innerHTML;
+    }
+
+    // Evidence links can come from an external fact-check API, so only plain
+    // http(s) URLs are ever rendered as anchors.
+    function safeUrl(value) {
+        if (!value) return null;
+        try {
+            const url = new URL(value, window.location.origin);
+            return (url.protocol === 'http:' || url.protocol === 'https:') ? url.href : null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    const TONE_ICONS = {
+        negative: 'fa-solid fa-triangle-exclamation',
+        positive: 'fa-solid fa-circle-check',
+        neutral: 'fa-solid fa-circle-info'
+    };
+
+    /* ------------------------------------------------------------------ */
+    /* Tabs                                                                */
+    /* ------------------------------------------------------------------ */
 
     if (tabButtons.length > 0) {
         tabButtons.forEach(btn => {
@@ -51,7 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Image Upload Interactions
+    /* ------------------------------------------------------------------ */
+    /* Image upload                                                        */
+    /* ------------------------------------------------------------------ */
+
     if (dragBoxContainer && newsImage) {
         dragBoxContainer.addEventListener('click', (e) => {
             if (e.target.closest('#removeImageBtn') || e.target.closest('#imagePreview')) {
@@ -60,7 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
             newsImage.click();
         });
 
-        // Drag and drop events
         ['dragenter', 'dragover'].forEach(eventName => {
             dragBoxContainer.addEventListener(eventName, (e) => {
                 e.preventDefault();
@@ -76,15 +153,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         dragBoxContainer.addEventListener('drop', (e) => {
-            const dt = e.dataTransfer;
-            const files = dt.files;
+            const files = e.dataTransfer.files;
             if (files.length > 0) {
                 newsImage.files = files;
                 handleImageSelect(files[0]);
             }
         });
 
-        newsImage.addEventListener('change', (e) => {
+        newsImage.addEventListener('change', () => {
             if (newsImage.files.length > 0) {
                 handleImageSelect(newsImage.files[0]);
             }
@@ -101,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleImageSelect(file) {
         if (!file.type.startsWith('image/')) {
-            alert('Please select an image file.');
+            toast('That file is not an image. Please choose a PNG or JPG.');
             return;
         }
         const reader = new FileReader();
@@ -116,19 +192,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!checkBtn) return;
 
+    /* ------------------------------------------------------------------ */
+    /* Submit                                                              */
+    /* ------------------------------------------------------------------ */
+
     checkBtn.addEventListener('click', async (e) => {
         e.preventDefault();
-        
+
         let body;
-        let headers = {
+        const csrf = document.querySelector('meta[name="csrf-token"]');
+        const headers = {
             'Accept': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            'X-CSRF-TOKEN': csrf ? csrf.getAttribute('content') : ''
         };
 
         if (activeTab === 'text') {
             const val = newsInput.value.trim();
             if (!val) {
-                alert('Please paste some news text to analyze.');
+                toast('Please paste some news text to check.');
                 return;
             }
             body = JSON.stringify({ text: val });
@@ -136,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (activeTab === 'url') {
             const val = newsUrl.value.trim();
             if (!val) {
-                alert('Please paste a link URL to analyze.');
+                toast('Please paste a news article link to check.');
                 return;
             }
             body = JSON.stringify({ url: val });
@@ -144,95 +225,47 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (activeTab === 'image') {
             const file = newsImage.files[0];
             if (!file) {
-                alert('Please upload or drag an image containing text to analyze.');
+                toast('Please upload an image that contains text.');
                 return;
             }
             body = new FormData();
             body.append('image', file);
         }
 
-        // Reset UI
         results.style.display = 'none';
         loader.style.display = 'block';
         checkBtn.disabled = true;
         btnSpinner.style.display = 'inline-block';
-        btnText.textContent = 'Verifying...';
+        btnText.textContent = 'Checking...';
 
-        // Clear all step statuses
-        steps.forEach(step => {
-            step.className = 'analysis-step';
-        });
+        steps.forEach(step => { step.className = 'analysis-step'; });
 
-        // Run analysis step animation sequence in parallel with the AJAX request
         try {
-            const apiPromise = fetch('/check', {
-                method: 'POST',
-                headers: headers,
-                body: body
-            });
+            const apiPromise = fetch('/check', { method: 'POST', headers, body });
 
-            await runAnalysisStep(0, 800);
-            await runAnalysisStep(1, 900);
-            await runAnalysisStep(2, 900);
-            await runAnalysisStep(3, 800);
+            await runAnalysisStep(0, 600);
+            await runAnalysisStep(1, 700);
+            await runAnalysisStep(2, 700);
+            await runAnalysisStep(3, 600);
 
             const response = await apiPromise;
             if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.error || 'Server error during analysis.');
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.error || errData.message || 'Something went wrong during the check.');
             }
 
             const resData = await response.json();
             if (!resData.success) {
-                throw new Error('Analysis failed.');
+                throw new Error('The check could not be completed.');
             }
 
-            const backend = resData.result; // label, confidence, model, confidence_level, probabilities
-
-            // Compute local heuristic analysis for sub-score details
-            const analysisText = resData.text || '';
-            const analysis = performNLPAnalysis(analysisText);
-
-            // Override final verdict and trust score based on the ML Model
-            let trustScore = Math.round(backend.confidence);
-            let verdict = 'Needs Verification';
-            let statusClass = 'status-mixed';
-            let strokeClass = 'stroke-mixed';
-            let explanation = '';
-
-            if (backend.label === 'REAL') {
-                verdict = 'Highly Credible';
-                statusClass = 'status-credible';
-                strokeClass = 'stroke-credible';
-                explanation = `Factual confirmation: The AI model (${backend.model}) classified this content as REAL with a confidence score of ${backend.confidence}%. Linguistic patterns correlate strongly with verified, objective reporting.`;
-            } else if (backend.label === 'FAKE') {
-                verdict = 'Likely Misinformation';
-                statusClass = 'status-suspicious';
-                strokeClass = 'stroke-suspicious';
-                trustScore = 100 - trustScore; // invert trust rating for fake news
-                explanation = `Warning: The AI model (${backend.model}) classified this content as FAKE with a confidence score of ${backend.confidence}%. It contains linguistic style patterns, extreme adjectives, or structural cues commonly found in false reporting.`;
-            } else {
-                verdict = 'Mixed / Unverified';
-                statusClass = 'status-mixed';
-                strokeClass = 'stroke-mixed';
-                trustScore = 50;
-                explanation = `Neutral or Uncertain: The AI model (${backend.model}) has insufficient confidence to classify this text definitively (${backend.confidence}% confidence). We advise cross-checking this claim against other trusted media outlets.`;
-            }
-
-            // Blend the ML score into the ML sentiment card score
-            analysis.mlScore = Math.round(backend.confidence);
-
-            // Update analysis with real backend prediction
-            analysis.overallScore = trustScore;
-            analysis.verdict = verdict;
-            analysis.statusClass = statusClass;
-            analysis.strokeClass = strokeClass;
-            analysis.explanation = explanation;
-
-            displayResults(analysis);
+            // The final step never got its completed state because the animation
+            // only ever marked the *previous* step.
+            completeAllSteps();
+            displayResults(resData.result || {}, resData.text || '');
         } catch (err) {
             console.error(err);
-            alert('Analysis Error: ' + err.message);
+            toast(err.message || 'Something went wrong during the check.');
         } finally {
             loader.style.display = 'none';
             checkBtn.disabled = false;
@@ -252,334 +285,279 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         results.style.display = 'none';
         loader.style.display = 'none';
-        window.scrollTo({
-            top: document.getElementById('verifierWidget').offsetTop - 100,
-            behavior: 'smooth'
-        });
+        const widget = document.getElementById('verifierWidget');
+        if (widget) {
+            window.scrollTo({ top: widget.offsetTop - 100, behavior: 'smooth' });
+        }
     });
 
     function runAnalysisStep(index, delay) {
         return new Promise((resolve) => {
-            if (index > 0) {
+            if (!steps[index]) { resolve(); return; }
+            if (index > 0 && steps[index - 1]) {
                 steps[index - 1].classList.remove('active');
                 steps[index - 1].classList.add('completed');
             }
             steps[index].classList.add('active');
-            
-            setTimeout(() => {
-                resolve();
-            }, delay);
+            setTimeout(resolve, delay);
         });
     }
 
-    // Heuristics NLP engine
-    function performNLPAnalysis(text) {
-        const textLower = text.toLowerCase();
-        
-        // 1. Linguistic & Style Analysis Heuristics
-        let styleScore = 100;
-        
-        // Capitalization checks
-        const words = text.split(/\s+/);
-        const uppercaseWords = words.filter(word => word.length > 3 && word === word.toUpperCase() && !/^[0-9\W]+$/.test(word));
-        const uppercaseRatio = words.length > 0 ? uppercaseWords.length / words.length : 0;
-        if (uppercaseRatio > 0.15) {
-            styleScore -= Math.min(30, uppercaseRatio * 120);
-        }
-        
-        // Punctuation checks (exclamation marks)
-        const exclamationCount = (text.match(/!/g) || []).length;
-        if (exclamationCount > 2) {
-            styleScore -= Math.min(25, exclamationCount * 5);
-        }
-
-        // Question mark checking in short headlines (typical clickbait)
-        const questionCount = (text.match(/\?/g) || []).length;
-        if (text.length < 150 && questionCount > 0) {
-            styleScore -= 10;
-        }
-
-        styleScore = Math.max(15, Math.round(styleScore));
-
-        // 2. Source Credibility Checking
-        let sourceScore = 70; // neutral default
-        let domainFound = false;
-
-        // Common domain endings in input
-        const urls = text.match(/\bhttps?:\/\/\S+/gi) || [];
-        const domainRegex = /([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}/g;
-        let domains = [];
-        
-        urls.forEach(url => {
-            const matches = url.match(domainRegex);
-            if (matches) domains.push(matches[0].toLowerCase());
+    function completeAllSteps() {
+        steps.forEach(step => {
+            step.classList.remove('active');
+            step.classList.add('completed');
         });
-
-        // If no URL but text mentions publisher domains
-        const mentionRegex = /\b([a-zA-Z0-9-]+\.(com|org|net|info|news|xyz|biz|gov|edu|co|uk))\b/gi;
-        let match;
-        while ((match = mentionRegex.exec(textLower)) !== null) {
-            domains.push(match[1]);
-        }
-
-        // Dedup domains
-        domains = [...new Set(domains)];
-
-        const suspiciousTlds = ['.info', '.xyz', '.biz', '.su', '.click', '.online', '.today', '.ru'];
-        const trustedPublishers = [
-            'nytimes.com', 'reuters.com', 'apnews.com', 'bbc.co.uk', 'bbc.com', 
-            'wikipedia.org', 'cnn.com', 'washingtonpost.com', 'guardian.com', 
-            'theguardian.com', 'bloomberg.com', 'npr.org', 'wsj.com', 'ft.com'
-        ];
-        const knownRumorPublishers = [
-            'infowars.com', 'naturalnews.com', 'worldnewsdailyreport.com', 
-            'yournewswire.com', 'freedomnews.com', 'realnews365.com'
-        ];
-
-        if (domains.length > 0) {
-            domainFound = true;
-            let suspiciousCount = 0;
-            let trustedCount = 0;
-            let rumorCount = 0;
-
-            domains.forEach(d => {
-                if (trustedPublishers.some(tp => d.includes(tp) || tp.includes(d))) {
-                    trustedCount++;
-                } else if (knownRumorPublishers.some(rp => d.includes(rp) || rp.includes(d))) {
-                    rumorCount++;
-                } else if (suspiciousTlds.some(stld => d.endsWith(stld))) {
-                    suspiciousCount++;
-                }
-            });
-
-            if (trustedCount > 0 && rumorCount === 0) {
-                sourceScore = 95;
-            } else if (rumorCount > 0) {
-                sourceScore = 15;
-            } else if (suspiciousCount > 0) {
-                sourceScore = 35;
-            } else {
-                sourceScore = 60; // unverified custom domain
-            }
-        } else {
-            // Check if user mentions standard news agencies
-            if (textLower.includes('reuters') || textLower.includes('associated press') || textLower.includes('ap news') || textLower.includes('bbc news')) {
-                sourceScore = 80;
-            }
-        }
-
-        // 3. Cross-Reference Databases (Simulated Matches)
-        let crossRefScore = 75; // Neutral baseline
-        let matchTopic = '';
-        let matchExplanation = '';
-
-        const topics = [
-            {
-                keywords: ['vaccine', 'microchip', '5g', 'bill gates', 'covid chip'],
-                score: 12,
-                verdict: 'Conspiracy Theory Debunked',
-                desc: 'Warning: Multiple independent fact-checks (WHO, CDC, Reuters Fact Check) confirm that COVID-19 vaccines do not contain microchips and do not communicate with 5G cellular networks. This claim is classified as completely false.'
-            },
-            {
-                keywords: ['flat earth', 'nasa cgi', 'nasa faked', 'antarctica wall', 'dome over earth'],
-                score: 10,
-                verdict: 'Scientific Misinformation',
-                desc: 'Warning: Claims advocating a flat Earth and faked satellite imagery contradict verified astrophysics data, satellite telemetry, and centuries of global navigation consensus. Classified as scientifically false.'
-            },
-            {
-                keywords: ['free money', 'gift card', 'cash prize', 'selected to receive', 'click link for money', 'elon musk giveaway', 'bitcoin double'],
-                score: 15,
-                verdict: 'Phishing / Financial Scam',
-                desc: 'Warning: This statement mirrors templates of viral social media scams and phishing campaigns. AI giveaway promos and doubling cryptocurrency schemes are high-risk financial frauds.'
-            },
-            {
-                keywords: ['area 51', 'alien autopsy', 'roswell ufo', 'extraterrestrial body'],
-                score: 40,
-                verdict: 'Unverified / Speculative Claim',
-                desc: 'Mixed/Speculative: While government archives acknowledge the existence of Area 51, claims regarding captured extraterrestrial crafts and autopsy videos have been systematically debunked or remain speculative without physical evidence.'
-            },
-            {
-                keywords: ['announced a new study', 'according to scientific journal', 'published research', 'peer-reviewed study', 'nasa scientists discovered'],
-                score: 90,
-                verdict: 'Likely Factual Citation',
-                desc: 'Factual: The text references scientific publication standards and research journals. Claims backed by peer-reviewed studies are statistically highly credible.'
-            }
-        ];
-
-        for (const topic of topics) {
-            const matchesAll = topic.keywords.some(kw => textLower.includes(kw));
-            if (matchesAll) {
-                crossRefScore = topic.score;
-                matchTopic = topic.verdict;
-                matchExplanation = topic.desc;
-                break;
-            }
-        }
-
-        if (!matchTopic) {
-            // General heuristics for cross reference score
-            if (text.length < 100) {
-                crossRefScore = 50; // Insufficient context to cross-reference
-                matchExplanation = 'Neutral: The submitted statement is too short to accurately cross-reference with global fact-checking registers. Please paste a full article or paragraph for deep verification.';
-            } else if (styleScore > 85 && sourceScore > 75) {
-                crossRefScore = 85;
-                matchExplanation = 'Credible Match: Linguistic patterns and source references strongly correlate with objective, verified reporting databases.';
-            } else if (styleScore < 60) {
-                crossRefScore = 40;
-                matchExplanation = 'Low Match Correlation: The highly sensational formatting of the text mimics low-credibility tabloid sources rather than authenticated journalism datasets.';
-            } else {
-                crossRefScore = 70;
-                matchExplanation = 'Unverified Status: No direct matches found in current fact-checking databases. The text utilizes neutral language, but additional source verification is recommended.';
-            }
-        }
-
-        // 4. ML Sentiment & Bias Analysis Heuristics
-        let mlScore = 100;
-        
-        const sensationalWords = [
-            'shocking', 'secret', 'miracle', 'exposed', 'conspiracy', 'omg', 
-            'unbelievable', 'never want you to know', 'insane', 'destroy', 
-            'destroying', 'scandal', 'proven', 'exposed!', 'absolutely', 
-            'liars', 'traitors', 'hoax', 'cabal', 'illuminati', 'propaganda'
-        ];
-
-        let sensationalCount = 0;
-        sensationalWords.forEach(word => {
-            const regex = new RegExp('\\b' + word + '\\b', 'gi');
-            const count = (textLower.match(regex) || []).length;
-            sensationalCount += count;
-        });
-
-        if (sensationalCount > 0) {
-            mlScore -= Math.min(60, sensationalCount * 12);
-        }
-
-        // Deduct if vocabulary is overly aggressive or emotional
-        const emotionalWords = ['hate', 'furious', 'evil', 'warped', 'disgusting', 'filthy', 'terror', 'panic', 'chaos'];
-        let emotionalCount = 0;
-        emotionalWords.forEach(word => {
-            const regex = new RegExp('\\b' + word + '\\b', 'gi');
-            const count = (textLower.match(regex) || []).length;
-            emotionalCount += count;
-        });
-
-        if (emotionalCount > 0) {
-            mlScore -= Math.min(30, emotionalCount * 8);
-        }
-
-        mlScore = Math.max(10, Math.round(mlScore));
-
-        // 5. Final Overall Trust Score Calculation
-        const overallScore = Math.round(
-            (styleScore * 0.25) + 
-            (sourceScore * 0.25) + 
-            (crossRefScore * 0.25) + 
-            (mlScore * 0.25)
-        );
-
-        let verdict = 'Needs Verification';
-        let statusClass = 'status-mixed';
-        let strokeClass = 'stroke-mixed';
-
-        if (overallScore >= 75) {
-            verdict = 'Highly Credible';
-            statusClass = 'status-credible';
-            strokeClass = 'stroke-credible';
-            if (!matchExplanation) {
-                matchExplanation = 'This text displays strong indicators of professional journalism, including objective language, high-reliability vocabulary, lack of clickbait cues, and reference patterns found in trusted media outlets.';
-            }
-        } else if (overallScore < 45) {
-            verdict = 'Likely Misinformation';
-            statusClass = 'status-suspicious';
-            strokeClass = 'stroke-suspicious';
-            if (!matchExplanation) {
-                matchExplanation = 'Warning: This text displays high clickbait metrics, sensationalized framing, biased phrasing, and structural indicators frequently linked to false reporting, rumors, or emotional manipulation.';
-            }
-        } else {
-            verdict = 'Mixed / Unverified';
-            statusClass = 'status-mixed';
-            strokeClass = 'stroke-mixed';
-            if (!matchExplanation) {
-                matchExplanation = 'Neutral/Mixed: The text displays moderate linguistic balance, but lacks direct primary source citations. Some claims may be speculative or require further context to verify fully.';
-            }
-        }
-
-        return {
-            overallScore,
-            verdict,
-            statusClass,
-            strokeClass,
-            styleScore,
-            sourceScore,
-            crossRefScore,
-            mlScore,
-            explanation: matchExplanation
-        };
     }
 
-    function displayResults(data) {
-        // Update circular gauge score
+    /* ------------------------------------------------------------------ */
+    /* Rendering                                                           */
+    /* ------------------------------------------------------------------ */
+
+    const VERDICTS = {
+        FAKE_FACT: {
+            badge: 'Contradicts Known Facts',
+            statusClass: 'status-suspicious',
+            strokeClass: 'stroke-suspicious'
+        },
+        FAKE: {
+            badge: 'Likely Fake News',
+            statusClass: 'status-suspicious',
+            strokeClass: 'stroke-suspicious'
+        },
+        REAL: {
+            badge: 'Looks Credible',
+            statusClass: 'status-credible',
+            strokeClass: 'stroke-credible'
+        },
+        UNCERTAIN: {
+            badge: 'Not Enough Evidence',
+            statusClass: 'status-mixed',
+            strokeClass: 'stroke-mixed'
+        }
+    };
+
+    function displayResults(result, originalText) {
+        const label = result.label || 'UNCERTAIN';
+        const confidence = Number(result.confidence) || 0;
+        const factCheck = result.fact_check || {};
+        const explanation = result.explanation || {};
+        const scores = result.scores || {};
+        const viaFactCheck = result.verdict_source === 'fact_check';
+
+        let verdict;
+        let trustScore;
+        if (label === 'FAKE') {
+            verdict = viaFactCheck ? VERDICTS.FAKE_FACT : VERDICTS.FAKE;
+            trustScore = Math.max(0, 100 - Math.round(confidence));
+        } else if (label === 'REAL') {
+            verdict = VERDICTS.REAL;
+            trustScore = Math.round(confidence);
+        } else {
+            verdict = VERDICTS.UNCERTAIN;
+            trustScore = 50;
+        }
+
+        // Gauge
         const fillCircle = document.getElementById('scoreFill');
         const scoreVal = document.getElementById('scoreValue');
+        if (scoreVal) scoreVal.textContent = `${trustScore}%`;
+        if (fillCircle) {
+            const circumference = 2 * Math.PI * 60;
+            fillCircle.classList.remove('stroke-credible', 'stroke-mixed', 'stroke-suspicious');
+            fillCircle.classList.add(verdict.strokeClass);
+            fillCircle.style.strokeDashoffset = circumference - (circumference * trustScore) / 100;
+        }
+
+        // Verdict text
         const verdictBadge = document.getElementById('verdictBadge');
         const verdictTitle = document.getElementById('verdictTitle');
         const verdictDesc = document.getElementById('verdictDesc');
+        if (verdictBadge) {
+            verdictBadge.textContent = verdict.badge;
+            verdictBadge.className = `verdict-badge ${verdict.statusClass}`;
+        }
+        if (verdictTitle) {
+            verdictTitle.textContent = explanation.headline || verdict.badge;
+        }
+        if (verdictDesc) {
+            verdictDesc.textContent = explanation.plain
+                || 'We could not produce a detailed explanation for this check.';
+        }
 
-        // Update score numbers
-        scoreVal.textContent = `${data.overallScore}%`;
+        renderFactCheck(factCheck, viaFactCheck, result.style_label, label);
+        renderPatterns(result.signals || []);
+        renderDisclaimer(explanation.disclaimer);
 
-        // Update circular progress bar
-        const r = 60;
-        const circumference = 2 * Math.PI * r; // 377
-        const offset = circumference - (circumference * data.overallScore) / 100;
-        
-        // Remove old stroke status classes
-        fillCircle.classList.remove('stroke-credible', 'stroke-mixed', 'stroke-suspicious');
-        fillCircle.classList.add(data.strokeClass);
-        fillCircle.style.strokeDashoffset = offset;
+        updateSubScoreBar('barStyle', 'valStyle', scores.style);
+        updateSubScoreBar('barSource', 'valSource', scores.source);
+        updateFactMetric(factCheck);
+        updateSubScoreBar('barML', 'valML', scores.model != null ? scores.model : Math.round(confidence));
 
-        // Update badge text and classes
-        verdictBadge.textContent = data.verdict;
-        verdictBadge.className = `verdict-badge ${data.statusClass}`;
-
-        // Update explanation texts
-        verdictTitle.textContent = data.verdict === 'Highly Credible' ? 'Source Credibility Confirmed' : (data.verdict === 'Likely Misinformation' ? 'Misinformation Warning Flagged' : 'Additional Verification Advised');
-        verdictDesc.textContent = data.explanation;
-
-        // Update sub-score metric bars
-        updateSubScoreBar('barStyle', 'valStyle', data.styleScore);
-        updateSubScoreBar('barSource', 'valSource', data.sourceScore);
-        updateSubScoreBar('barDatabase', 'valDatabase', data.crossRefScore);
-        updateSubScoreBar('barML', 'valML', data.mlScore);
-
-        // Show the results section
         results.style.display = 'block';
-
-        // Scroll to results smoothly
         setTimeout(() => {
-            window.scrollTo({
-                top: results.offsetTop - 120,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: results.offsetTop - 120, behavior: 'smooth' });
         }, 100);
+    }
+
+    function renderFactCheck(factCheck, viaFactCheck, styleLabel, finalLabel) {
+        const panel = document.getElementById('factCheckPanel');
+        if (!panel) return;
+
+        const evidence = Array.isArray(factCheck.evidence) ? factCheck.evidence : [];
+        if (evidence.length === 0) {
+            panel.innerHTML = '';
+            panel.style.display = 'none';
+            return;
+        }
+
+        const sourceNames = {
+            local_kb: 'VeriFact fact database',
+            wikidata: 'Wikidata',
+            google_factcheck: 'Google Fact Check'
+        };
+
+        const items = evidence.map(item => {
+            const isContradiction = item.verdict === 'CONTRADICTED';
+            const url = safeUrl(item.url);
+            const sourceLabel = sourceNames[item.source] || item.source || 'Source';
+            const link = url
+                ? `<a class="fact-evidence-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">
+                       View source <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                   </a>`
+                : '';
+
+            return `
+                <li class="fact-evidence-item ${isContradiction ? 'is-contradiction' : 'is-support'}">
+                    <span class="fact-evidence-icon">
+                        <i class="fa-solid ${isContradiction ? 'fa-xmark' : 'fa-check'}"></i>
+                    </span>
+                    <div class="fact-evidence-body">
+                        <p class="fact-evidence-text">${escapeHtml(item.statement)}</p>
+                        <div class="fact-evidence-meta">
+                            <span class="fact-evidence-source">${escapeHtml(sourceLabel)}</span>
+                            ${link}
+                        </div>
+                    </div>
+                </li>`;
+        }).join('');
+
+        let note = '';
+        if (viaFactCheck && finalLabel === 'FAKE' && styleLabel === 'REAL') {
+            note = `<p class="fact-check-note">
+                        The writing style alone looked genuine, but a fact we could check does not
+                        match. A false statement can still be written calmly, so the fact check
+                        decides this result.
+                    </p>`;
+        }
+        if (factCheck.degraded) {
+            note += `<p class="fact-check-note">
+                        Some online fact sources could not be reached, so only our offline
+                        database was used.
+                     </p>`;
+        }
+
+        panel.innerHTML = `
+            <div class="fact-check-header">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <h5>What we checked against real records</h5>
+            </div>
+            <ul class="fact-evidence-list">${items}</ul>
+            ${note}`;
+        panel.style.display = 'block';
+    }
+
+    function renderPatterns(signals) {
+        const container = document.getElementById('patternBreakdown');
+        if (!container) return;
+
+        if (!signals.length) {
+            container.innerHTML = '';
+            container.style.display = 'none';
+            return;
+        }
+
+        const order = { negative: 0, positive: 1, neutral: 2 };
+        const sorted = signals.slice().sort((a, b) => (order[a.tone] ?? 3) - (order[b.tone] ?? 3));
+
+        const pills = sorted.map(signal => `
+            <li class="pattern-pill pattern-${escapeHtml(signal.tone)}" title="${escapeHtml(signal.detail)}">
+                <i class="${TONE_ICONS[signal.tone] || TONE_ICONS.neutral}"></i>
+                <span class="pattern-pill-label">${escapeHtml(signal.label)}</span>
+                <span class="pattern-pill-detail">${escapeHtml(signal.detail)}</span>
+            </li>`).join('');
+
+        container.innerHTML = `
+            <div class="pattern-header">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                <h5>How we reached this result</h5>
+            </div>
+            <ul class="pattern-pill-list">${pills}</ul>`;
+        container.style.display = 'block';
+
+        // Stagger the reveal so the list reads top to bottom.
+        container.querySelectorAll('.pattern-pill').forEach((pill, index) => {
+            pill.style.animationDelay = `${index * 70}ms`;
+            pill.classList.add('pattern-pill-in');
+        });
+    }
+
+    function renderDisclaimer(text) {
+        const el = document.getElementById('resultDisclaimer');
+        if (!el) return;
+        el.textContent = text
+            || 'This tool checks writing style and a limited database of known facts. It cannot '
+             + 'verify every real-world claim. Always confirm important news with a trusted source.';
+        el.style.display = 'block';
+    }
+
+    function updateFactMetric(factCheck) {
+        const bar = document.getElementById('barDatabase');
+        const text = document.getElementById('valDatabase');
+        if (!bar || !text) return;
+
+        const verdict = factCheck.verdict;
+        const hasClaims = Array.isArray(factCheck.claims) && factCheck.claims.length > 0;
+
+        let width = 0;
+        let color = '#94a3b8';
+        let statusText = 'No claim found';
+
+        if (verdict === 'CONTRADICTED') {
+            width = 100;
+            color = '#f54329';
+            statusText = 'Contradicted';
+        } else if (verdict === 'SUPPORTED') {
+            width = 100;
+            color = '#48bb78';
+            statusText = 'Confirmed';
+        } else if (hasClaims) {
+            width = 20;
+            statusText = 'No record found';
+        }
+
+        // Deliberately not a percentage: there is no meaningful score when
+        // nothing checkable was found, and inventing one is what this replaced.
+        text.textContent = statusText;
+        bar.style.width = `${width}%`;
+        bar.style.backgroundColor = color;
     }
 
     function updateSubScoreBar(barId, valId, score) {
         const bar = document.getElementById(barId);
         const text = document.getElementById(valId);
-        if (bar && text) {
-            text.textContent = `${score}%`;
-            bar.style.width = `${score}%`;
-            
-            // Assign gradient color classes to bars
-            bar.classList.remove('bg-success', 'bg-warning', 'bg-danger');
-            if (score >= 75) {
-                bar.style.backgroundColor = '#48bb78';
-            } else if (score >= 45) {
-                bar.style.backgroundColor = '#ecc94b';
-            } else {
-                bar.style.backgroundColor = '#f54329';
-            }
+        if (!bar || !text || score == null) return;
+
+        const value = Math.max(0, Math.min(100, Math.round(score)));
+        text.textContent = `${value}%`;
+        bar.style.width = `${value}%`;
+
+        if (value >= 75) {
+            bar.style.backgroundColor = '#48bb78';
+        } else if (value >= 45) {
+            bar.style.backgroundColor = '#ecc94b';
+        } else {
+            bar.style.backgroundColor = '#f54329';
         }
     }
 });
