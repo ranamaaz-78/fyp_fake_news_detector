@@ -1,6 +1,6 @@
-@extends('layouts.fni')
+@extends(auth()->check() ? 'layouts.fni' : 'layouts.frontend')
 
-@section('title', 'FNI | Result: UNCERTAIN')
+@section('title', 'VeriFact AI | Result: UNCERTAIN')
 
 @section('content')
 @include('news.partials.result-content')

@@ -7,6 +7,7 @@ use App\Services\ArticleExtractionService;
 use App\Services\FakeNewsApiService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 use RuntimeException;
 
@@ -66,9 +67,31 @@ class NewsCheckController extends Controller
         if ($request->hasFile('image')) {
             try {
                 $imageFile = $request->file('image');
-                $ocrResponse = \Illuminate\Support\Facades\Http::attach(
+                $imageBytes = file_get_contents($imageFile->getRealPath());
+
+                // --- AI Image Detection (always runs) ---
+                $imageAnalysis = null;
+                try {
+                    $mlBaseUrl = rtrim(config('fni.ml_api_url'), '/');
+                    $imgResponse = Http::timeout(config('fni.ml_timeout'))
+                        ->attach(
+                            'image',
+                            $imageBytes,
+                            $imageFile->getClientOriginalName()
+                        )
+                        ->post("{$mlBaseUrl}/analyze-image");
+
+                    if ($imgResponse->successful()) {
+                        $imageAnalysis = $imgResponse->json();
+                    }
+                } catch (\Throwable) {
+                    // Image detection is optional — OCR + text analysis still runs.
+                }
+
+                // --- OCR Text Extraction ---
+                $ocrResponse = Http::attach(
                     'file',
-                    file_get_contents($imageFile->getRealPath()),
+                    $imageBytes,
                     $imageFile->getClientOriginalName()
                 )->post('https://api.ocr.space/parse/image', [
                     'apikey' => 'helloworld',
@@ -88,6 +111,22 @@ class NewsCheckController extends Controller
                 }
 
                 if (strlen($text) < config('fni.min_input_chars')) {
+                    // If OCR text is too short but we have image analysis, return just that.
+                    if ($imageAnalysis) {
+                        if ($request->expectsJson() || $request->ajax()) {
+                            return response()->json([
+                                'success' => true,
+                                'text' => '',
+                                'result' => [
+                                    'label' => 'UNCERTAIN',
+                                    'confidence' => 0,
+                                    'confidence_level' => 'LOW',
+                                    'model' => 'none',
+                                ],
+                                'image_analysis' => $imageAnalysis,
+                            ]);
+                        }
+                    }
                     throw new \RuntimeException('The text extracted from the image is too short for analysis.');
                 }
             } catch (\RuntimeException $e) {
@@ -98,6 +137,7 @@ class NewsCheckController extends Controller
                     ->withInput()
                     ->withErrors(['image' => $e->getMessage()]);
             }
+
         } elseif ($request->filled('url')) {
             try {
                 $text = $this->extractor->extract($validated['url']);
@@ -136,11 +176,15 @@ class NewsCheckController extends Controller
         ]);
 
         if ($request->expectsJson() || $request->ajax()) {
-            return response()->json([
+            $response = [
                 'success' => true,
                 'text' => $text,
                 'result' => $result,
-            ]);
+            ];
+            if (isset($imageAnalysis)) {
+                $response['image_analysis'] = $imageAnalysis;
+            }
+            return response()->json($response);
         }
 
         $view = match ($result['label']) {

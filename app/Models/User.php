@@ -20,6 +20,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'role',
         'is_active',
+        'is_premium',
+        'stripe_customer_id',
+        'premium_expires_at',
     ];
 
     protected $hidden = [
@@ -33,6 +36,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'is_premium' => 'boolean',
+            'premium_expires_at' => 'datetime',
         ];
     }
 
@@ -49,5 +54,22 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    public function isPremium(): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        if (!$this->is_premium) {
+            return false;
+        }
+
+        if ($this->premium_expires_at && $this->premium_expires_at->isPast()) {
+            return false;
+        }
+
+        return true;
     }
 }

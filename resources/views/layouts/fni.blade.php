@@ -42,7 +42,7 @@
             <div class="flex flex-col md:flex-row items-center gap-x-2 gap-y-1 text-center md:text-left flex-wrap justify-center">
                 <span class="font-label-bold text-primary">VeriFact AI</span>
                 <span class="text-body-sm text-on-surface-variant">© {{ date('Y') }} VeriFact AI. AI analysis for informational purposes only.</span>
-                <span class="text-body-sm text-outline">Built by Maaz Naveed, Jazil Mehmood &amp; Muhammad Abrar — UCP Lahore</span>
+                <span class="text-body-sm text-outline">Built by Maaz Naveed, Jazil Mehmood &amp; Muhammad Abrar — UCP Gujranwala</span>
             </div>
         </div>
     </footer>

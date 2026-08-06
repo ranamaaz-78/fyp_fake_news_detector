@@ -3,7 +3,7 @@
 <nav class="h-full w-full flex flex-col py-6 px-4 bg-[#1a2d54] text-white border-r border-white/10" style="font-family: 'Inter', sans-serif;">
     <div class="mb-8 px-2">
         <a href="{{ route('home') }}">
-            <img src="{{ asset('assets/images/navwhitelogo.svg') }}" alt="logo" style="max-height: 38px; margin-bottom: 8px;">
+            <img src="{{ asset('assets/images/navcolorlogo.svg') }}" alt="logo" style="max-height: 38px; margin-bottom: 8px;">
         </a>
         <p class="text-xs text-white/60 tracking-wider font-semibold uppercase">System Control</p>
     </div>

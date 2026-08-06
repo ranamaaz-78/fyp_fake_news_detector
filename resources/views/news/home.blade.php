@@ -33,42 +33,72 @@
     <section id="verifier" class="verifier-section">
         <div class="container-1340">
             <div id="verifierWidget" class="verifier-container">
+                <!-- Glowing Top Border Accent -->
+                <div class="verifier-top-glow"></div>
+
                 <div class="verifier-title-block">
-                    <h3>Real-Time News Verifier</h3>
-                    <p>Paste an article paragraph, headline, or domain URL to run an instant credibility and sensationalism check.</p>
+                    <div class="verifier-badge">
+                        <i class="fa-solid fa-sparkles"></i>
+                        <span>AI-Powered Fact & Credibility Engine</span>
+                    </div>
+                    <h3>Real-Time Disinformation Detector</h3>
+                    <p>Paste a news statement, article URL, or photo to run instant NLP linguistic diagnostics, AI image verification, and fact checking.</p>
                 </div>
+
                 <form class="verifier-form">
-                    <!-- Tabs -->
-                    <div class="verifier-tabs mb-4 d-flex justify-content-center gap-3">
-                        <button type="button" class="verifier-tab-btn active" data-tab="text">
-                            <i class="fa-solid fa-file-lines"></i> Text Check
-                        </button>
-                        <button type="button" class="verifier-tab-btn" data-tab="url">
-                            <i class="fa-solid fa-link"></i> URL Link Check
-                        </button>
-                        <button type="button" class="verifier-tab-btn" data-tab="image">
-                            <i class="fa-solid fa-image"></i> Image Check
-                        </button>
+                    <!-- Segmented Tabs -->
+                    <div class="verifier-tabs-wrapper">
+                        <div class="verifier-tabs mb-4">
+                            <button type="button" class="verifier-tab-btn active" data-tab="text">
+                                <i class="fa-solid fa-file-lines"></i>
+                                <span>Text Analysis</span>
+                            </button>
+                            <button type="button" class="verifier-tab-btn" data-tab="url">
+                                <i class="fa-solid fa-globe"></i>
+                                <span>URL Link Audit</span>
+                            </button>
+                            <button type="button" class="verifier-tab-btn" data-tab="image">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span>AI Image Scanner</span>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Tab Contents -->
                     <div class="verifier-tab-content active" id="tab-text">
-                        <textarea id="newsText" placeholder="Paste the news story, statement, or article here... (e.g., 'SHOCKING: Secrets exposed! The government is hiding a miracle vaccine cure!!!' or standard factual report text)"></textarea>
+                        <div class="textarea-wrapper">
+                            <textarea id="newsText" placeholder="Paste the news story, viral claim, or article text here... (e.g. 'SHOCKING: Secrets exposed! The government is hiding a miracle cure!!!' or standard factual report text)"></textarea>
+                            <div class="textarea-bottom-bar">
+                                <div class="sample-chips">
+                                    <span class="sample-chips-label"><i class="fa-solid fa-lightbulb"></i> Try sample:</span>
+                                    <button type="button" class="sample-chip-btn" id="sampleClickbait">⚡ Fake Clickbait</button>
+                                    <button type="button" class="sample-chip-btn" id="sampleFact">📰 Factual News</button>
+                                    <button type="button" class="sample-chip-btn" id="sampleClaim">🏛️ False Claim</button>
+                                </div>
+                                <span class="char-count" id="charCounter">0 / 10,000</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="verifier-tab-content d-none" id="tab-url">
-                        <input type="url" id="newsUrl" class="verifier-input mb-4" placeholder="Paste the news article link here... (e.g., https://nytimes.com/some-article-url)">
+                        <div class="url-input-wrapper mb-4">
+                            <i class="fa-solid fa-link url-icon"></i>
+                            <input type="url" id="newsUrl" class="verifier-input" placeholder="Paste news article URL here... (e.g. https://nytimes.com/some-article-url)">
+                            <button type="button" class="url-paste-btn" id="pasteUrlBtn"><i class="fa-solid fa-paste"></i> Paste</button>
+                        </div>
                     </div>
                     <div class="verifier-tab-content d-none" id="tab-image">
                         <div class="image-upload-wrapper text-center p-5 mb-4 cursor-pointer" id="dragBoxContainer">
                             <input type="file" id="newsImage" accept="image/*" class="d-none">
                             <div id="imageDragBox" class="py-3">
-                                <i class="fa-solid fa-cloud-arrow-up text-primary mb-3" style="font-size: 40px;"></i>
-                                <h5 class="mb-2" style="color: #1a2d54;">Choose image file or drag here</h5>
-                                <p class="text-sm mb-0" style="color: #64748b;">Supports PNG, JPG, JPEG up to 4MB</p>
+                                <div class="upload-icon-circle mb-3">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                </div>
+                                <h5 class="mb-2" style="color: #1e293b; font-weight: 700;">Drop news image or click to browse</h5>
+                                <p class="text-sm mb-0" style="color: #64748b;">Runs OCR text extraction + 4-technique AI image detection (PNG, JPG, JPEG up to 10MB)</p>
                             </div>
                             <div id="imagePreviewBox" class="d-none position-relative d-inline-block">
-                                <img id="imagePreview" src="" alt="preview" style="max-height: 150px; border-radius: 8px; border: 1px solid #cbd5e1;">
-                                <button type="button" id="removeImageBtn" class="btn btn-danger btn-sm rounded-circle position-absolute" style="top: -10px; right: -10px; border-radius: 50%; padding: 4px 8px; font-size: 11px;"><i class="fa-solid fa-xmark"></i></button>
+                                <img id="imagePreview" src="" alt="preview" style="max-height: 180px; border-radius: 12px; border: 2px solid #cbd5e1; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                                <button type="button" id="removeImageBtn" class="btn btn-danger btn-sm rounded-circle position-absolute" style="top: -12px; right: -12px; border-radius: 50%; width: 28px; height: 28px; padding: 0; display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-xmark"></i></button>
                             </div>
                         </div>
                     </div>
@@ -76,12 +106,14 @@
                     <div class="verifier-actions">
                         <button type="submit" id="verifyBtn" class="verifier-btn">
                             <span class="spinner" id="btnSpinner" style="display: none;"></span>
-                            <span id="btnText">Verify Now</span>
+                            <span id="btnText">Verify Credibility</span>
                             <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.78609 0.636774C3.42696 1.41352 5.13873 1.95475 6.7051 2.30304C8.72196 2.75133 10.7973 2.8843 12.8309 2.61539C14.3541 2.41363 16.072 2.00892 17.0527 1.19981M14.9104 15.3317C14.2695 14.555 14.0633 12.7716 14.0189 11.1676C13.962 9.10235 14.2256 7.03943 14.8759 5.09401C15.3633 3.63687 16.087 2.02707 17.0676 1.21797M17.0602 1.2089L0.63638 14.7596" stroke="white" stroke-width="2" />
                             </svg>
                         </button>
-                        <button type="button" id="clearBtn" class="verifier-btn-clear">Clear Input</button>
+                        <button type="button" id="clearBtn" class="verifier-btn-clear">
+                            <i class="fa-solid fa-rotate-left"></i> Reset
+                        </button>
                     </div>
                 </form>
 
@@ -178,6 +210,12 @@
                     </div>
 
                     <p id="resultDisclaimer" class="result-disclaimer" style="display: none;"></p>
+
+                    <!-- AI Image Detection Results (only shown for image uploads) -->
+                    <div id="imageAnalysisPanel" style="display: none;"></div>
+
+                    <!-- User Feedback -->
+                    <div id="feedbackPanel" style="display: none;"></div>
                 </div>
             </div>
         </div>
@@ -301,8 +339,8 @@
                     <div class="row g-28">
                         <div class="col-lg-7 col-md-6">
                             <div class="why-choose-wrapper shape-one wow scaleIn" data-wow-delay="0.2s">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/images/why-choose/telemedicine.svg') }}" alt="icon">
+                                <div class="icon" style="display: flex; align-items: center; justify-content: center;">
+                                    <i class="fa-solid fa-gauge-high" style="font-size: 32px; color: #ffffff;"></i>
                                 </div>
                                 <h3 class="title cw">Instant Credibility Grades</h3>
                                 <p class="desc cw">Get clear visual status indicators, exact truth percentages, and a structural language diagnosis in under 4 seconds.</p>
@@ -313,8 +351,8 @@
                         </div>
                         <div class="col-lg-5 col-md-6">
                             <div class="why-choose-wrapper shape-two wow scaleIn" data-wow-delay="0.4s">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/images/why-choose/medical-record.svg') }}" alt="icon">
+                                <div class="icon" style="display: flex; align-items: center; justify-content: center;">
+                                    <i class="fa-solid fa-shield-halved" style="font-size: 32px; color: #ffffff;"></i>
                                 </div>
                                 <h3 class="title cw">100% Unbiased Auditing</h3>
                                 <p class="desc cw">Our analyzer executes checks based strictly on factual metrics and vocabulary styling, remaining totally neutral.</p>
@@ -325,8 +363,8 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="why-choose-wrapper shape-three wow scaleIn" data-wow-delay="0.6s">
-                                <div class="icon">
-                                    <img src="{{ asset('assets/images/why-choose/wishlist.svg') }}" alt="icon">
+                                <div class="icon" style="display: flex; align-items: center; justify-content: center;">
+                                    <i class="fa-solid fa-database" style="font-size: 32px; color: #ffffff;"></i>
                                 </div>
                                 <h3 class="title cw">Continuous Database Synced</h3>
                                 <p class="desc cw">We constantly sync with academic archives and global fact-checking agencies to keep our reference patterns updated.</p>
@@ -414,7 +452,7 @@
                                         <div class="inner"></div>
                                     </div>
                                     <div class="image-area">
-                                        <img src="{{ asset('assets/images/service/05.webp') }}" alt="Social Media Scanner">
+                                        <img src="{{ asset('assets/images/custom/social_scanner.png') }}" alt="Social Media Scanner" style="border-radius: 16px; box-shadow: 0 12px 30px rgba(0,0,0,0.15);">
                                     </div>
                                 </div>
                             </div>
@@ -424,7 +462,7 @@
                                         <div class="inner"></div>
                                     </div>
                                     <div class="image-area">
-                                        <img src="{{ asset('assets/images/service/06.webp') }}" alt="Newsroom SDK">
+                                        <img src="{{ asset('assets/images/custom/newsroom_sdk.png') }}" alt="Newsroom SDK" style="border-radius: 16px; box-shadow: 0 12px 30px rgba(0,0,0,0.15);">
                                     </div>
                                 </div>
                             </div>
@@ -434,7 +472,7 @@
                                         <div class="inner"></div>
                                     </div>
                                     <div class="image-area">
-                                        <img src="{{ asset('assets/images/service/04.webp') }}" alt="Brand Safety Audit">
+                                        <img src="{{ asset('assets/images/custom/hero_dashboard.png') }}" alt="Brand Safety Audit" style="border-radius: 16px; box-shadow: 0 12px 30px rgba(0,0,0,0.15);">
                                     </div>
                                 </div>
                             </div>
@@ -601,7 +639,10 @@
                                         Standard API integration access
                                     </li>
                                 </ul>
-                                <span class="rts-btn btn-primary disabled" aria-disabled="true">Coming Soon</span>
+                                <form method="POST" action="{{ route('payment.checkout') }}">
+                                    @csrf
+                                    <button type="submit" class="rts-btn btn-primary border-0 w-100 cursor-pointer">Upgrade to Pro</button>
+                                </form>
                             </div>
                             <div class="inner-shape">
                                 <div class="icon">
@@ -702,7 +743,7 @@
                     @endforeach
                 </div>
                 <div class="team-meta wow fadeInUp" data-wow-delay="0.8s">
-                    <p><strong>University of Central Punjab (UCP), Lahore</strong></p>
+                    <p><strong>University of Central Punjab (UCP), Gujranwala Campus</strong></p>
                     <p>Supervised by <strong>Prof. Muzammil Sadiq</strong></p>
                     <p>BSCS Final Year Project &mdash; Group <strong>G1F22FYPCS016</strong></p>
                 </div>

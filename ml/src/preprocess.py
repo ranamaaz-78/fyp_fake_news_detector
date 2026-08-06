@@ -16,7 +16,7 @@ def ensure_nltk_data() -> None:
     for resource in ("stopwords", "punkt", "punkt_tab"):
         try:
             nltk.data.find(f"corpora/{resource}" if resource == "stopwords" else f"tokenizers/{resource}")
-        except LookupError:
+        except (LookupError, OSError):
             nltk.download(resource, quiet=True)
 
 

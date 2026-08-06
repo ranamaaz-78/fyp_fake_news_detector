@@ -98,10 +98,10 @@ def load_dataset(max_per_class: int | None = 8000) -> pd.DataFrame:
 
 
 def build_models() -> dict[str, Pipeline]:
-    return {
+    models = {
         "logistic_regression": Pipeline(
             [
-                ("tfidf", TfidfVectorizer(max_features=5000, ngram_range=(1, 2))),
+                ("tfidf", TfidfVectorizer(max_features=8000, ngram_range=(1, 3), sublinear_tf=True)),
                 (
                     "clf",
                     LogisticRegression(max_iter=1000, class_weight="balanced", random_state=42),
@@ -110,13 +110,13 @@ def build_models() -> dict[str, Pipeline]:
         ),
         "naive_bayes": Pipeline(
             [
-                ("tfidf", TfidfVectorizer(max_features=5000, ngram_range=(1, 2))),
+                ("tfidf", TfidfVectorizer(max_features=8000, ngram_range=(1, 3), sublinear_tf=True)),
                 ("clf", MultinomialNB()),
             ]
         ),
         "svm": Pipeline(
             [
-                ("tfidf", TfidfVectorizer(max_features=5000, ngram_range=(1, 2))),
+                ("tfidf", TfidfVectorizer(max_features=8000, ngram_range=(1, 3), sublinear_tf=True)),
                 (
                     "clf",
                     LinearSVC(class_weight="balanced", random_state=42, max_iter=3000),
@@ -124,6 +124,24 @@ def build_models() -> dict[str, Pipeline]:
             ]
         ),
     }
+
+    try:
+        from xgboost import XGBClassifier
+
+        models["xgboost"] = Pipeline(
+            [
+                ("tfidf", TfidfVectorizer(max_features=5000, ngram_range=(1, 2))),
+                (
+                    "clf",
+                    XGBClassifier(n_estimators=100, learning_rate=0.1, max_depth=6, random_state=42, eval_metric="logloss"),
+                ),
+            ]
+        )
+        MODEL_PROGRESS["xgboost"] = (85, "Training XGBoost...")
+    except ImportError:
+        pass
+
+    return models
 
 
 def _report(stage: str, progress: int, callback: ProgressCallback | None) -> None:
@@ -165,7 +183,7 @@ def run_training(progress_callback: ProgressCallback | None = None) -> dict[str,
     best_pipeline = None
 
     for name, pipeline in build_models().items():
-        progress, stage = MODEL_PROGRESS[name]
+        progress, stage = MODEL_PROGRESS.get(name, (50, f"Training {name}..."))
         _report(stage, progress, progress_callback)
         pipeline.fit(X_train, y_train)
         y_pred = pipeline.predict(X_test)

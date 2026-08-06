@@ -69,7 +69,7 @@
                         <div class="left-area">
                             <div class="logo-area">
                                 <a href="{{ route('home') }}" class="logo">
-                                    <img class="light" src="{{ asset('assets/images/navwhitelogo.svg') }}" alt="logo">
+                                    <img class="light" src="{{ asset('assets/images/navcolorlogo.svg') }}" alt="logo">
                                     <img class="dark" src="{{ asset('assets/images/navcolorlogo.svg') }}" alt="logo">
                                 </a>
                             </div>
@@ -77,36 +77,34 @@
                         <nav class="main-nav-area">
                             <ul class="list-unstyled rts-desktop-menu">
                                 <li class="menu-item"><a class="main-element without-arrow" href="{{ route('home') }}">Home</a></li>
-                                <li class="menu-item"><a class="main-element without-arrow" href="{{ route('features') }}">Features</a></li>
+                                <li class="menu-item"><a class="main-element without-arrow" href="{{ route('about') }}">About</a></li>
                                 <li class="menu-item"><a class="main-element without-arrow" href="{{ route('how-it-works') }}">How It Works</a></li>
-                                <li class="menu-item"><a class="main-element without-arrow" href="{{ route('integrations') }}">Integrations</a></li>
                                 <li class="menu-item"><a class="main-element without-arrow" href="{{ route('faq') }}">FAQ</a></li>
                                 <li class="menu-item"><a class="main-element without-arrow" href="{{ route('contact') }}">Contact</a></li>
                             </ul>
                         </nav>
                         <div class="button-area-start">
-                            @auth
-                                <a href="{{ route('dashboard') }}" class="rts-btn btn-primary btn-border icon-prev">
-                                    <span class="icon">
-                                        <svg width="19" height="8" viewBox="0 0 19 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M17.9 0.900391L0.900024 0.900391" stroke="#1E3A8A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M17.9031 0.900781L11.8531 6.92578" stroke="#1E3A8A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </span>
-                                    Dashboard
-                                </a>
-                                <form method="POST" action="{{ route('logout') }}" style="display:inline; margin-left:10px;">
-                                    @csrf
-                                    <button type="submit" class="rts-btn btn-primary" style="padding: 10px 18px; border-radius: 6px; font-size: 14px;">Logout</button>
-                                </form>
-                            @else
-                                <a href="{{ route('login') }}" class="rts-btn btn-primary btn-border icon-prev" style="margin-right: 8px;">
-                                    Sign In
-                                </a>
-                                <a href="{{ route('register') }}" class="rts-btn btn-primary">
-                                    Get Started
-                                </a>
-                            @endauth
+                            <div class="v-nav-btn-group">
+                                @auth
+                                    <a href="{{ route('dashboard') }}" class="v-btn-dashboard">
+                                        <i class="fa-solid fa-gauge-high"></i> Dashboard
+                                    </a>
+                                    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="v-btn-logout">
+                                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                                        </button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('login') }}" class="v-btn-signin">
+                                        <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                                    </a>
+                                    <a href="{{ route('register') }}" class="v-btn-getstarted">
+                                        <span>Get Started</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+                                @endauth
+                            </div>
                             
                             <div class="menu-btn menu-btn-toggle radius-6" id="menu-btn">
                                 <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -131,7 +129,7 @@
             <div class="footer-inner">
                 <div class="single-footer-widget-one logo-area">
                     <a href="{{ route('home') }}" class="logo">
-                        <img src="{{ asset('assets/images/whitelogo.svg') }}" alt="logo" style="max-height: 45px;">
+                        <img src="{{ asset('assets/images/navcolorlogo.svg') }}" alt="VeriFact AI Logo" style="max-height: 45px; width: auto;">
                     </a>
                     <p class="desc">Verify Smarter. Expose Falsehoods. AI-Powered Credibility Diagnostics for Everyone.</p>
                     <ul class="social-area">
@@ -141,11 +139,12 @@
                     </ul>
                 </div>
                 <div class="single-footer-widget-one essential-links">
-                    <h2 class="title">Features</h2>
+                    <h2 class="title">Quick Links</h2>
                     <ul>
-                        <li><a href="{{ route('features') }}">Heuristics</a></li>
+                        <li><a href="{{ route('home') }}">Home</a></li>
+                        <li><a href="{{ route('about') }}">About Us</a></li>
                         <li><a href="{{ route('how-it-works') }}">How It Works</a></li>
-                        <li><a href="{{ route('integrations') }}">Integrations</a></li>
+                        <li><a href="{{ route('faq') }}">FAQ</a></li>
                     </ul>
                 </div>
                 <div class="single-footer-widget-one essential-links">
@@ -165,8 +164,8 @@
                     <h2 class="title">Any Questions?</h2>
                     <ul>
                         <li><a href="{{ route('contact') }}">Send us a message</a></li>
-                        <li><a href="https://www.ucp.edu.pk/" target="_blank" rel="noopener noreferrer">University of Central Punjab</a></li>
-                        <li>1-Khayaban-e-Jinnah Road, Johar Town, Lahore, Pakistan</li>
+                        <li><a href="https://www.ucp.edu.pk/" target="_blank" rel="noopener noreferrer">University of Central Punjab (Gujranwala)</a></li>
+                        <li>Gujranwala Campus, Punjab, Pakistan</li>
                     </ul>
                 </div>
             </div>
@@ -176,7 +175,7 @@
                     <div class="copyright-area-start">
                         <p>© {{ date('Y') }} VeriFact AI. All rights reserved.</p>
                         <p>Built by Maaz Naveed, Jazil Mehmood &amp; Muhammad Abrar</p>
-                        <p>UCP Lahore &mdash; supervised by Prof. Muzammil Sadiq &mdash; Group G1F22FYPCS016</p>
+                        <p>UCP Gujranwala &mdash; supervised by Prof. Muzammil Sadiq &mdash; Group G1F22FYPCS016</p>
                     </div>
                     <!-- copyright area end -->
                 </div>
@@ -189,25 +188,23 @@
     <div id="side-bar" class="side-bar header-two">
         <button class="close-icon-menu"><i class="fa-sharp fa-thin fa-xmark"></i></button>
         <a class="logo" href="{{ route('home') }}" style="margin-top: 20px; display: inline-block;">
-            <img src="{{ asset('assets/images/navwhitelogo.svg') }}" alt="logo" style="max-height: 45px;">
+            <img src="{{ asset('assets/images/navcolorlogo.svg') }}" alt="logo" style="max-height: 45px;">
         </a>
         <div class="mobile-menu-main">
             <nav class="nav-main mainmenu-nav mt--30">
                 <ul class="mainmenu metismenu" id="mobile-menu-active">
                     <li><a class="mobile-menu-link" href="{{ route('home') }}">Home</a></li>
-                    <li><a class="mobile-menu-link" href="{{ route('features') }}">Features</a></li>
+                    <li><a class="mobile-menu-link" href="{{ route('about') }}">About Us</a></li>
                     <li><a class="mobile-menu-link" href="{{ route('how-it-works') }}">How It Works</a></li>
-                    <li><a class="mobile-menu-link" href="{{ route('integrations') }}">Integrations</a></li>
                     <li><a class="mobile-menu-link" href="{{ route('faq') }}">FAQ</a></li>
                     <li><a class="mobile-menu-link" href="{{ route('contact') }}">Contact Us</a></li>
                 </ul>
             </nav>
             <div class="follow-us mt-4">
                 <ul>
-                    <li><a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
-                    <li><a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a></li>
+                    <li><a href="https://www.ucp.edu.pk/" target="_blank" rel="noopener noreferrer" aria-label="UCP Website"><i class="fa-solid fa-graduation-cap"></i></a></li>
+                    <li><a href="{{ route('contact') }}" aria-label="Contact Us"><i class="fa-solid fa-envelope"></i></a></li>
+                    <li><a href="{{ route('faq') }}" aria-label="FAQ"><i class="fa-solid fa-circle-question"></i></a></li>
                 </ul>
             </div>
         </div>

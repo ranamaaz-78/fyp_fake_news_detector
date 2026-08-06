@@ -39,6 +39,11 @@ DISCLAIMER = (
 )
 
 app = Flask(__name__)
+
+# Register AI image detection blueprint.
+from api.image_routes import image_bp  # noqa: E402
+app.register_blueprint(image_bp)
+
 _predictor = None
 _last_reloaded_job_id: str | None = None
 _training_process: subprocess.Popen | None = None

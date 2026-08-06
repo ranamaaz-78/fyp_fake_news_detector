@@ -42,7 +42,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="single-features wow fadeInRight" data-wow-delay=".2s">
                             <div class="image-area">
-                                <img src="{{ asset('assets/images/service/19.webp') }}" alt="features">
+                                <img src="{{ asset('assets/images/custom/hero_dashboard.png') }}" alt="1. Input Text Claim" style="border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
                             </div>
                             <div class="content-area">
                                 <h3 class="title">1. Input Text Claim</h3>
@@ -53,7 +53,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="single-features wow fadeInRight" data-wow-delay=".4s">
                             <div class="image-area">
-                                <img src="{{ asset('assets/images/service/02.webp') }}" alt="features">
+                                <img src="{{ asset('assets/images/custom/social_scanner.png') }}" alt="2. Heuristic Feature Extraction" style="border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
                             </div>
                             <div class="content-area">
                                 <h3 class="title">2. Heuristic Feature Extraction</h3>
@@ -64,7 +64,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="single-features wow fadeInRight" data-wow-delay=".6s">
                             <div class="image-area">
-                                <img src="{{ asset('assets/images/service/03.webp') }}" alt="features">
+                                <img src="{{ asset('assets/images/custom/newsroom_sdk.png') }}" alt="3. Conspiracy & Sentiment Check" style="border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
                             </div>
                             <div class="content-area">
                                 <h3 class="title">3. Conspiracy & Sentiment Check</h3>
@@ -75,7 +75,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="single-features wow fadeInRight" data-wow-delay=".2s">
                             <div class="image-area">
-                                <img src="{{ asset('assets/images/service/04.webp') }}" alt="features">
+                                <img src="{{ asset('assets/images/custom/hero_dashboard.png') }}" alt="4. Database Lookup" style="border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
                             </div>
                             <div class="content-area">
                                 <h3 class="title">4. Database Lookup</h3>
@@ -86,7 +86,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="single-features wow fadeInRight" data-wow-delay=".4s">
                             <div class="image-area">
-                                <img src="{{ asset('assets/images/service/17.webp') }}" alt="features">
+                                <img src="{{ asset('assets/images/custom/social_scanner.png') }}" alt="5. Verdict Generation" style="border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
                             </div>
                             <div class="content-area">
                                 <h3 class="title">5. Verdict Generation</h3>
@@ -97,7 +97,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="single-features wow fadeInRight" data-wow-delay=".6s">
                             <div class="image-area">
-                                <img src="{{ asset('assets/images/service/18.webp') }}" alt="features">
+                                <img src="{{ asset('assets/images/custom/newsroom_sdk.png') }}" alt="6. Detailed Sub-Metrics" style="border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
                             </div>
                             <div class="content-area">
                                 <h3 class="title">6. Detailed Sub-Metrics</h3>

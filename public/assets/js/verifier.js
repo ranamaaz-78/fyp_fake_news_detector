@@ -127,6 +127,68 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ------------------------------------------------------------------ */
+    /* Character Counter & Sample Buttons                                 */
+    /* ------------------------------------------------------------------ */
+
+    const charCounter = document.getElementById('charCounter');
+    function updateCharCount() {
+        if (!charCounter || !newsInput) return;
+        const len = newsInput.value.length;
+        charCounter.textContent = `${len.toLocaleString()} / 10,000`;
+        charCounter.style.color = len > 9000 ? '#ef4444' : '#94a3b8';
+    }
+
+    if (newsInput) {
+        newsInput.addEventListener('input', updateCharCount);
+    }
+
+    const sampleClickbait = document.getElementById('sampleClickbait');
+    const sampleFact = document.getElementById('sampleFact');
+    const sampleClaim = document.getElementById('sampleClaim');
+
+    if (sampleClickbait && newsInput) {
+        sampleClickbait.addEventListener('click', () => {
+            newsInput.value = "SHOCKING TRUTH EXPOSED!!! Doctors are stunned by this one secret trick that eliminates all diseases overnight! Big Pharma doesn't want you to know about this miracle cure!!! SHARE BEFORE IT GETS DELETED!!!";
+            updateCharCount();
+            newsInput.focus();
+        });
+    }
+
+    if (sampleFact && newsInput) {
+        sampleFact.addEventListener('click', () => {
+            newsInput.value = "The European Central Bank maintained its benchmark interest rates at 3.75% during Thursday's policy meeting in Frankfurt, citing sustained progress on inflation targets across the euro area.";
+            updateCharCount();
+            newsInput.focus();
+        });
+    }
+
+    if (sampleClaim && newsInput) {
+        sampleClaim.addEventListener('click', () => {
+            newsInput.value = "Babar Azam is the Prime Minister of Pakistan.";
+            updateCharCount();
+            newsInput.focus();
+        });
+    }
+
+    const pasteUrlBtn = document.getElementById('pasteUrlBtn');
+    if (pasteUrlBtn && newsUrl) {
+        pasteUrlBtn.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text && text.startsWith('http')) {
+                    newsUrl.value = text;
+                    newsUrl.focus();
+                    toast('URL pasted from clipboard!', 'info');
+                } else {
+                    toast('No valid URL found in clipboard.');
+                }
+            } catch (e) {
+                toast('Please press Ctrl+V to paste the URL.');
+            }
+        });
+    }
+
+    /* ------------------------------------------------------------------ */
     /* Image upload                                                        */
     /* ------------------------------------------------------------------ */
 
@@ -263,6 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // only ever marked the *previous* step.
             completeAllSteps();
             displayResults(resData.result || {}, resData.text || '');
+            renderImageAnalysis(resData.image_analysis || null);
         } catch (err) {
             console.error(err);
             toast(err.message || 'Something went wrong during the check.');
@@ -398,6 +461,8 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             window.scrollTo({ top: results.offsetTop - 120, behavior: 'smooth' });
         }, 100);
+
+        renderFeedback();
     }
 
     function renderFactCheck(factCheck, viaFactCheck, styleLabel, finalLabel) {
@@ -559,5 +624,149 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             bar.style.backgroundColor = '#f54329';
         }
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* AI Image Detection Results                                          */
+    /* ------------------------------------------------------------------ */
+
+    function renderImageAnalysis(data) {
+        const panel = document.getElementById('imageAnalysisPanel');
+        if (!panel) return;
+
+        if (!data) {
+            panel.innerHTML = '';
+            panel.style.display = 'none';
+            return;
+        }
+
+        const isAI = data.is_ai_generated;
+        const confidence = Number(data.confidence) || 0;
+        const level = data.confidence_level || 'LOW';
+        const methods = data.detection_methods || {};
+        const findings = Array.isArray(data.findings) ? data.findings : [];
+
+        const verdictClass = isAI ? 'img-verdict-ai' : 'img-verdict-authentic';
+        const verdictIcon = isAI ? 'fa-robot' : 'fa-camera';
+        const verdictText = isAI ? 'Likely AI-Generated' : 'Appears Authentic';
+        const verdictDesc = isAI
+            ? 'Our analysis detected patterns commonly associated with AI-generated images.'
+            : 'The image shows characteristics consistent with a real photograph.';
+
+        const methodScores = [
+            { label: 'ELA Analysis', key: 'ela_score', icon: 'fa-layer-group' },
+            { label: 'Metadata Check', key: 'metadata_score', icon: 'fa-tag' },
+            { label: 'Frequency Analysis', key: 'frequency_score', icon: 'fa-wave-square' },
+            { label: 'Statistical Check', key: 'statistical_score', icon: 'fa-chart-bar' },
+        ];
+
+        const methodBars = methodScores.map(m => {
+            const val = Math.round(methods[m.key] || 0);
+            const barColor = val >= 60 ? '#f54329' : val >= 35 ? '#ecc94b' : '#48bb78';
+            return `
+                <div class="img-method-row">
+                    <div class="img-method-label">
+                        <i class="fa-solid ${m.icon}"></i> ${escapeHtml(m.label)}
+                    </div>
+                    <div class="img-method-bar-track">
+                        <div class="img-method-bar-fill" style="width: ${val}%; background: ${barColor};"></div>
+                    </div>
+                    <span class="img-method-val">${val}%</span>
+                </div>`;
+        }).join('');
+
+        const findingItems = findings.map(f => `
+            <li class="img-finding-item">
+                <i class="fa-solid ${isAI ? 'fa-triangle-exclamation' : 'fa-circle-check'}"></i>
+                <span>${escapeHtml(f)}</span>
+            </li>`).join('');
+
+        panel.innerHTML = `
+            <div class="img-analysis-card">
+                <div class="img-analysis-header">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <h5>AI Image Detection</h5>
+                </div>
+                <div class="img-verdict-row">
+                    <div class="img-verdict-badge ${verdictClass}">
+                        <i class="fa-solid ${verdictIcon}"></i>
+                        <span>${verdictText}</span>
+                    </div>
+                    <div class="img-confidence">
+                        <span class="img-confidence-val">${Math.round(confidence)}%</span>
+                        <span class="img-confidence-label">confidence (${level})</span>
+                    </div>
+                </div>
+                <p class="img-verdict-desc">${verdictDesc}</p>
+                <div class="img-methods-grid">${methodBars}</div>
+                ${findingItems ? `
+                <div class="img-findings">
+                    <h6><i class="fa-solid fa-magnifying-glass"></i> Detailed Findings</h6>
+                    <ul class="img-findings-list">${findingItems}</ul>
+                </div>` : ''}
+            </div>`;
+        panel.style.display = 'block';
+
+        // Animate in
+        const card = panel.querySelector('.img-analysis-card');
+        if (card) {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(12px)';
+            requestAnimationFrame(() => {
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            });
+        }
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Feedback Buttons                                                     */
+    /* ------------------------------------------------------------------ */
+
+    function renderFeedback(predictionId) {
+        const panel = document.getElementById('feedbackPanel');
+        if (!panel) return;
+
+        panel.innerHTML = `
+            <div class="feedback-prompt">
+                <span class="feedback-question">Was this result helpful?</span>
+                <div class="feedback-buttons">
+                    <button type="button" class="feedback-btn feedback-btn-yes" data-correct="1" title="Yes, this was correct">
+                        <i class="fa-solid fa-thumbs-up"></i> Correct
+                    </button>
+                    <button type="button" class="feedback-btn feedback-btn-no" data-correct="0" title="No, this was wrong">
+                        <i class="fa-solid fa-thumbs-down"></i> Wrong
+                    </button>
+                </div>
+            </div>`;
+        panel.style.display = 'block';
+
+        panel.querySelectorAll('.feedback-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const isCorrect = btn.dataset.correct === '1';
+                const csrf = document.querySelector('meta[name="csrf-token"]');
+                try {
+                    const res = await fetch('/feedback', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': csrf ? csrf.getAttribute('content') : ''
+                        },
+                        body: JSON.stringify({ is_correct: isCorrect })
+                    });
+                    if (res.ok) {
+                        panel.innerHTML = `
+                            <div class="feedback-thanks">
+                                <i class="fa-solid fa-circle-check"></i>
+                                Thank you for your feedback!
+                            </div>`;
+                    }
+                } catch (e) {
+                    toast('Could not submit feedback. Please try again.');
+                }
+            }, { once: true });
+        });
     }
 });
