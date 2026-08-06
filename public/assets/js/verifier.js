@@ -147,7 +147,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const sampleClaim = document.getElementById('sampleClaim');
 
     if (sampleClickbait && newsInput) {
-        sampleClickbait.addEventListener('click', () => {
+        sampleClickbait.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             newsInput.value = "SHOCKING TRUTH EXPOSED!!! Doctors are stunned by this one secret trick that eliminates all diseases overnight! Big Pharma doesn't want you to know about this miracle cure!!! SHARE BEFORE IT GETS DELETED!!!";
             updateCharCount();
             newsInput.focus();
@@ -155,7 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (sampleFact && newsInput) {
-        sampleFact.addEventListener('click', () => {
+        sampleFact.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             newsInput.value = "The European Central Bank maintained its benchmark interest rates at 3.75% during Thursday's policy meeting in Frankfurt, citing sustained progress on inflation targets across the euro area.";
             updateCharCount();
             newsInput.focus();
@@ -163,7 +167,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (sampleClaim && newsInput) {
-        sampleClaim.addEventListener('click', () => {
+        sampleClaim.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             newsInput.value = "Babar Azam is the Prime Minister of Pakistan.";
             updateCharCount();
             newsInput.focus();
@@ -172,7 +178,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const pasteUrlBtn = document.getElementById('pasteUrlBtn');
     if (pasteUrlBtn && newsUrl) {
-        pasteUrlBtn.addEventListener('click', async () => {
+        pasteUrlBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             try {
                 const text = await navigator.clipboard.readText();
                 if (text && text.startsWith('http')) {

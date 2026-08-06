@@ -49,7 +49,7 @@
     <!-- Custom css -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- Verifier Custom css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/verifier.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/verifier.css') }}?v={{ file_exists(public_path('assets/css/verifier.css')) ? filemtime(public_path('assets/css/verifier.css')) : time() }}">
 </head>
 
 <body class="@yield('bodyClass', 'home-six')">
@@ -240,7 +240,7 @@
     <script defer src="{{ asset('assets/js/plugins/isotop.js') }}"></script>
     <script defer src="{{ asset('assets/js/plugins/contact-form.js') }}"></script>
     <script defer src="{{ asset('assets/js/main.js') }}"></script>
-    <script defer src="{{ asset('assets/js/verifier.js') }}"></script>
+    <script defer src="{{ asset('assets/js/verifier.js') }}?v={{ file_exists(public_path('assets/js/verifier.js')) ? filemtime(public_path('assets/js/verifier.js')) : time() }}"></script>
 
 </body>
 </html>
