@@ -9,9 +9,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Throwable;
 
 class RegisteredUserController extends Controller
 {
@@ -46,7 +48,15 @@ class RegisteredUserController extends Controller
             'is_active' => true,
         ]);
 
-        event(new Registered($user));
+        try {
+            event(new Registered($user));
+        } catch (Throwable $e) {
+            Log::error('Verification email failed after registration', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'message' => $e->getMessage(),
+            ]);
+        }
 
         Auth::login($user);
 

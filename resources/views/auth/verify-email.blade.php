@@ -1,11 +1,14 @@
 <x-guest-layout>
     <div class="p-8 text-center">
+        <div class="mb-6 flex justify-center">
+            <img src="{{ asset('assets/images/Color logo.svg') }}" alt="VeriFact AI" class="h-12 w-auto">
+        </div>
         <div class="w-16 h-16 bg-trust-blue-light rounded-full flex items-center justify-center mx-auto mb-4">
             <span class="material-symbols-outlined text-primary text-3xl material-symbols-filled">mark_email_unread</span>
         </div>
         <h1 class="text-headline-xl-mobile md:text-headline-xl text-on-surface mb-4">Verify your email</h1>
         <p class="text-body-md text-secondary mb-6">
-            Thanks for signing up! Before getting started, please verify your email address by clicking the link we sent you.
+            Thanks for signing up with VeriFact AI! Before getting started, please verify your email address by clicking the link we sent you.
         </p>
         @if (session('status') == 'verification-link-sent')
             <div class="mb-4 text-body-sm font-medium text-status-real bg-status-real-light rounded-lg p-3">
